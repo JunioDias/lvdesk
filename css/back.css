@@ -1,0 +1,349 @@
+/*Folha de estilo
+
+background-color: rgb(49,142,206);	
+#menu1: background-color: rgb(49,152,206);	
+#menu2:	background-color: rgb(49,162,206);	
+#menu3: background-color: rgb(49,172,206);	
+#menu4: background-color: rgb(49,182,206);	
+#menu5: background-color: rgb(49,192,206);	
+	background-color: rgb(20, 231, 229)
+__________________________________________	
+*/
+
+body{
+	color:#ffffff;
+	font-family: Verdana;
+	background-color:#000;
+	background-repeat: repeat;
+	font-size:11px;
+}
+a{
+	color:rgb(49,192,206);
+}
+a:hover{
+	color:#fff;
+}
+a[but]{
+
+	display: inline-block;
+	background-color: #ccc;
+	color: #444;
+	padding: 10px 20px;
+	text-decoration: none;
+	box-sizing: border-box;
+	border: 0px;
+	border-radius:5%;
+	-moz-border-radius:5%;
+    -webkit-border-radius:5%;
+	width: 160px;
+	-moz-box-shadow: 0px 2px 2px #888;
+	-webkit-box-shadow: 0px 2px 2px #888;
+	box-shadow: 0px 2px 2px #888;
+}
+input[type=file]{
+	/**/
+}
+a[but]:hover {
+	background-image: linear-gradient(to bottom, transparent, rgba(0,0,0,.15));
+	cursor: pointer;
+	color:#FFF;
+}
+.menuAction input[type=submit], .menuAction input[type=button] {
+	border:none;
+	background:#000;
+	color:rgb(49,192,206);
+	text-decoration:underline;
+	cursor:pointer;
+	font-family: Verdana;
+	font-size:11px;
+}
+.menuAction input[type=submit]:hover, .menuAction input[type=button]:hover {
+	color: #fff;	
+}
+input[type=text], input[type=password], input[type=date], input[type=time], input[type=number], textarea, select{     
+
+    border-radius:4px;
+    -moz-border-radius:4px;
+    -webkit-border-radius:4px;
+   -moz-box-shadow: -2px 2px 2px #888;
+	-webkit-box-shadow: -2px 2px 2px #888;
+	box-shadow: -2px 2px 2px #888;
+    background: #FFFCBF; 
+    border:1px solid #000000;
+    width:250px;
+	height: 25px;
+	text-indent:3px;
+}
+.codarea{
+	width:70px !important;
+}
+textarea{
+	width: 95%;
+	height: 70px;	
+}
+#textarea_quemsomos, #chamada{
+	width: 60% ;
+	height: 220px;
+}
+table, th, td {
+    padding: 7px;
+}
+.cnfsenha{
+	position:relative;
+	margin:-37px 0 0 255px;
+	width:25px;
+	height:25px;		
+}
+#limite{
+	width:100%;
+	height:auto;
+	min-height:470px;
+	border:1px solid;
+	border-color:rgb(49,192,206);
+	display:flex;
+	background-color:inherit;
+}
+/*Controla a aparência do input[file] caracterizado */
+.invisibleFile {
+	cursor:pointer !important;
+	position:absolute; 
+	width:15px; 
+	height:12px;
+	filter:alpha(opacity=100); 
+	-moz-opacity:0.1; 
+	opacity:0.1;
+}
+.invisible{
+	 display:inline-block; 
+	 position:relative; 
+	 top: 2px;
+	 overflow:hidden; 
+}
+.conteudo{
+	float:right;
+	height:auto;
+	min-height:inherit;
+	width:68%;
+	background-repeat:no-repeat;
+	padding: 1%;
+}
+.clear {
+    clear: both;
+}
+.container{
+	width:80%;
+	display:table;
+}
+img[botAdd]{
+	float:right;				
+}
+div[resposta]{	
+	height:1px;
+	width:300px;	
+	background-image: none; 
+}
+.topo{
+	display:table;
+	width:100%;
+	background-color:#000;
+	border:1px solid;
+	border-color:rgb(49,192,206);
+}
+.cabecalho{
+	float:right;
+	width:390px;
+	margin-top:1%;	
+	background-position:bottom;
+	background-repeat:no-repeat;
+}
+.avatar{
+	width:70px;
+	height:70px;
+	background-size:cover;
+	background-repeat:no-repeat;
+	border-radius:100%;
+	border: solid 8px;
+	border-color:rgb(76, 131, 130);
+	float:left;
+}
+.cabecalho p{
+	margin-left: 90px;	
+}
+#logo{
+	background-image:url('../media/imagens/sys/front/logo.png');
+	background-position: left;
+	background-repeat:no-repeat;
+	margin-left:15px;
+	width:120px;
+	height:108px;
+	float:left;
+}
+#login{
+	position:absolute;
+	margin-left:-175px;
+	left:50%;
+	top:15%;
+	width:350px;
+	border: 1px solid #FFF;
+	border-radius:6px;
+	background-image:url('../media/imagens/sys/_bg.png');
+	background-color:#000;
+	background-position: right bottom;
+	background-repeat:no-repeat;
+	padding:2%;
+	-moz-box-shadow: -5px 5px 5px  #888;
+	-webkit-box-shadow: -5px 5px 5px  #888;
+	box-shadow: -5px 5px 5px  #888;
+}
+#menu{
+	float:left;
+	height:auto;
+	min-height:100%;
+	width:27%;
+	background-color:rgb(76, 131, 130);/*#CBB*/
+	padding: 1%;
+}
+#pag:hover a, #pag:hover{
+	background:#F90;
+	color:#F00;
+}
+#pag{
+	background:#9CF;
+	cursor:pointer;
+}
+#botPagamento{
+	text-decoration:none;	
+	color:#FFF;
+	font-weight:bold;
+	width:100%;	
+	padding: 0 20px 0 20px;
+}
+.nav-amostra{
+	cursor: pointer;
+}
+.alerta, .erro, .confirm{
+	position:fixed;
+	width:250px;
+    left:50%;
+	top:30%;
+	margin-left:-125px;
+    z-index: 999;
+    background-color: #FFF;
+	background-image:url('../media/imagens/sys/icons/alerta.png');
+	background-position: left;
+	background-repeat:no-repeat;
+	border: double;
+	border-radius:4px;
+	border-color:#FF0;
+	cursor:pointer;
+	padding:15px 30px;
+	text-align:center;
+	color:#FA0;
+	text-shadow: 0 2px 2px #FFF;
+	font-size: 12px;
+
+	/*crossbrowser opacity*/
+
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=90)";
+	filter: alpha(opacity=90);
+	-moz-opacity:0.9;
+	-khtml-opacity: 0.9;
+	opacity: 0.9;
+
+	/*sombra*/
+
+	-moz-box-shadow: 0px 2px 2px #888;
+	-webkit-box-shadow: 0px 2px 2px #888;
+	box-shadow: 0px 2px 2px #888;
+
+}
+.confirm{
+	background-color: #FFF !important;
+	background-image:url('../media/imagens/sys/icons/confirma.png') !important;
+	color:#08301A !important;
+	border-color:#9F0 !important;
+}
+.erro{
+	color:#F00 !important;
+	background-image:url('../media/imagens/sys/icons/falha.png') !important;
+	border-color:#F40 !important;
+}
+/*View Usuários *****************************************/
+.listagem{
+	width:100%;
+	text-align:center;	
+	border:1px solid;
+	border-color: #ccc;
+	border-radius:4px;
+	color:#FFF;
+}
+.listagem tr:nth-child(even){
+	background-color:#666;	
+	
+}
+.listagem tr:nth-child(odd){
+	background-color:#333;
+		
+}
+/*Fim da View Usuários **********************************/
+#field_filhos_especiais{
+	display:none;	
+}
+.formulario{
+	position:relative;	
+}
+.amostra{
+	position:absolute; 
+	border: double 1px #00f;	
+	width: 25%;
+	height: 40%;
+	top:150px;
+	right: 35px;
+	-moz-box-shadow: 0px 2px 2px #888;
+	-webkit-box-shadow: 0px 2px 2px #888;
+	box-shadow: 0px 2px 2px #888;
+}
+.thumb img{
+	position:absolute;
+	width: 150px;
+	height:auto;	
+	top:50%;
+	transform:translateY(-50%) translateX(-50%);
+}
+.video{
+	width:225px;
+	height:145px; 
+}
+#descritivo{
+	position:relative;
+	
+}
+.mini{
+	width:50px;
+	height:auto;
+	max-height:50px;	
+}
+/*Produtos **********************************/
+#detalhes_dimensionamento{
+	width:95%;
+	border-radius:4px;
+}
+#retornoDadosTema{
+	padding: 20px 0 10px 0;
+}	
+.div_servicos_valor_sob_consulta{
+	width:370px;
+}
+.div_servicos_valor{
+	position:relative;
+}
+.div_servicos_sob_consulta{
+	float:right;
+	margin-top: -24px;	
+}
+.span_check_alinha_a{
+	
+}
+.span_check_alinha_b{
+	vertical-align: middle;
+}
