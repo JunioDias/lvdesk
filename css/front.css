@@ -29,13 +29,21 @@ nav{
 	padding: 3%;
 	height:150px;
 }
-.card_dashboard{
+.btn_driver{
+	margin-bottom: 10px;
+}
+.card{
 	width: 30%;
+	margin: 1%;
+	float:left;
+}
+.card_dashboard{
 	padding: 10px;
 	box-shadow: 5px 5px 5px rgba(0,0,0,0.5);
 }
 .nav_dashboard{
 	padding: 3%;
+	min-height:400px;
 }
 .login{
   background-color: #FFDD55;
