@@ -20,8 +20,22 @@ body{
   background-color: #FFFFFF;
 	background-image:url(../media/imagens/sys/front/bg.jpg);
 	background-repeat:no-repeat;
+	background-attachment:fixed;
 	background-size:cover;
   font-family: Montserrat;
+}
+nav{
+	background-color: #FFDD55;
+	padding: 3%;
+	height:150px;
+}
+.card_dashboard{
+	width: 30%;
+	padding: 10px;
+	box-shadow: 5px 5px 5px rgba(0,0,0,0.5);
+}
+.nav_dashboard{
+	padding: 3%;
 }
 .login{
   background-color: #FFDD55;
@@ -31,14 +45,17 @@ body{
   margin: auto;
 	box-shadow: 5px 5px 5px rgba(0,0,0,0.5);
 }
+.thead_atendimento{
+	text-align:center;
+	color:#FFF;
+}
 .title{
   text-align: center;
   margin-top: 20px;
   margin-bottom: 60px;
 }
 #copyright{
-	margin: auto;
-	
+	margin: auto;	
 }
 #esqueci{
 	float:right;
@@ -48,6 +65,5 @@ input[name="entrar"]{
 }
 #direto_copia{
 	margin-top: 40px;
-	padding-bottom: 100px;
 	color:#cc9922;
 }

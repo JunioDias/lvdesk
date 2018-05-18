@@ -1,14 +1,13 @@
-<!-- #================================================  SESSÃO DE TOPO ================================================# -->
 <!-- #================================================  SESSÃO DE CONTEUDO ================================================# -->
 <main>
 	<div class="container-fluid">
-    <div class="title">
-      <h1>LV Desk</h1>
-			<p>Informe seu login <br>para acessar o sistema</p>
+    <div class="title">      
+				<h1>LV Desk</h1>
+				<p>Informe seu login <br>para acessar o sistema</p>
     </div>
 
     <div class="login">
-      <form action="#" method="post">
+      <form>
         <div class="form-group">
           <label for="email">E-mail:</label>
           <input type="email" class="form-control" id="email" name="email">
@@ -18,9 +17,9 @@
           <input type="password" class="form-control" id="pwd" name="pwd">
         </div>
 				<div class="form-group" id="esqueci">
-					<a class="regular-link" link="reset.php" >Esqueci a minha senha</a>
+					<a class="regular-link text-primary" link="reset.html" >Esqueci a minha senha</a>
 				</div>
-        <input class="btn btn-default" name="entrar" value="Entrar" type="submit">
+        <input class="btn btn-default" value="Entrar" type="button" link="dashboard.html">
       </form>
     </div>
 	</div>

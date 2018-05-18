@@ -36,18 +36,10 @@ $a = new Param();
 	<meta name="description" content="<?= $a->descricao(); ?>" />
 	<meta name="keywords" content="<?= $a->palavrachave(); ?>" />
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
 	<!-- Compilação mais atual das bibliotecas padrões minified -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">		
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>		
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" >		
 	<!-- Fim -->
-	<script src="plugins/fileUpload/js/vendor/jquery.ui.widget.js"></script>
-	<script src="plugins/fileUpload/js/jquery.iframe-transport.js"></script>
-	<script src="plugins/fileUpload/js/jquery.fileupload.js"></script>
-	<script src="js/jquery.form.js"></script>
-	<script src="js/jquery.maskMoney.js" ></script>
-	<script src="js/scripts.js" ></script>	
 </head>
 
 <body>
