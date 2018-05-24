@@ -76,6 +76,9 @@ h5 small {
 * {
   outline: none !important;
 }
+a{
+  cursor: pointer;
+}
 a:hover {
   outline: 0;
   text-decoration: none;
@@ -1450,6 +1453,10 @@ File: Components
 }
 .btn-link:hover {
   color: #32CD32;
+}
+.content-sized{
+	position:relative; 
+	margin-left:20px;
 }
 .fileupload {
   overflow: hidden;
