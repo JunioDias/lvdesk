@@ -1415,8 +1415,8 @@ File: Components
   border: 1px solid #f6ab2b !important;
 }
 .btn-danger {
-  background-color: #3292e0 !important;
-  border: 1px solid #3292e0 !important;
+  /*background-color: #3292e0 !important;
+  border: 1px solid #3292e0 !important;*/
 }
 .btn-danger:active,
 .btn-danger:focus,
@@ -1457,6 +1457,12 @@ File: Components
 .content-sized{
 	position:relative; 
 	margin-left:20px;
+}
+.col-1{
+	text-align: left;
+}
+.doc, .doc th{
+	text-align:center;
 }
 .fileupload {
   overflow: hidden;
