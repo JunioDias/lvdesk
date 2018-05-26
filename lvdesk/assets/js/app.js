@@ -321,6 +321,15 @@ function toggle_slimscroll(item){
     }
 }
 
-
 // for lazy function execution
 var Menufunction = [];
+
+//Meus scripts
+
+//Comportamento dos links do menu do painel administrativo
+$(document).ready(function(){
+	$("body")
+	.on('click', 'a, input[type="button"]', function(){
+   		$(".content").load($(this).attr("link"));
+	});
+});

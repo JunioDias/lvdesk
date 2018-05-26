@@ -1,18 +1,17 @@
-<main>
-<section class="container-fluid">
-	<nav class="">
-		<h1>Dashboard</h1>
-		<p class="text-primary">Driver de Conexão</p>
-	</nav>
-	<section class="container-fluid nav_dashboard">
-	<input class="btn btn-success btn_driver" value="Incluir" type="button" link="view/front/driver-crud.html">
+	<div class="page-header-title">
+		<h4 class="page-title">Driver</h4>
+		<p>Conexões dos provedores disponíveis para acesso</p>
+	</div>
+	<div class="content-sized">
+	
+	<input class="btn btn-success btn_driver" value="Incluir" type="button" link="views/driver-crud.html">
 		<table class="table table-hover">
     <thead>
       <tr>
         <th>Provedor</th>
         <th>Software</th>        
-				<th>Status</th>
-				<th>Ações</th>
+		<th>Status</th>
+		<th>Ações</th>
       </tr>
     </thead>
 		<tbody>
@@ -21,9 +20,9 @@
         <td>CNT</td>        		
 				<td class="text-success">Conectado</td>
 				<td>
-					<input class="btn btn-secondary" value="Editar" type="button" link="views/driver-crud.html">
-					<input class="btn btn-secondary" value="Excluir" type="button" link="">	
-					<input class="btn btn-success" value="Conectar" type="button" link="views/atendimento.html">
+					<input class="btn btn-secondary" value="Editar" type="button" link="view/front/driver-crud.html">
+					<input class="btn btn-danger" value="Excluir" type="button" link="">	
+					<input class="btn btn-success" value="Conectar" type="button" link="views/connect.php">
 				</td>
       </tr>
 			<tr>
@@ -32,7 +31,7 @@
 				<td class="text-success">Conectado</td>
 				<td>
 					<input class="btn btn-secondary" value="Editar" type="button" link="view/front/driver-crud.html">
-					<input class="btn btn-secondary" value="Excluir" type="button" link="">	
+					<input class="btn btn-danger" value="Excluir" type="button" link="">	
 					<input class="btn btn-success" value="Conectar" type="button" link="atendimento.html">
 				</td>
       </tr>
@@ -42,7 +41,7 @@
         <td class="text-success">Conectado</td>
 				<td>
 					<input class="btn btn-secondary" value="Editar" type="button" link="view/front/driver-crud.html">
-					<input class="btn btn-secondary" value="Excluir" type="button" link="">	
+					<input class="btn btn-danger" value="Excluir" type="button" link="">	
 					<input class="btn btn-success" value="Conectar" type="button" link="atendimento.html">
 				</td>
       </tr>
@@ -52,12 +51,10 @@
         <td class="text-success">Conectado</td>
 				<td>
 					<input class="btn btn-secondary" value="Editar" type="button" link="view/front/driver-crud.html">
-					<input class="btn btn-secondary" value="Excluir" type="button" link="">	
+					<input class="btn btn-danger" value="Excluir" type="button" link="">	
 					<input class="btn btn-success" value="Conectar" type="button" link="atendimento.html">
 				</td>
       </tr>
 		</tbody>
 		</table>
-	</section>
-</section>
-</main>
+	</div>
