@@ -1,4 +1,10 @@
 <!DOCTYPE html>
+<?php
+include ("controllers/model.inc.php");
+
+if(!empty($_SESSION["datalogin"])){
+	$dadoslogin = $_SESSION["datalogin"];
+?>
 <html>
     <head>
         <meta charset="utf-8" />
@@ -104,10 +110,10 @@
                                 </li>
                                 <li class="dropdown">
                                     <a href="" class="dropdown-toggle profile waves-effect waves-light" data-toggle="dropdown" aria-expanded="true">
-                                        <img src="assets/images/users/avatar-1.jpg" alt="user-img" class="img-circle">
+                                        <img src="assets/images/users/<?= $dadoslogin['foto'];?>" alt="user-img" class="img-circle">
                                         <span class="profile-username">
-                                            Nome Sobrenome <br/>
-                                            <small>Atendente</small>
+                                            <?= $dadoslogin["nome"]; ?><br/>
+                                            <small><?= $dadoslogin['nomep'];?></small>
                                         </span>
                                     </a>
                                     <ul class="dropdown-menu">
@@ -115,7 +121,11 @@
                                         <li><a href="javascript:void(0)"><span class="badge badge-success pull-right">5</span> Configurações </a></li>
                                         <li><a class="regular-link" link="views/documentacao.html"> Documentação</a></li>
                                         <li class="divider"></li>
-                                        <li><a href="javascript:void(0)"> Logout</a></li>
+                                        <li><a class="rtrn-conteudo" objeto="form_objeto"> Logout</a></li>
+										<form id="form_objeto" enctype="multipart/form-data">
+										  <input type="hidden" name="flag" value="logout"/>
+										  <input type="hidden" name="caminho" value="controllers/sys/login.sys.php"/>
+										</form>
                                     </ul>
                                 </li>
                             </ul>
@@ -134,17 +144,17 @@
 
                     <div class="user-details">
                         <div class="text-center">
-                            <img src="assets/images/users/avatar-1.jpg" alt="" class="img-circle">
+                            <img src="assets/images/users/<?= $dadoslogin['foto'];?>" alt="" class="img-circle">
                         </div>
                         <div class="user-info">
                             <div class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Nome Sobrenome</a>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> <?= $dadoslogin["nome"]; ?></a>
                                 <ul class="dropdown-menu">
                                     <li><a href="javascript:void(0)"> Perfil</a></li>
                                     <li><a href="javascript:void(0)"> Configurações</a></li>
                                     <li><a class="regular-link" link="views/documentacao.html"> Documentação</a></li>
                                     <li class="divider"></li>
-                                    <li><a href="javascript:void(0)"> Logout</a></li>
+                                    <li><a class="rtrn-conteudo" objeto="form_objeto"> Logout</a></li>
                                 </ul>
                             </div>
 
@@ -161,11 +171,11 @@
                             </li>
 
                             <li class="has_sub">
-                                <a href="views/driver.html" class="waves-effect"><i class="mdi mdi-album"></i> <span> Contratos </span> <span class="pull-right"><i class="mdi mdi-plus"></i></span></a>                                
+                                <a href="views/driver.html" class="waves-effect"><i class="ion-briefcase"></i> <span> Contratos </span> <span class="pull-right"><i class="mdi mdi-plus"></i></span></a>                                
                             </li>
 
                             <li class="has_sub">
-                                <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-opacity"></i> <span> Atendimento </span> <span class="pull-right"><i class="mdi mdi-plus"></i></span></a>
+                                <a href="javascript:void(0);" class="waves-effect"><i class="ion-ios7-telephone"></i> <span> Atendimento </span> <span class="pull-right"><i class="mdi mdi-plus"></i></span></a>
                                 <ul class="list-unstyled">
                                     <li><a class="regular-link" link="#">Listagem</a></li>
                                     <li><a class="regular-link" link="views/servicos.html">Serviços</a></li>
@@ -175,7 +185,7 @@
                             </li>
 
                             <li class="has_sub">
-                                <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-layers"></i><span> Financeiro </span><span class="pull-right"><i class="mdi mdi-plus"></i></span></a>
+                                <a href="javascript:void(0);" class="waves-effect"><i class="ion-cash"></i><span> Financeiro </span><span class="pull-right"><i class="mdi mdi-plus"></i></span></a>
                                 <ul class="list-unstyled">
                                     
                                     <li><a link="#">Contas Bancárias</a></li>
@@ -187,21 +197,21 @@
                             </li>
 
                             <li>
-                                <a href="typography.html" class="waves-effect"><i class="mdi mdi-diamond"></i><span> Gestão de Horário <span class="badge badge-primary pull-right">4</span></span></a>
+                                <a href="typography.html" class="waves-effect"><i class="ion-clock"></i><span> Gestão de Horário </span></a>
                             </li>
 
                             <li class="has_sub">
-                                <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-table"></i><span> Sistema </span><span class="pull-right"><i class="mdi mdi-plus"></i></span></a>
+                                <a href="javascript:void(0);" class="waves-effect"><i class="ion-gear-b"></i><span> Sistema </span><span class="pull-right"><i class="mdi mdi-plus"></i></span></a>
                                 <ul class="list-unstyled">
-                                    <li><a link="views/usuarios.html">Usuários</a></li>
-                                    <li><a link="views/permissoes.html">Permissões</a></li>
+                                    <li><a class="regular-link" link="views/usuarios.html">Usuários</a></li>
+                                    <li><a class="regular-link" link="views/permissoes.html">Permissões</a></li>
                                 </ul>
                             </li>
 
                             <li class="has_sub">
-                                <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-chart-pie"></i><span> Driver </span><span class="pull-right"><i class="mdi mdi-plus"></i></span></a>
+                                <a href="javascript:void(0);" class="waves-effect"><i class="ion-link"></i><span> Driver </span><span class="pull-right"><i class="mdi mdi-plus"></i></span></a>
                                 <ul class="list-unstyled">
-                                    <li><a link="views/driver-conexoes.html">Conexões</a></li>
+                                    <li><a class="regular-link" link="views/driver-conexoes.html">Conexões</a></li>
                                 </ul>
                             </li>
 							<!--<li class="has_sub">-->
@@ -522,10 +532,14 @@
         <!--Morris Chart-->
         <script src="assets/plugins/morris/morris.min.js"></script>
         <script src="assets/plugins/raphael/raphael-min.js"></script>
-
         <script src="assets/pages/dashborad.js"></script>
-
-        <script src="assets/js/app.js"></script>
-		
+		<script src="assets/js/app.js"></script>
     </body>
 </html>
+<?php
+}
+else
+{
+header("Location: pages-login.php");
+}
+?>

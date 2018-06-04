@@ -1,3 +1,3 @@
 <?php
-header("Location: lvdesk/pages-login.html");
+header("Location: lvdesk/pages-login.php");
 ?>

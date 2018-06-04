@@ -237,7 +237,7 @@ function($) {
 
 
 
-/* ------------ some utility functions ----------------------- */
+/* ------------ algumas funções de utility  ----------------------- */
 
 var w,h,dw,dh;
 var changeptype = function(){
@@ -321,15 +321,39 @@ function toggle_slimscroll(item){
     }
 }
 
-// for lazy function execution
-var Menufunction = [];
-
-//Meus scripts
+/**
+* Tema: LV Desk
+* Autor: Adan Ribeiro
+* JQuery
+* Data: 12/05/2018
+*/
 
 //Comportamento dos links do menu do painel administrativo
 $(document).ready(function(){
 	$("body")
-	.on('click', 'a, input[type="button"]', function(){
+	.on('click', '.regular-link, input[type="button"]', function(){ //links comuns para navegação casual.
    		$(".content").load($(this).attr("link"));
 	});
+	
+	//Actions com retorno de conteúdo.
+	
+	$("body")
+	.on("click", ".rtrn-conteudo", function (event){ 
+		
+		var objeto = new FormData(document.querySelector("#"+$(this).attr("objeto")));		
+		$.ajax({
+			url: "controllers/sys/login.sys.php", 
+			data: objeto,
+			type: 'post',
+			processData: false,  
+  			contentType: false,
+			success: function(retornoDados){
+				$("body").html(retornoDados);				
+			}
+		});
+		
+		
+	});
 });
+// para execução de funções retardatárias
+var Menufunction = [];

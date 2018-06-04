@@ -1,3 +1,7 @@
+<?php
+include("controllers/model.inc.php");
+$a = new Model();
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -38,17 +42,17 @@
                     </h3>
                     <h4 class="text-default text-center m-t-0"><b>LV Desk</b></h4>
 
-                    <form class="form-horizontal m-t-20" action="index.html">
+                    <form class="form-horizontal m-t-20" action="controllers/sys/login.sys.php" method="post">
 
                         <div class="form-group">
                             <div class="col-xs-12">
-                                <input class="form-control" type="text" required="" placeholder="E-mail">
+                                <input name="usuario" class="form-control" type="text" required="" placeholder="E-mail">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <div class="col-xs-12">
-                                <input class="form-control" type="password" required="" placeholder="Senha">
+                                <input name="senha" class="form-control" type="password" required="" placeholder="Senha">
                             </div>
                         </div>
 
@@ -65,19 +69,20 @@
 
                         <div class="form-group text-center m-t-40">
                             <div class="col-xs-12">
-                                <button class="btn btn-warning btn-block btn-lg waves-effect waves-light" type="submit">Log In</button>
+                                <button class="btn btn-warning btn-block btn-lg waves-effect waves-light" type="submit" >Log In</button>
+								<input type="hidden" name="flag" value="login" />
                             </div>
                         </div>
 						</form>
 						<div class="form-group m-t-30 m-b-0">
-						<form class="form-horizontal m-t-20" action="pages-recoverpw.html">
-                        
-                            <div class="col-sm-7">
-								<button class="btn btn-block btn-lg waves-effect waves-light esqueceu" type="submit">Esqueceu sua senha?</button>
-                                <!--<a href="pages-recoverpw.html" class="text-default"><i class="fa fa-lock m-r-5"></i> Esqueceu sua senha?</a>-->
-                            </div>
 						
+                        <form method="post" action="pages-recoverpw.html">
+						<div class="col-sm-7">
+							<button class="btn btn-block btn-lg waves-effect waves-light esqueceu" type="submit" >Esqueceu sua senha?</button>
+							<!--<a href="pages-recoverpw.html" class="text-default"><i class="fa fa-lock m-r-5"></i> Esqueceu sua senha?</a>-->
+						</div>
 						</form>
+						
 						<form class="form-horizontal m-t-20" action="pages-register.html">
                             <div class="col-sm-5 text-right">
 								<!--<button class="btn btn-danger btn-block btn-lg waves-effect waves-light" type="submit">Contrate um plano</button>
