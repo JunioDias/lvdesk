@@ -415,10 +415,11 @@ class Model{
 		// Exibe uma mensagem de resultado
 		if ($enviado) {
 			echo "
-				<div msg_dialog class='confirm' title='Clique para fechar.'>
+				<h1>
 				Operação executada com sucesso.<br>
 				Verifique o seu e-mail.
-				</div>
+				</h1>
+				<a href='javascript:history.go(-2);'>Página Inicial</a>
 			";
 			return true;
 		} else {

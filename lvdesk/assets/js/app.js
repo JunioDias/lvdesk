@@ -331,18 +331,19 @@ function toggle_slimscroll(item){
 //Comportamento dos links do menu do painel administrativo
 $(document).ready(function(){
 	$("body")
-	.on('click', '.regular-link, input[type="button"]', function(){ //links comuns para navegação casual.
+	.on('click', '.regular-link', function(){ //links comuns para navegação casual.
    		$(".content").load($(this).attr("link"));
 	});
 	
-	//Actions com retorno de conteúdo.
+	//Actions com retorno de conteúdo para item simples.
 	
 	$("body")
 	.on("click", ".rtrn-conteudo", function (event){ 
 		
-		var objeto = new FormData(document.querySelector("#"+$(this).attr("objeto")));		
+		var objeto = new FormData(document.querySelector("#"+$(this).attr("objeto")));	
+		
 		$.ajax({
-			url: "controllers/sys/login.sys.php", 
+			url: objeto.get("caminho"), 
 			data: objeto,
 			type: 'post',
 			processData: false,  
@@ -351,8 +352,29 @@ $(document).ready(function(){
 				$("body").html(retornoDados);				
 			}
 		});
+	});
+	
+	//Actions com retorno de conteúdo para listagens.
+	
+	$("body")
+	.on("click", ".rtrn-conteudo-listagem", function (event){ 
 		
-		
+		var objeto = new FormData(document.querySelector("#"+$(this).attr("objeto")));
+		objeto.append("flag", $(this).attr("flag"));
+		objeto.append("id", $(this).attr("item"));
+		/* for (var value of objeto.values()) {
+		   console.log(value); 
+		}  */
+		$.ajax({
+			url: objeto.get("caminho"), 
+			data: objeto,
+			type: 'post',
+			processData: false,  
+  			contentType: false,
+			success: function(retornoDados){
+				$(".content-sized").html(retornoDados);				
+			}
+		});
 	});
 });
 // para execução de funções retardatárias

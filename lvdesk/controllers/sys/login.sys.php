@@ -26,15 +26,15 @@ if(!empty($_POST)){
 			if($result->num_rows == '1'){
 				$resultado = $result->fetch_assoc();
 				
-				$url = sprintf( 'id=%s&email=%s&uid=%s&key=%s', $resultado['id'], md5($resultado['usuario']), md5($resultado['uid']), md5($resultado['data_ts']));
-				$mensagem = 'Para confirmar a recuperação de sua senha clique no link:<br>'."\n";
-				$mensagem .= sprintf("http://".$dados_email['dominio']."/reset.php?%s",$url);
+				$url = sprintf('id=%s&email=%s&uid=%s&key=%s', $resultado['id'], md5($resultado['usuario']), md5($resultado['uid']), md5($resultado['data_ts']));
+				$mensagem = 'Para confirmar a recuperação de sua senha clique no link:<br>';
+				$mensagem .= sprintf("http://".$dados_email['dominio']."/lvdesk/controllers/access.php?%s",$url);
 		
 				// enviar o email
 				$a->envia($resultado, 'Recuperador de senhas - '.$parametros->title(), $mensagem);
 				
 			}else{
-				echo "<div msg_dialog class='alerta' title='Clique para fechar.'>E-mail inválido.</div>";
+				echo "<h1>E-mail inválido.</h1>";
 			}
 		break;
 		case "instrucoes":

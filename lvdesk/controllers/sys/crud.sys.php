@@ -159,7 +159,6 @@ if(!empty($_POST)){
 		break;
 		case "update":		#Código de Atualização da Edição			
 			$dados = $_POST;
-			#print_r($dados);
 			$tabela = $dados["tbl"];
 			$a = $b = new Model();
 			if(isset($dados["senha"])){
@@ -203,32 +202,30 @@ if(!empty($_POST)){
 					$dados["data_nascimento"] = date('Y-m-d');
 				}
 			}
-			if(isset($dados["nascimento_filho_especial"])){
-				if(empty($dados['nascimento_filho_especial'])){
-					$dados["nascimento_filho_especial"] = date('Y-m-d');
-				}
-			}
+			
 			#####################Fim de Sessão#####################
 			if(isset($dados["valor"])){
 				$dados["valor"] = str_replace(',','.',str_replace('.','',$dados["valor"]));
 			}
-			unset($dados["confirmasenha"], $dados["flag"], $dados["tbl"]);
+			unset($dados["confirmasenha"], $dados["flag"], $dados["tbl"], $dados["caminho"]);
 			if(isset($dados['id'])){
 				$a->upd($tabela, $dados, $dados['id']);
 			}else{
 				$a->upd($tabela, $dados);
 			}
+			
 			if($mysqli->affected_rows != '-1'){
 				echo "
-				<div msg_dialog class='confirm' title='Clique para fechar.'>
+				<h1>
 				Tudo certo!<br>Atualização confirmada. 
-				</div>";
+				</h1>
+				<a href='../pages-login.php'>Clique aqui para retornar ao login</a>";
 				die();
 			}else{
 				echo "
-				<div msg_dialog class='alerta' title='Clique para fechar.'>
+				<h1>
 				Isso não deveria acontecer...<br>Problemas no processo! <br>Atualização não confirmada. 
-				</div>";
+				</h1>";
 				die();
 			}
 		break;
@@ -258,5 +255,8 @@ if(!empty($_POST)){
 			}
 		break;
 	}
+}
+else{
+	echo "<h1>O post está vazio. <br> Procure por erros de configuração no servidor.</h1>";
 }
 ?>

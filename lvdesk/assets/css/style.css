@@ -91,6 +91,9 @@ a:focus {
   outline: 0;
   text-decoration: none;
 }
+.botao{
+	padding-left:3px;
+}
 .container {
   width: auto;
 }

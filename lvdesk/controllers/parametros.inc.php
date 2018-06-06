@@ -26,16 +26,16 @@ class Param{
 	public function emailConfig(){
 		$nome = $this->title();
 		$dominio = "lvdesk.com.br";
-		#$dominioHostinger = "mx1.hostinger.com.br"; #SMTP para hospedagem Hostinger. Desativar quando não for o caso.
+		$dominioHostinger = "hostinger.com.br"; #SMTP para hospedagem Hostinger. Desativar quando não for o caso.
 		$array["dominio"] = $dominio;
-		$array["serverhost"] = ""; #"smtp.".$dominio;
+		$array["serverhost"] = "smtp.".$dominioHostinger;
 		$array["remetenteNome"]  = "$nome - Sistema de Mensagens"; 
 		$array["username"] = "no-reply@".$dominio; // Usuário do servidor SMTP (endereço de email) $remetenteEmail 
 		$array["varSMTPAuth"] = true; // Usar autenticação SMTP (obrigatório para smtp.seudomínio.com.br)
 		$array["password"] = '76UaDdk2'; // Senha do servidor SMTP (senha do email usado)
 		$array["isHTML"] = true; // Define que o e-mail será enviado como HTML
 		$array["charSet"] = 'UTF-8'; // Charset da mensagem (opcional)
-		$array["port"] = '587';	
+		$array["port"] = '465';	
 		return $array;
 	}
 }

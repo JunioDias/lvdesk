@@ -122,7 +122,7 @@ if(!empty($_SESSION["datalogin"])){
                                         <li><a class="regular-link" link="views/documentacao.html"> Documentação</a></li>
                                         <li class="divider"></li>
                                         <li><a class="rtrn-conteudo" objeto="form_objeto"> Logout</a></li>
-										<form id="form_objeto" enctype="multipart/form-data">
+										<form id="form_objeto">
 										  <input type="hidden" name="flag" value="logout"/>
 										  <input type="hidden" name="caminho" value="controllers/sys/login.sys.php"/>
 										</form>
