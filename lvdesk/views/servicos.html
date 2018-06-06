@@ -1,0 +1,208 @@
+<div class="page-header-title">
+	<h4 class="page-title">Atendimento</h4>
+	<p>Formulário para início de serviços de atendimento </p>
+</div>
+<div class="content-sized">	
+	<form>
+	<table class="table table-hover table_atendimento">
+    <thead class="bg-warning thead_atendimento">
+      <tr>
+        <th>Abertura de Chamado | Identificação do Cliente</th>
+      </tr>
+    </thead>
+		<tbody>
+			<tr>
+       	<td>
+					<div class="form-group">
+					<label for="nome">Entidade atendida</label>
+					<input type="text" class="form-control" class="entidade" name="entidade">
+					</div>
+				</td>
+      </tr>
+			<tr>
+       	<td>
+					<div class="form-group">
+						<label for="host">Nome completo</label>
+						<input type="text" class="form-control" class="host" name="host">			
+					</div>
+				</td>
+      </tr>
+			<tr>
+       	<td>
+					<div class="form-group">
+						<label for="porta">Endereço completo</label>
+						<input type="text" class="form-control" class="porta" name="porta">
+					</div>
+				</td>
+      </tr>
+			<tr>
+       	<td>
+					<div class="form-group">
+						<label for="usuario">Telefone/Celular</label>
+						<input type="text" class="form-control" class="usuario" name="usuario">
+					</div>
+				</td>
+      </tr>
+			</tbody>
+		<thead class="bg-warning thead_atendimento">
+      <tr>
+        <th>Origem do Atendimento</th>
+      </tr>
+    </thead>
+		<tbody>
+			<tr>
+       	<td>
+					<div class="form-group">
+					<label for="nome">Meio de Contato</label>
+					<div class="form-check">
+						<label class="form-check-label">
+							<input type="radio" class="form-check-input" name="opt_meio">Telefonema
+						</label>
+					</div>
+					<div class="form-check">
+						<label class="form-check-label">
+							<input type="radio" class="form-check-input" name="opt_meio">Whatsapp
+						</label>
+					</div>
+					</div>
+				</td>
+      </tr>
+			</tbody>
+			<thead class="bg-warning thead_atendimento">
+      <tr>
+        <th>Tipo de Atendimento</th>
+      </tr>
+    </thead>
+		<tbody>
+			<tr>
+       	<td>
+					<div class="form-group">
+					<label for="nome">Tipagem</label>
+					<div class="form-check">
+						<label class="form-check-label">
+							<input type="radio" class="form-check-input" name="opt_tipo">Atendimento Técnico
+						</label>
+					</div>
+					<div class="form-check">
+						<label class="form-check-label">
+							<input type="radio" class="form-check-input" name="opt_tipo">Financeiro
+						</label>
+					</div>
+					<div class="form-check">
+						<label class="form-check-label">
+							<input type="radio" class="form-check-input" name="opt_tipo">Vendas
+						</label>
+					</div>
+					<div class="form-check">
+						<label class="form-check-label">
+							<input type="radio" class="form-check-input" name="opt_tipo">Informação
+						</label>
+					</div>
+					</div>
+				</td>
+      </tr>
+			</tbody>
+			<thead class="bg-warning thead_atendimento">
+      <tr>
+        <th>Procedimentos Técnicos</th>
+      </tr>
+    </thead>
+		<tbody>
+			<tr>
+       	<td>
+				</td>
+			</tr>
+		</tbody>
+		<thead class="bg-warning thead_atendimento">
+      <tr>
+        <th>Dados Técnicos</th>
+      </tr>
+    </thead>
+		<tbody>
+		<tr>
+       	<td>
+					<div class="form-group">
+						<label for="nome">NAS IP</label>
+						<input type="text" class="form-control"  name="equipe_responsavel">
+					</div>
+				</td>
+			</tr><tr>
+       	<td>
+					<div class="form-group">
+						<label for="nome">PPPoE</label>
+						<input type="text" class="form-control"  name="equipe_responsavel">
+					</div>
+				</td>
+			</tr><tr>
+       	<td>
+					<div class="form-group">
+						<label for="nome">Status da conexão</label>
+						<input type="text" class="form-control"  name="equipe_responsavel">
+					</div>
+				</td>
+			</tr><tr>
+       	<td>
+					<div class="form-group">
+						<label for="nome">IP do cliente</label>
+						<input type="text" class="form-control"  name="equipe_responsavel">
+					</div>
+				</td>
+			</tr>
+			<thead class="bg-warning thead_atendimento">
+      <tr>
+        <th>Verificação no sistema de controle do provedor</th>
+      </tr>
+    </thead>
+		<tbody>
+			<tr>
+       	<td>
+				</td>
+			</tr>
+		</tbody>
+			<thead class="bg-warning thead_atendimento">
+      <tr>
+        <th>Conclusão</th>
+      </tr>
+    </thead>
+		<tbody>
+			<tr>
+       	<td>
+				 <div class="form-group">
+					<label for="comment">Observações:</label>
+					<textarea class="form-control" rows="5" id="observacao"></textarea>
+				</div> 
+				</td>
+			</tr>
+			<tr>
+       	<td>
+				<div class="form-group">
+					<label for="nome">Protocolo do sistema da Entidade</label>
+					<input type="text" class="form-control"  name="protocolo_entidade">
+					</div>
+				</td>
+			</tr>
+			<tr>
+       	<td>
+				<div class="form-group">
+					<label for="nome">Protocolo do sistema de telefonia</label>
+					<input type="text" class="form-control"  name="protocolo_telefonia">
+					</div>
+				</td>
+			</tr>
+			<tr>
+       	<td>
+					<div class="form-group">
+						<label for="nome">Equipe responsável</label>
+						<input type="text" class="form-control"  name="equipe_responsavel">
+					</div>
+				</td>
+			</tr>
+		</tbody>
+
+			<tr>
+				<td><input class="btn btn-default" value="Dar entrada" type="button" link="views/atendimento-entrada-nivel-1.html"></td>
+			</tr>
+		</tbody>
+		</table>
+	</form>
+</div>
