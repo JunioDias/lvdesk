@@ -222,15 +222,14 @@ class Model{
 			}
 			$count++;
 		}
-		echo "INSERT INTO $tabela ($coluna) VALUES($valor)";
+		#echo "INSERT INTO $tabela ($coluna) VALUES($valor)";
 		$mysqli->query("INSERT INTO $tabela ($coluna) VALUES($valor)");
 		if ($mysqli->affected_rows > 0) { 
-			echo "<div msg_dialog class='confirm' title='Clique para fechar.'>Operação executada com sucesso.</div>"; 
+			echo "<h1>Operação executada com sucesso.</h1>"; 
 		}
 		else{
-			echo "<div msg_dialog class='erro' title='Clique para fechar.'>Falha na operação.</div>";
-		}
-			
+			echo "<h1>Falha na operação.</h1>";
+		}	
 	}
 	function addUser($tabela, $array){
 		#by Adan, 27 de novembro de 2015.
@@ -295,7 +294,7 @@ class Model{
 			$mysqli->query("UPDATE $tabela SET $setting");
 			return $mysqli;
 		}else{
-			#echo "UPDATE $tabela SET $setting WHERE id = '$id'";  
+			echo "UPDATE $tabela SET $setting WHERE id = '$id'";  
 			$mysqli->query("UPDATE $tabela SET $setting WHERE id = '$id'");
 			return $mysqli;
 		}
@@ -326,20 +325,28 @@ class Model{
 			$mysqli->query("INSERT INTO albuns (data, caminho, id_contato) VALUES($data, $id, $id)");
 		}	
 	}
-	# funções para gerenciamento de privilégios e acessos no sistema - by Adan 28/11/2015
-	public function libPriv($id){
-		$query = "SELECT acessos FROM privilegios WHERE lixo = 0 AND id = $id ";
-		$foo = $this->queryFree($query);
-		$val = $foo->fetch_assoc();
-		$retorno = explode("#", $val['acessos']);
-		$this->libMenuAdmin($retorno);
-	}
 	
+	# Funções para gerenciamento de privilégios e acessos no sistema - by Adan 07/06/2018
+	public function libPriv($id){
+	  $query = "SELECT acessos FROM privilegios WHERE lixo = 0 AND id = $id ";
+	  $foo = $this->queryFree($query);
+	  $val = $foo->fetch_assoc();
+	  $retorno = explode("#", $val['acessos']);
+	  $this->libMenuAdmin($retorno);
+	}
+
 	public function libMenuAdmin($arrayAcessos){
 		foreach($arrayAcessos as $value){
-			$woo = $this->queryFree("SELECT * FROM menus WHERE lixo = 0 AND id = $value");
-			$row = $woo->fetch_assoc();
-			echo "<p><a but title='$row[descricao]' class='menu-control' href='#' link='view/$row[valor]'>".$row["nome"]."</a></p>";
+		  $woo = $this->queryFree("SELECT * FROM modulos WHERE lixo = 0 AND id = $value");
+		  $row = $woo->fetch_assoc();
+		  
+		  echo "
+		  <li class='has_sub'>
+		  <a title='".$row["descricao"]."' class='waves-effect' href='#' link='views/".$row["value"]."'>
+		  <i class='".$row["media"]."'></i><span>".$row["nome"]."</span> 
+		  <span class='pull-right'><i class='mdi mdi-plus'></i></span>
+		  </a>
+		  </li>";
 		}	
 	}
 	
