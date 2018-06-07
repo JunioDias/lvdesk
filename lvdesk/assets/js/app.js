@@ -341,7 +341,7 @@ $(document).ready(function(){
 	.on("click", ".rtrn-conteudo", function (event){ 
 		
 		var objeto = new FormData(document.querySelector("#"+$(this).attr("objeto")));	
-		
+		  	
 		$.ajax({
 			url: objeto.get("caminho"), 
 			data: objeto,
@@ -362,6 +362,7 @@ $(document).ready(function(){
 		var objeto = new FormData(document.querySelector("#"+$(this).attr("objeto")));
 		objeto.append("flag", $(this).attr("flag"));
 		objeto.append("id", $(this).attr("item"));
+		objeto.append("caminho", $(this).attr("caminho"));
 		/* for (var value of objeto.values()) {
 		   console.log(value); 
 		}  */

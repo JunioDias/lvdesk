@@ -31,5 +31,4 @@ if($valido === true) {
 }else{
     echo "<h1>Um erro inesperado aconteceu.<br>Por favor entre em contato com o suporte.</h1>";
 }
-
 ?>

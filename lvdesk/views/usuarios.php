@@ -1,15 +1,15 @@
 <div class="page-header-title">
-  <h4 class="page-title">Módulos</h4>
-  <p>Gerenciador dos módulos do sistema</p>
+  <h4 class="page-title">Usuários</h4>
+  <p>Gerenciador dos usuários do sistema</p>
 </div>
 <div class="content-sized">
-<input class="btn btn-success btn_driver regular-link" value="Incluir" type="button" link="views/modulos-crud.php">
+<input class="btn btn-success btn_driver regular-link" value="Incluir" type="button" link="views/usuarios-crud.php">
 <table class="table table-hover">
 <thead>
   <tr>
 	<th>Id</th>
 	<th>Nome</th>        
-	<th>Valor</th>
+	<th>e-mail</th>
 	<th>Ações</th>
   </tr>
 </thead>
@@ -18,11 +18,11 @@
 include("../controllers/model.inc.php");
 include("../controllers/actions.inc.php");
 
-$query = "SELECT * FROM modulos WHERE admin = 0 AND lixo = 0";
-$nomediv		= "content-sized";			#nome da div onde o callback vai ocorrer
-$tabela  		= "modulos";				#tabela principal, alvo da rotina
-$cbkedit		= "views/modulos-crud.php";	#callback do botão Editar
-$cbkdel 		= "views/modulos.php";  	#callback do botão Excluir
+$query = "SELECT * FROM usuarios WHERE lixo = 0";
+$nomediv		= "content-sized";				#nome da div onde o callback vai ocorrer
+$tabela  		= "usuarios";					#tabela principal, alvo da rotina
+$cbkedit		= "views/usuarios-crud.php";	#callback do botão Editar
+$cbkdel 		= "views/usuarios.php";  		#callback do botão Excluir
 $link			= "controllers/sys/crud.sys.php";
 $i = 1;
 $botoes = new Acoes();
@@ -37,7 +37,7 @@ else{
 		<tr>
 		<td>".$linhas['id']."</td>
 		<td>".$linhas['nome']."</td>
-		<td class='text-success'>".$linhas['value']."</td>
+		<td class='text-success'>".$linhas['usuario']."</td>
 		<td>");	$botoes->crudButtons($linhas['id'], $cbkdel, $cbkedit, $link); echo("</td>
 		</tr>
 		");	

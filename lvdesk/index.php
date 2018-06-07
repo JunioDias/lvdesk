@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <?php
 include ("controllers/model.inc.php");
-
 if(!empty($_SESSION["datalogin"])){
 	$dadoslogin = $_SESSION["datalogin"];
 ?>
@@ -163,13 +162,17 @@ if(!empty($_SESSION["datalogin"])){
                     </div>
                     <!--- Divider -->
 
-
-                    <div id="sidebar-menu">
-                        <ul>
+					<div id="sidebar-menu">
+                        <ul>						
                             <li>
                                 <a href="index.html" class="waves-effect"><i class="mdi mdi-home"></i><span> Dashboard <span class="badge badge-primary pull-right">1</span></span></a>
                             </li>
-
+							
+							<?php
+							$acesso = new Model();
+							$priv = $acesso->libPriv($dadoslogin['id_privilegio']);
+							?>
+							
                             <li class="has_sub">
                                 <a href="views/driver.html" class="waves-effect"><i class="ion-briefcase"></i> <span> Contratos </span> <span class="pull-right"><i class="mdi mdi-plus"></i></span></a>                                
                             </li>
@@ -203,7 +206,7 @@ if(!empty($_SESSION["datalogin"])){
                             <li class="has_sub">
                                 <a href="javascript:void(0);" class="waves-effect"><i class="ion-gear-b"></i><span> Sistema </span><span class="pull-right"><i class="mdi mdi-plus"></i></span></a>
                                 <ul class="list-unstyled">
-                                    <li><a class="regular-link" link="views/usuarios.html">Usuários</a></li>
+                                    <li><a class="regular-link" link="views/usuarios.php">Usuários</a></li>
                                     <li><a class="regular-link" link="views/permissoes.html">Permissões</a></li>
                                 </ul>
                             </li>

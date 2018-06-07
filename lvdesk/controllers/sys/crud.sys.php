@@ -49,7 +49,7 @@ if(!empty($_POST)){
 			if(isset($dados["valor"])){
 				$dados["valor"] = str_replace(',','.',str_replace('.','',$dados["valor"]));
 			}
-			unset($dados["confirmasenha"], $dados["flag"], $dados["tbl"], $dados["file"]);
+			unset($dados["confirmasenha"], $dados["flag"], $dados["tbl"], $dados["file"], $dados["caminho"]);
 			$a->add($tabela, $dados);
 		break;
 		case "addUser":
@@ -219,7 +219,7 @@ if(!empty($_POST)){
 				<h1>
 				Tudo certo!<br>Atualização confirmada. 
 				</h1>
-				<a href='../pages-login.php'>Clique aqui para retornar ao login</a>";
+				";
 				die();
 			}else{
 				echo "

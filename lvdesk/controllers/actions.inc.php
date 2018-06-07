@@ -14,10 +14,10 @@ class Acoes{
 * $callbackedit 	= Páginas que vai retornar após a edição do registro. Esse link coincide com outras ações de POST.
 * $link 			= Destino do POST.
 */
-  public function crudButtons($id, $callbackdelete, $callbackedit){
+  public function crudButtons($id, $callbackdelete, $callbackedit, $link){
 	echo "	
-	<a class='btn btn-warning rtrn-conteudo-listagem' item=".$id." flag='edt' objeto='form_action' title='Editar registro'>Editar</a>
-	<a class='btn btn-danger rtrn-conteudo-listagem botao' item=".$id." flag='exc' objeto='form_action' title='Excluir registro'>Excluir</a>		
+	<a class='btn btn-warning rtrn-conteudo-listagem' item=".$id." flag='edt' objeto='form_action' caminho=".$callbackedit." title='Editar registro'>Editar</a>
+	<a class='btn btn-danger rtrn-conteudo-listagem botao' item=".$id." flag='exc' objeto='form_action' caminho=".$link." title='Excluir registro'>Excluir</a>		
 	";
   }
 }
