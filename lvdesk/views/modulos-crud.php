@@ -46,7 +46,7 @@ if(isset($_POST['id'])){
 		</div>
 		<div class="form-group">
 			<label for="descricao">Descrição</label>
-			<input type="text" class="form-control" class="descricao" name="descricao" value="<?= $descritivo;?>" maxlenght="50"/>			
+			<input type="text" class="form-control" class="descricao" name="descricao" value="<?= $descritivo;?>" maxlength="50"/>			
 		</div>
 		<div class="form-group">
 			<label for="media">Ícone</label>

@@ -225,10 +225,24 @@ class Model{
 		#echo "INSERT INTO $tabela ($coluna) VALUES($valor)";
 		$mysqli->query("INSERT INTO $tabela ($coluna) VALUES($valor)");
 		if ($mysqli->affected_rows > 0) { 
-			echo "<h1>Operação executada com sucesso.</h1>"; 
+			echo '
+			<div class="alert alert-success fade in">
+			<h4>Operação executada com sucesso.</h4>
+			<p>Clique no botão abaixo para fechar esta mensagem.</p>
+			<p class="m-t-10">
+			  <button type="button" class="btn btn-default waves-effect rtrn-conteudo" >Fechar</button>
+			</p>
+			</div>'; 
 		}
 		else{
-			echo "<h1>Falha na operação.</h1>";
+			echo '
+			<div class="alert alert-danger fade in">
+			<h4>Falha na operação.</h4>
+			<p>Clique no botão abaixo para fechar esta mensagem.</p>
+			<p class="m-t-10">
+			  <button type="button" class="btn btn-default waves-effect rtrn-conteudo" >Fechar</button>
+			</p>
+			</div>';
 		}	
 	}
 	function addUser($tabela, $array){
@@ -294,7 +308,7 @@ class Model{
 			$mysqli->query("UPDATE $tabela SET $setting");
 			return $mysqli;
 		}else{
-			echo "UPDATE $tabela SET $setting WHERE id = '$id'";  
+			#echo "UPDATE $tabela SET $setting WHERE id = '$id'";  
 			$mysqli->query("UPDATE $tabela SET $setting WHERE id = '$id'");
 			return $mysqli;
 		}
@@ -348,6 +362,23 @@ class Model{
 		  </a>
 		  </li>";
 		}	
+	}
+	
+	public function habilitaModulos($query){
+	  $foo = $this->queryFree($query);
+	  $val = $foo->fetch_assoc();
+	  $retorno = explode("#", $val['acessos']);
+	  
+	  foreach($retorno as $value){
+		$woo = $this->queryFree("SELECT * FROM modulos WHERE lixo = 0 AND id = $value");
+		$row = $woo->fetch_assoc();
+	    print_r(
+		  '<div class="checkbox checkbox-primary">
+			<input id="checkbox1" type="checkbox" data-parsley-multiple="group1">
+			<label for="checkbox1">'.$row["nome"].'</label>
+		  </div>
+	    ');
+	  }
 	}
 	
 	public function envia($array, $assunto = NULL, $mensagem = NULL){

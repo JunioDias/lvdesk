@@ -214,7 +214,7 @@ if(!empty($_SESSION["datalogin"])){
                             <li class="has_sub">
                                 <a href="javascript:void(0);" class="waves-effect"><i class="ion-link"></i><span> Driver </span><span class="pull-right"><i class="mdi mdi-plus"></i></span></a>
                                 <ul class="list-unstyled">
-                                    <li><a class="regular-link" link="views/driver-conexoes.html">Conexões</a></li>
+                                    <li><a class="regular-link" link="views/driver-conexoes.php">Conexões</a></li>
                                 </ul>
                             </li>
 							<!--<li class="has_sub">-->

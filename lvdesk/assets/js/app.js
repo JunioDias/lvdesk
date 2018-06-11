@@ -341,7 +341,9 @@ $(document).ready(function(){
 	.on("click", ".rtrn-conteudo", function (event){ 
 		
 		var objeto = new FormData(document.querySelector("#"+$(this).attr("objeto")));	
-		  	
+		/* for (var value of objeto.values()) {
+		   console.log(value); 
+		}*/   	
 		$.ajax({
 			url: objeto.get("caminho"), 
 			data: objeto,
@@ -365,7 +367,31 @@ $(document).ready(function(){
 		objeto.append("caminho", $(this).attr("caminho"));
 		/* for (var value of objeto.values()) {
 		   console.log(value); 
-		}  */
+		}   */
+		$.ajax({
+			url: objeto.get("caminho"), 
+			data: objeto,
+			type: 'post',
+			processData: false,  
+  			contentType: false,
+			success: function(retornoDados){
+				$(".content-sized").html(retornoDados);				
+			}
+		});
+	});
+	
+	//Ação para processamento das conexões com proveodores externos
+	
+	$("body")
+	.on("click", ".rtrn-conteudo-conexao", function (event){ 
+		
+		var objeto = new FormData(document.querySelector("#"+$(this).attr("objeto")));
+		var objLnk = new FormData(document.querySelector("."+$(this).attr("objLnk")));
+		
+		for (var valor of objLnk.values()) {
+		   objeto.append(valor); 
+		}   
+		
 		$.ajax({
 			url: objeto.get("caminho"), 
 			data: objeto,

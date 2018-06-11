@@ -186,7 +186,7 @@ if(!empty($_POST)){
 					$nomeFile = $pic['imagem']["name"];
 					$vetor = "imagem";
 				}
-				
+				/* 
 				if(isset($nomeFile)){
 					$media = $a->addFoto($nomeFile, $vetor, $tabela);
 					if(isset($media)){
@@ -194,7 +194,8 @@ if(!empty($_POST)){
 					}
 				}else{
 					unset($dados['media']); # só é possível a partir de addProdutos.php, pois o submit é personalizado
-				}	
+					echo "<strong>Unset media<br></strong>";
+				} */	
 			}
 			# Tratamento para campos tipo DATE no perfil do usuário
 			if(isset($dados["data_nascimento"])){
@@ -255,6 +256,7 @@ if(!empty($_POST)){
 			}
 		break;
 	}
+  }	
 }
 else{
 	echo "<h1>O post está vazio. <br> Procure por erros de configuração no servidor.</h1>";
