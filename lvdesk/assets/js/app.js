@@ -341,9 +341,9 @@ $(document).ready(function(){
 	.on("click", ".rtrn-conteudo", function (event){ 
 		
 		var objeto = new FormData(document.querySelector("#"+$(this).attr("objeto")));	
-		/* for (var value of objeto.values()) {
+		for (var value of objeto.values()) {
 		   console.log(value); 
-		}*/   	
+		}
 		$.ajax({
 			url: objeto.get("caminho"), 
 			data: objeto,
@@ -351,7 +351,12 @@ $(document).ready(function(){
 			processData: false,  
   			contentType: false,
 			success: function(retornoDados){
-				$("body").html(retornoDados);				
+				if(objeto.get("retorno")){
+					var retorno = objeto.get("retorno");
+					$(retorno).html(retornoDados);
+				}else{
+					$("body").html(retornoDados);
+				}								
 			}
 		});
 	});
@@ -380,6 +385,48 @@ $(document).ready(function(){
 		});
 	});
 	
+	$("body")
+	.on("click", ".rtrn-conteudo-listagem2", function (event){ 
+		
+		var id_div = $(this).attr("item");
+		$('#rotulo'+id_div).hide();
+		var objeto = new FormData(document.querySelector("#"+$(this).attr("objeto")));
+		objeto.append("flag", $(this).attr("flag"));
+		objeto.append("id", $(this).attr("item"));
+		objeto.append("caminho", $(this).attr("caminho"));
+		
+		var elem = document.getElementById("barra"+id_div);   
+		var width = 1;
+		var id = setInterval(frame, 10);
+		function frame() {
+			if (width >= 100) {
+			  clearInterval(id);
+			} else {
+			  width++; 
+			  elem.style.width = width + '%'; 
+			}
+		}	
+		
+		
+		$.ajax({
+			
+			url: objeto.get("caminho"), 
+			data: objeto,
+			type: 'post',
+			processData: false,  
+  			contentType: false,
+			success: function(retornoDados){
+				$("#target-status"+id_div).html(retornoDados);				
+			}
+		});
+	});
+	
+	$("document")
+	.on("load", ".barra_de_progresso", function (event){
+		
+		
+	});
+	
 	//Ação para processamento das conexões com proveodores externos
 	
 	$("body")
@@ -388,10 +435,13 @@ $(document).ready(function(){
 		var objeto = new FormData(document.querySelector("#"+$(this).attr("objeto")));
 		var objLnk = new FormData(document.querySelector("."+$(this).attr("objLnk")));
 		
-		for (var valor of objLnk.values()) {
-		   objeto.append(valor); 
+		for (var value of objLnk.values()) {
+		   console.log(value); 
 		}   
 		
+		for (var valor of objeto.values()) {
+		   console.log(valor); 
+		} 
 		$.ajax({
 			url: objeto.get("caminho"), 
 			data: objeto,
@@ -404,5 +454,7 @@ $(document).ready(function(){
 		});
 	});
 });
+
+
 // para execução de funções retardatárias
 var Menufunction = [];

@@ -165,7 +165,7 @@ if(!empty($_SESSION["datalogin"])){
 					<div id="sidebar-menu">
                         <ul>						
                             <li>
-                                <a href="index.html" class="waves-effect"><i class="mdi mdi-home"></i><span> Dashboard <span class="badge badge-primary pull-right">1</span></span></a>
+                                <a href="index.php" class="waves-effect"><i class="mdi mdi-home"></i><span> Dashboard <span class="badge badge-primary pull-right">1</span></span></a>
                             </li>
 							
 							<?php
@@ -217,21 +217,7 @@ if(!empty($_SESSION["datalogin"])){
                                     <li><a class="regular-link" link="views/driver-conexoes.php">Conexões</a></li>
                                 </ul>
                             </li>
-							<!--<li class="has_sub">-->
-                                <!--<a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-share-variant"></i><span>Multi Menu </span><span class="pull-right"><i class="mdi mdi-plus"></i></span></a>-->
-                                <!--<ul>-->
-                                    <!--<li class="has_sub">-->
-                                        <!--<a href="javascript:void(0);" class="waves-effect"><span>Menu Item 1.1</span> <span class="pull-right"><i class="mdi mdi-plus"></i></span></a>-->
-                                        <!--<ul style="">-->
-                                            <!--<li><a href="javascript:void(0);"><span>Menu Item 2.1</span></a></li>-->
-                                            <!--<li><a href="javascript:void(0);"><span>Menu Item 2.2</span></a></li>-->
-                                        <!--</ul>-->
-                                    <!--</li>-->
-                                    <!--<li>-->
-                                        <!--<a href="javascript:void(0);"><span>Menu Item 1.2</span></a>-->
-                                    <!--</li>-->
-                                <!--</ul>-->
-                            <!--</li>-->
+							
                         </ul>
                     </div>
                     <div class="clearfix"></div>

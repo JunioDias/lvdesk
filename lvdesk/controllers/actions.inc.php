@@ -20,5 +20,12 @@ class Acoes{
 	<a class='btn btn-danger rtrn-conteudo-listagem botao' item=".$id." flag='exc' objeto='form_action' caminho=".$link." title='Excluir registro'>Excluir</a>		
 	";
   }
-}
+
+  public function darEntrada($id, $link){
+	echo '
+	<input class="btn btn-success btn_driver regular-link" value="Dar entrada" type="button" link="'.$link.'" item="'.$id.'">	
+	';
+  }
+ }
+
 ?>

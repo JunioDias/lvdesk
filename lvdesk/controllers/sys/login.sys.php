@@ -34,7 +34,15 @@ if(!empty($_POST)){
 				$a->envia($resultado, 'Recuperador de senhas - '.$parametros->title(), $mensagem);
 				
 			}else{
-				echo "<h1>E-mail inválido.</h1>";
+				echo '
+				<div class="alert alert-danger fade in">
+				<h4>Falha no processo.</h4>
+				<p>E-mail não existe na base de dados<br>Clique no botão abaixo para fechar esta mensagem.</p>
+				<p class="m-t-10">
+				  <a type="button" class="btn btn-default waves-effect" data-dismiss="alert" href="javascript:history.go(-1);">Fechar</a>
+				</p>
+				</div>
+				';
 			}
 		break;
 		case "instrucoes":
@@ -45,6 +53,14 @@ if(!empty($_POST)){
 		break;
 	}
 }else{
-	echo '<h1>Código 0A. Erro no envio dos dados. <br>Recorra ao suporte!</h1>';
+	echo '
+	<div class="alert alert-danger fade in">
+	<h4>Falha no processo.</h4>
+	<p>Falha no envio das informações. Contacte o suporte.<br>Clique no botão abaixo para fechar esta mensagem.</p>
+	<p class="m-t-10">
+	  <button type="button" class="btn btn-default waves-effect" data-dismiss="alert" >Fechar</button>
+	</p>
+	</div>
+	';
 }
 ?>

@@ -8,7 +8,7 @@
 <thead>
   <tr>
 	<th>Id</th>
-	<th>Nome</th>        
+	<th>Papel</th>        
 	<th>Acessos</th>
 	<th>Ações</th>
   </tr>
@@ -28,11 +28,9 @@ $i = 1;
 $botoes = new Acoes();
 $a = new Model();
 $a->queryFree($query);
-if(!$result){
-	echo"<tr><td>Nenhum registro foi encontrado.</td></tr>";
-}
-else{
-	while($linhas = $result->fetch_assoc()){
+$resultado = $result->fetch_assoc();
+if($resultado){	
+	while($linhas = $resultado){
 		echo("
 		<tr>
 		<td>".$linhas['id']."</td>
@@ -43,6 +41,8 @@ else{
 		");	
 		$i++;
 	}
+}else{
+	echo"<tr><td>Nenhum registro foi encontrado.</td></tr>";
 }
 ?>	
 </tbody>

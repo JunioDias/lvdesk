@@ -11,11 +11,11 @@ if(isset($_POST['id'])){
 	
 	$id		   		= $edicao['id'];
 	$nome			= $edicao['nome'];
-	$bd				= $edicao['bd'];
-	$software 	 	= $edicao['software'];
+	$tipo_bd		= $edicao['tipo_bd'];
+	$nome_bd 	 	= $edicao['nome_bd'];
 	$host 			= $edicao['host'];	
 	$usuario		= $edicao['usuario'];
-	$senha			= $edicao['senha'];
+	$senha			= $edicao['senha_pav'];
 	$porta			= $edicao['porta'];
 	$script			= $edicao['script'];
 	$validado		= $edicao['validado'];
@@ -24,7 +24,7 @@ if(isset($_POST['id'])){
 	$id		   		= NULL;
 	$nome			= NULL;
 	$bd				= NULL;
-	$software 	 	= NULL;
+	$nome_bd 	 	= NULL;
 	$host 			= NULL;	
 	$usuario		= NULL;
 	$senha			= NULL;
@@ -47,12 +47,12 @@ if(isset($_POST['id'])){
 		<input type="text" class="form-control" name="nome" value="<?= $nome;?>">
 	</div>
 	<div class="form-group">
-		<label for="nome">Tipo do banco de dados</label>
-		<input type="text" class="form-control" name="nome" value="<?= $bd;?>">
+		<label for="tipo_bd">Tipo do banco de dados</label>
+		<input type="text" class="form-control" name="tipo_bd" value="<?= $tipo_bd;?>">
 	</div>
 	<div class="form-group">
-		<label for="nome">Software</label>
-		<input type="text" class="form-control" name="software" value="<?= $software;?>">
+		<label for="nome_bd">Nome do bando de dados</label>
+		<input type="text" class="form-control" name="nome_bd" value="<?= $nome_bd;?>">
 	</div>
 	<div class="form-group">
 		<label for="host">Host</label>
@@ -67,8 +67,8 @@ if(isset($_POST['id'])){
 		<input type="text" class="form-control" name="usuario" value="<?= $usuario;?>">
 	</div>
 	<div class="form-group">
-		<label for="senha">Senha</label>
-		<input type="text" class="form-control" name="senha" value="<?= $senha;?>">
+		<label for="senha_pav">Senha</label>
+		<input type="text" class="form-control" name="senha_pav" value="<?= $senha;?>">
 	</div>
 	<div class="form-group">
 		<label for="script">Script</label>
@@ -80,6 +80,7 @@ if(isset($_POST['id'])){
 		echo "<input type='hidden' name='id' value='$id'/>";
 	}
 	?>
+	<input type="hidden" name="retorno" value=".content-sized" />
 	<input type="hidden" name="flag" value="<?= $flag;?>" />
     <input type="hidden" name="tbl" value="pav" />
     <input type="hidden" name="caminho" value="controllers/sys/crud.sys.php" />

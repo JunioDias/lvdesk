@@ -64,8 +64,9 @@ class Model{
 		$query = "SELECT u.*, p.nome AS 'nomep' FROM usuarios AS u INNER JOIN privilegios AS p ON id_privilegio = p.id WHERE usuario = '$user' AND senha = '$senha' AND u.lixo = 0";
 		$mysql_result = $mysqli->query($query);
 		$result = $mysql_result->fetch_assoc();		
-		$_SESSION["datalogin"] = $result;
-		if($result != ""){
+		
+		if($result){
+			$_SESSION["datalogin"] = $result;
 			return header("Location: ../../index.php");
 		}
 		else{
@@ -288,6 +289,24 @@ class Model{
 		$mysqli->query("INSERT INTO $tabela ($coluna) VALUES($valor)");			
 	}
 	
+	public function selecionaQuery($nome = NULL, $campo_nome = NULL, $cpf = NULL, $campo_cpf = NULL, $endereco = NULL, $campo_endereco = NULL, $tabela = NULL){
+		$query = "SELECT * FROM ".$tabela." ";
+		if($nome){
+			$query .= "WHERE ".$campo_nome." ILIKE '%".$nome."%'";
+		}
+		if($nome && $cpf){
+			$query .= " AND ".$campo_cpf." = '".$cpf."'";
+		}else if($cpf){
+			$query .= " WHERE ".$campo_cpf." = '".$cpf."'";
+		}
+		if($nome && $cpf && $endereco || $nome && $endereco || $cpf && $endereco){
+			$query .= " AND ".$campo_endereco." ILIKE '%".$endereco."%'";
+		}else if($endereco){
+			$query .= " WHERE ".$campo_endereco." ILIKE '%".$endereco."%'";
+		}
+		return $query;
+	}	
+	
 	function upd($tabela, $array, $id = NULL){
 		global $mysqli;
 		$count 	= 1; 
@@ -452,18 +471,29 @@ class Model{
 		 
 		// Exibe uma mensagem de resultado
 		if ($enviado) {
-			echo "
-				<h1>
-				Operação executada com sucesso.<br>
-				Verifique o seu e-mail.
-				</h1>
-				<a href='javascript:history.go(-2);'>Página Inicial</a>
-			";
+			echo '
+				<div class="alert alert-success fade in">
+				<h4>Operação executada com sucesso.</h4>
+				<p>Verifique o seu e-mail.<br>Clique no botão abaixo para fechar esta mensagem.</p>
+				<p class="m-t-10">
+				  <a type="button" class="btn btn-default waves-effect" data-dismiss="alert" href="javascript:history.go(-2);">Fechar</a>
+				</p>
+				</div>
+				';
 			return true;
 		} else {
-			echo "Não foi possível enviar o e-mail. ";
-			echo (extension_loaded('openssl')?'SSL está funcionando.':'SSL não foi carregado...')."<br>"; 
-			echo "Informações do erro: " . $mail->ErrorInfo;
+			echo '
+				<div class="alert alert-danger fade in">
+				<h4>Falha no processo.</h4>
+				<p>Não foi possível enviar o e-mail.<br>
+				';echo (extension_loaded('openssl')?'SSL está funcionando.':'SSL não foi carregado...')."<br>"; 
+				echo "Informações do erro: " . $mail->ErrorInfo;
+				echo '<br><br>Clique no botão abaixo para fechar esta mensagem.</p>
+				<p class="m-t-10">
+				  <a type="button" class="btn btn-default waves-effect" data-dismiss="alert" href="javascript:history.go(-2);">Fechar</a>
+				</p>
+				</div>
+				';
 			return false;
 		}
 	}

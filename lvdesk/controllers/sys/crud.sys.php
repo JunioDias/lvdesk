@@ -79,9 +79,25 @@ if(!empty($_POST)){
 		
 				// enviar o email
 				$a->envia($resultado, 'Registro de cadastro - '.$parametros_server->title(), $mensagem);
-				echo "<div msg_dialog class='confirm' title='Clique para fechar.'>Operação executada com sucesso.<br>Verifique o seu e-mail.</div>";
+				echo '
+				<div class="alert alert-success fade in">
+				<h4>Operação executada com sucesso.</h4>
+				<p>Verifique o seu e-mail.<br>Clique no botão abaixo para fechar esta mensagem.</p>
+				<p class="m-t-10">
+				  <button type="button" class="btn btn-default waves-effect" data-dismiss="alert" >Fechar</button>
+				</p>
+				</div>
+				';
 			}else{
-				echo "<div msg_dialog class='erro' title='Clique para fechar.'>Falha na operação.</div>";
+				echo '
+				<div class="alert alert-danger fade in">
+				<h4>Falha no processo.</h4>
+				<p>Houve um erro de causa desconhecida. Contacte o suporte.<br>Clique no botão abaixo para fechar esta mensagem.</p>
+				<p class="m-t-10">
+				  <button type="button" class="btn btn-default waves-effect" data-dismiss="alert" >Fechar</button>
+				</p>
+				</div>
+				';
 			}
 		break;
 		case "addGaleria":
@@ -208,7 +224,7 @@ if(!empty($_POST)){
 			if(isset($dados["valor"])){
 				$dados["valor"] = str_replace(',','.',str_replace('.','',$dados["valor"]));
 			}
-			unset($dados["confirmasenha"], $dados["flag"], $dados["tbl"], $dados["caminho"]);
+			unset($dados["confirmasenha"], $dados["flag"], $dados["tbl"], $dados["caminho"], $dados["retorno"] );
 			if(isset($dados['id'])){
 				$a->upd($tabela, $dados, $dados['id']);
 			}else{
@@ -216,17 +232,26 @@ if(!empty($_POST)){
 			}
 			
 			if($mysqli->affected_rows != '-1'){
-				echo "
-				<h1>
-				Tudo certo!<br>Atualização confirmada. 
-				</h1>
-				";
+				echo '
+				<div class="alert alert-success fade in">
+				<h4>Operação executada com sucesso.</h4>
+				<p>Clique no botão abaixo para fechar esta mensagem.</p>
+				<p class="m-t-10">
+				  <button type="button" class="btn btn-default waves-effect" data-dismiss="alert" >Fechar</button>
+				</p>
+				</div>
+				';
 				die();
 			}else{
-				echo "
-				<h1>
-				Isso não deveria acontecer...<br>Problemas no processo! <br>Atualização não confirmada. 
-				</h1>";
+				echo '
+				<div class="alert alert-danger fade in">
+				<h4>Falha no processo.</h4>
+				<p>Houve um erro de causa desconhecida. Contacte o suporte.<br>Clique no botão abaixo para fechar esta mensagem.</p>
+				<p class="m-t-10">
+				  <button type="button" class="btn btn-default waves-effect" data-dismiss="alert" >Fechar</button>
+				</p>
+				</div>
+				';
 				die();
 			}
 		break;
@@ -257,7 +282,6 @@ if(!empty($_POST)){
 		break;
 	}
   }	
-}
 else{
 	echo "<h1>O post está vazio. <br> Procure por erros de configuração no servidor.</h1>";
 }
