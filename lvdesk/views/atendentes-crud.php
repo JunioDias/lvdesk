@@ -2,7 +2,7 @@
 $retorno	= ".content-sized";
 
 if(isset($_POST['id'])){
-	$qry = "SELECT * FROM usuarios WHERE lixo = 0 AND id='".$_POST['id']."'";
+	$qry = "SELECT * FROM atendentes WHERE lixo = 0 AND id='".$_POST['id']."'";
 	include("../controllers/model.inc.php");
 	$e = new Model();
 	$e->queryFree($qry);	
@@ -157,7 +157,7 @@ if(isset($_POST['id'])){
 	?>
 	<input type="hidden" name="retorno" value="<?= $retorno;?>" />
 	<input type="hidden" name="flag" value="<?= $flag;?>" />
-    <input type="hidden" name="tbl" value="usuarios" />
+    <input type="hidden" name="tbl" value="atendentes" />
     <input type="hidden" name="caminho" value="controllers/sys/crud.sys.php" />
 	</form>
 	

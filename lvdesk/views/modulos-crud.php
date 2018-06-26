@@ -1,8 +1,9 @@
 <?php
+$querySelect = "SELECT * FROM modulos WHERE lixo = 0 AND id_pai = 0";
+include("../controllers/model.inc.php");
+$e = new Model();
 if(isset($_POST['id'])){
-	$qry = "SELECT * FROM modulos WHERE lixo = 0 AND id='".$_POST['id']."'";
-	include("../controllers/model.inc.php");
-	$e = new Model();
+	$qry = "SELECT * FROM modulos WHERE lixo = 0 AND id='".$_POST['id']."'";	
 	$e->queryFree($qry);	
 	#if($result->num_rows > 0){  Indica que um registro foi selecionado para edição
 	
@@ -14,7 +15,7 @@ if(isset($_POST['id'])){
 	$valor 	 		= $edicao['value'];
 	$descritivo 	= $edicao['descricao'];	
 	$media			= $edicao['media'];
-	$id_categoria	= $edicao['id_categoria'];
+	$id_pai			= $edicao['id_pai'];
 	$admin			= $edicao['admin'];
 	$flag	 		= "update";
 }else{
@@ -23,7 +24,7 @@ if(isset($_POST['id'])){
 	$valor 	 		= NULL;
 	$descritivo 	= NULL;	
 	$media			= NULL;
-	$id_categoria	= NULL;
+	$id_pai			= NULL;
 	$admin			= NULL;
 	$flag	 		= "add";
 	
@@ -38,23 +39,37 @@ if(isset($_POST['id'])){
 	<form id="form-modulo">
 		<div class="form-group">
 			<label for="nome">Nome do módulo</label>
-			<input type="text" class="form-control" class="nome" name="nome" value="<?= $nome;?>"/>
+			<input type="text" class="form-control" name="nome" value="<?= $nome;?>"/>
 		</div>
 		<div class="form-group">
 			<label for="value">Página a ser inicializada</label>
-			<input type="text" class="form-control" class="value" name="value" value="<?= $valor;?>"/>
+			<input type="text" class="form-control" name="value" value="<?= $valor;?>"/>
 		</div>
 		<div class="form-group">
 			<label for="descricao">Descrição</label>
-			<input type="text" class="form-control" class="descricao" name="descricao" value="<?= $descritivo;?>" maxlength="50"/>			
+			<input type="text" class="form-control" name="descricao" value="<?= $descritivo;?>" maxlength="50"/>			
 		</div>
 		<div class="form-group">
 			<label for="media">Ícone</label>
-			<input type="text" class="form-control" class="media" name="media"  value="<?= $media;?>"/>			
+			<input type="text" class="form-control" name="media"  value="<?= $media;?>"/>			
 		</div>
 		<div class="form-group">
-			<label for="id_categoria">Categoria</label>
-			<input type="text" class="form-control" class="id_categoria" name="id_categoria" value="<?= $id_categoria;?>"/>			
+			<label for="id_pai">Módulo Pai</label>
+			<select class="form-control" name="id_pai">
+			<?php			
+			if(isset($id_pai)){
+			  	echo "
+				<option value='0' ".($id_pai == 0 ? 'selected' : '').">Não</option>
+				<option value='1' ".($id_pai == 1 ? 'selected' : '').">Sim</option>
+				";
+			}else{	
+				echo "
+				<option value='0'>Não</option>
+				<option value='1'>Sim</option>
+				"; 
+			}			  
+			?>
+			</select>		
 		</div>
 		<div class="form-group">
 			<label for="admin">Ambiente</label>

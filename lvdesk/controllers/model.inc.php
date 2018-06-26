@@ -21,42 +21,6 @@ class Model{
 		rmdir($dir); 	
 	}
 	
-	public function testArray($var){
-		if(isset($var['file'])){
-			if(count($var['file']['name']) == 1){
-				#echo '<br> Array simples file';
-				return TRUE;
-			}else{
-				#echo'Array multidimensional file';
-				return FALSE; 
-			}
-		}else if(isset($var['foto'])){
-			if(count($var['foto']['name']) == 1){
-				#echo '<br> Array simples foto';
-				return TRUE; 
-			}else{
-				#echo '<br>Array multidimensional foto';
-				return FALSE; 
-			}
-		}else if(isset($var['imagem'])){
-			if(count($var['imagem']['name']) == 1){
-				#echo '<br> Array simples foto';
-				return TRUE; 
-			}else{
-				#echo '<br>Array multidimensional foto';
-				return FALSE; 
-			}
-		}else{
-			if(count($var['media']['name']) == 1){
-				#echo '<br> Array simples media';
-				return TRUE; 
-			}else{
-				#echo '<br>Array multidimensional media';
-				return FALSE; 
-			}	
-		}
-	}
-	
 	function login($user, $senha){		
 		#by Adan, 24 de junho de 2015.		
 		global $mysqli;
@@ -70,22 +34,17 @@ class Model{
 			return header("Location: ../../index.php");
 		}
 		else{
-			$result = "<div class='alerta' title='Clique para fechar.'>Usuário e senha não correspodem.</div><br><a href='../../pages-login.php'>Voltar</a>";
+			$result = '
+			<div class="alert alert-danger fade in">
+			<h4>Falha na operação.</h4>
+			<p>Usuário e senha não correspodem.</p>
+			<p class="m-t-10">
+			  <a type="button" class="btn btn-default waves-effect regular-link" href="../../pages-login.php">Fechar</a>
+			</p>
+			</div>';
 			session_destroy();	
 			return $result;
 		}
-	}
-	
-	function busca($campos, $mytable, $where = NULL){
-		#by Adan, 04 de junho de 2015.
-		global $mysqli;		
-		global $result;
-		if(!is_null($where)){
-			$query = "SELECT $campos FROM $mytable WHERE $where AND lixo = 0" or die("Erro na consulta.." . mysqli_error($mysqli)); 
-		}else{
-			$query = "SELECT $campos FROM $mytable WHERE lixo = 0" or die("Erro na consulta.." . mysqli_error($mysqli)); 					
-		}
-		$result = $mysqli->query($query);
 	}
 	
 	public function queryFree($query){
@@ -179,7 +138,7 @@ class Model{
 		#by Adan, 12 de julho de 2015.	
 		if (isset($_FILES)){	
 			global $img;
-			if($this->testArray($_FILES)){
+			if(is_array($_FILES)){
 				# é um array simples
 				$img = $_FILES[$vetor];		
 				$media = $this->ajeitaFoto($img, $tbl);
@@ -289,7 +248,8 @@ class Model{
 		$mysqli->query("INSERT INTO $tabela ($coluna) VALUES($valor)");			
 	}
 	
-	public function selecionaQuery($nome = NULL, $campo_nome = NULL, $cpf = NULL, $campo_cpf = NULL, $endereco = NULL, $campo_endereco = NULL, $tabela = NULL){
+	#Montagem do filtro composto para rotina de Atendimento do PostgreSQL - Adan 25/06/2018
+	public function selecionaQueryPostgreSQL($nome = NULL, $campo_nome = NULL, $cpf = NULL, $campo_cpf = NULL, $endereco = NULL, $campo_endereco = NULL, $tabela = NULL){
 		$query = "SELECT * FROM ".$tabela." ";
 		if($nome){
 			$query .= "WHERE ".$campo_nome." ILIKE '%".$nome."%'";
@@ -306,6 +266,25 @@ class Model{
 		}
 		return $query;
 	}	
+	
+	#Montagem do filtro composto para rotina de Atendimento e CGR do MySQL - Adan 25/06/2018
+	public function selecionaQueryMySQL($itemA = NULL, $itemA_campo = NULL, $itemB = NULL, $itemB_campo = NULL, $itemC = NULL, $itemC_campo = NULL, $tabela = NULL){
+		$query = "SELECT * FROM ".$tabela." ";
+		if($itemA){
+			$query .= "WHERE ".$itemA_campo." LIKE '%".$itemA."%'";
+		}
+		if($itemA && $itemB){
+			$query .= " AND ".$itemB_campo." = '".$itemB."'";
+		}else if($itemB){
+			$query .= " WHERE ".$itemB_campo." = '".$itemB."'";
+		}
+		if($itemA && $itemB && $itemC || $itemA && $itemC || $itemB && $itemC){
+			$query .= " AND ".$itemC_campo." LIKE '%".$itemC."%'";
+		}else if($itemC){
+			$query .= " WHERE ".$itemC_campo." LIKE '%".$itemC."%'";
+		}
+		return $query;
+	}
 	
 	function upd($tabela, $array, $id = NULL){
 		global $mysqli;
@@ -367,19 +346,47 @@ class Model{
 	  $retorno = explode("#", $val['acessos']);
 	  $this->libMenuAdmin($retorno);
 	}
-
-	public function libMenuAdmin($arrayAcessos){
+	
+	public function libMenuAdmin($arrayAcessos, $idSubMenu = NULL){
 		foreach($arrayAcessos as $value){
 		  $woo = $this->queryFree("SELECT * FROM modulos WHERE lixo = 0 AND id = $value");
 		  $row = $woo->fetch_assoc();
-		  
-		  echo "
-		  <li class='has_sub'>
-		  <a title='".$row["descricao"]."' class='waves-effect' href='#' link='views/".$row["value"]."'>
-		  <i class='".$row["media"]."'></i><span>".$row["nome"]."</span> 
-		  <span class='pull-right'><i class='mdi mdi-plus'></i></span>
-		  </a>
-		  </li>";
+		  if($row['id_pai']==1){
+			$woo = $this->queryFree("SELECT * FROM menus WHERE lixo = 0 AND id_pai = $value");
+		    
+		    if($row['id']!= 0){
+				echo "
+				  <li class='has_sub'>
+				  <a title='".$row["descricao"]."' class='waves-effect' href='#' link='views/".$row["value"]."'>
+				  <i class='".$row["media"]."'></i><span>".$row["nome"]."</span> 
+				  <span class='pull-right'><i class='mdi mdi-plus'></i></span>
+				  </a>
+				  <ul class='list-unstyled'>
+				";
+				while($subMenu = $woo->fetch_assoc()){
+					echo "<li><a class='regular-link' link='".$subMenu['valor']."' lv>";
+					if($subMenu['nome'] == 'Serviços'){
+						$this->notification();
+					}
+					echo $subMenu['nome']."</a></li>";
+				}				
+				echo "
+				  </ul>
+				  </li>
+				";
+			}
+		  }else{
+			if($row['id']!= 0){
+				echo "
+				  <li class='has_sub'>
+				  <a title='".$row["descricao"]."' class='waves-effect' href='#' link='views/".$row["value"]."'>
+				  <i class='".$row["media"]."'></i><span>".$row["nome"]."</span> 
+				  <span class='pull-right'><i class='mdi mdi-plus'></i></span>
+				  </a>
+				  </li>
+				";
+			}  
+		  }
 		}	
 	}
 	
@@ -398,6 +405,18 @@ class Model{
 		  </div>
 	    ');
 	  }
+	}
+	
+	public function notification(){
+		$query = "SELECT COUNT(id) as qnt_id FROM pav_inscritos WHERE validado = 0 AND lixo = 0";
+		$foo = $this->queryFree($query);
+		$val = $foo->fetch_assoc();
+		if($val['qnt_id'] > 0){			
+			echo '<span style="vertical-align: top;" id="notificador" class="badge badge-primary pull-right">'.$val['qnt_id'].'</span>';
+			return true;
+		}else{
+			return false;
+		}
 	}
 	
 	public function envia($array, $assunto = NULL, $mensagem = NULL){

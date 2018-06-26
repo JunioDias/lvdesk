@@ -18,9 +18,9 @@
 <?php
 /* include("../../controllers/model.inc.php"); */
 include("../../controllers/actions.inc.php");
-
+$flag			= "entrada";
 $linhas 		= $_SESSION['resultado_pesquisa']; unset($linhas['id']);
-$nomediv		= "content-sized";				#nome da div onde o callback vai ocorrer
+$nomediv		= ".content";					#nome da div onde o callback vai ocorrer
 $tabela  		= "usuarios";					#tabela principal, alvo da rotina
 $cbkedit		= "views/atendimento-crud.php";	#callback do botão Editar
 $cbkdel 		= "views/atendimento.php";  	#callback do botão Excluir
@@ -40,7 +40,7 @@ else{
 		<td>".$linhas[$i]['nome_cliente']."</td>
 		<td>".$linhas[$i]['endereco']."</td>
 		<td>".$linhas[$i]['telefone_principal']."</td>
-		<td>");	$botoes->darEntrada($linhas[$i]['cpf_cnpj'], $cbkdel); echo("</td>
+		<td>");	$botoes->darEntrada($i, $linhas[$i]['cpf_cnpj'], $link, $flag); echo("</td>
 		</tr>
 		");	
 		$i++;
@@ -49,9 +49,7 @@ else{
 ?>	
 </tbody>
 </table>
-<form id='form_action'>
-  
-  <input type='hidden' name='tbl' value='<?=$tabela;?>' />
-  <input type='hidden' name='callback' value='<?=$nomediv;?>' />
+<form id='form_action'>  
+  <input type='hidden' name='retorno' value='<?=$nomediv;?>' />
 </form>
 </div>

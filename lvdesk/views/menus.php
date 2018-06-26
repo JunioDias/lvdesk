@@ -1,47 +1,51 @@
-<div class="page-header-title">
-  <h4 class="page-title">Módulos</h4>
-  <p>Gerenciador dos módulos do sistema</p>
-</div>
+<!--<div class="page-header-title">
+  <h4 class="page-title">Resultado da Pesquisa</h4>
+  <p>Listagem de clientes</p>
+</div>-->
 <div class="content-sized">
-<input class="btn btn-success btn_driver regular-link" value="Incluir" type="button" link="views/modulos-crud.php">
+<input class="btn btn-success btn_driver regular-link" value="Incluir" type="button" link="views/menus-crud.php">
 <table class="table table-hover">
 <thead>
   <tr>
 	<th>Id</th>
 	<th>Nome</th>        
 	<th>Valor</th>
+	<th>Módulo</th>
 	<th>Ações</th>
   </tr>
 </thead>
 <tbody>
 <?php
+include("../controllers/actions.inc.php"); 
 include("../controllers/model.inc.php");
-include("../controllers/actions.inc.php");
+	
+$query 			= "SELECT M.*, N.nome AS modulo_nome FROM menus AS M INNER JOIN modulos AS N ON M.id_pai = N.id WHERE M.lixo = 0";
 
-$query = "SELECT * FROM modulos WHERE admin = 0 AND lixo = 0";
-$nomediv		= ".content-sized";			#nome da div onde o callback vai ocorrer
-$tabela  		= "modulos";				#tabela principal, alvo da rotina
-$cbkedit		= "views/modulos-crud.php";	#callback do botão Editar
-$cbkdel 		= "views/modulos.php";  	#callback do botão Excluir
+$nomediv		= ".content";				#nome da div onde o callback vai ocorrer
+$tabela  		= "menus";					#tabela principal, alvo da rotina
+$cbkedit		= "views/menus-crud.php";	#callback do botão Editar
+$cbkdel 		= "views/menus.php";  		#callback do botão Excluir
 $link			= "controllers/sys/crud.sys.php";
-$i = 1;
+$i = 0;
 $botoes = new Acoes();
 $a = new Model();
-$a->queryFree($query);
+$result = $a->queryFree($query);
 if($result){
 	while($linhas = $result->fetch_assoc()){
 		echo("
 		<tr>
 		<td>".$linhas['id']."</td>
 		<td>".$linhas['nome']."</td>
-		<td class='text-success'>".$linhas['value']."</td>
+		<td>".$linhas['valor']."</td>
+		<td>".$linhas['modulo_nome']."</td>
 		<td>");	$botoes->crudButtons($linhas['id'], $cbkdel, $cbkedit, $link); echo("</td>
 		</tr>
 		");	
 		$i++;
 	}
-}else{
-	echo"<tr><td>Nenhum registro foi encontrado.</td></tr>";
+}
+else{
+	echo"<tr><td>Nenhum registro foi encontrado.</td></tr>";	
 }
 ?>	
 </tbody>

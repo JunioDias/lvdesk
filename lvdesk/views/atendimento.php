@@ -4,14 +4,7 @@
 	</div>
 	<div class="content-sized">
 <?php
-include("../controllers/model.inc.php");
-$id = $_SESSION['resultado_pesquisa']['id'];
-unset($_SESSION['resultado_pesquisa']['id']);
-foreach($_SESSION['resultado_pesquisa'] as $value)
-	$array = $value;
-
-	$a = new Model;
-	
+$a = new Model;
 if($id){
 	$query = "SELECT * FROM pav WHERE id = '".$id."' AND lixo = 0";
 	$result = $a->queryFree($query);
@@ -27,11 +20,12 @@ if($id){
 	$usuario		= $array['usuario_autenticacao'];
 	$senha_pppoe	= $array['senha_autenticacao'];
 	// $nas			= $array['nas'];
-	// $pppoe			= $array['pppoe'];
+	// $pppoe		= $array['pppoe'];
 	$ip				= $array['ipv4'];
 	$script			= $matriz['script'];
 	$status			= $array['status'];
-	$flag	 		= "update";
+	$flag	 		= "add";
+	$retorno		= ".content-sized";
 	
 }else{
 	$id		   		= NULL;
@@ -43,7 +37,7 @@ if($id){
 	$usuario		= NULL;
 	$senha_pppoe	= NULL;
 	// $nas			= NULL;
-	// $pppoe			= NULL;
+	// $pppoe		= NULL;
 	$ip				= NULL;
 	$script			= NULL;
 	$status			= NULL;
@@ -57,31 +51,35 @@ if($id){
 	<div class="content-sized">';
 }	
 ?>
-	<form id="form-dados">
+	<form id="form-dados-cgr">
 	<div class="form-group">
-		<label for="nome">Provedor</label>
-		<input type="text" class="form-control" name="nome" value="<?= $provedor ;?>">
+		<label for="nome_provedor">Provedor</label>
+		<input type="text" class="form-control" name="nome_provedor" value="<?= $provedor ;?>">
 	</div>
 	<div class="form-group">
-		<label for="tipo_bd">Cliente</label>
-		<input type="text" class="form-control" name="tipo_bd" value="<?= $nome_cliente ;?>">
+		<label for="nome_cliente">Cliente</label>
+		<input type="text" class="form-control" name="nome_cliente" value="<?= $nome_cliente ;?>">
 	</div>
 	
 	<!--<div class="row">-->
 		
 		<div class="form-group">
-		<label for="nome_cliente">CPF</label>
-		<input type="text" class="form-control" name="nome_cliente" value="<?= $cpf_cnpj; ?>">			
+		<label for="cpf_cnpj_cliente">CPF</label>
+		<input type="text" class="form-control" name="cpf_cnpj_cliente" value="<?= $cpf_cnpj; ?>">			
 		</div>
 		
 		<div class="form-group">
-		<label for="endereco">Endereço completo</label>
-		<input type="text" class="form-control" name="endereco" value="<?= $endereco; ?>">
+		<label for="endereco_cliente">Endereço completo</label>
+		<input type="text" class="form-control" name="endereco_cliente" value="<?= $endereco; ?>">
 		</div>
 			
 		<div class="form-group">
-			<label for="telefone">Telefone</label>
-			<input type="text" class="form-control" name="telefone" value="<?= $telefone;?>">
+			<label for="telefone_cliente">Telefone</label>
+			<input type="text" class="form-control" name="telefone_cliente" value="<?= $telefone;?>">
+		</div>
+		<div class="form-group">
+			<label for="situacao">Situação</label>
+			<input type="text" class="form-control" name="situacao" value="<?= $status;?>">
 		</div>
 		<!--<div class="form-group">
 			<label for="nas">NAS IP</label>
@@ -92,8 +90,8 @@ if($id){
 			<input type="text" class="form-control" name="pppoe" value="?>">
 		</div>-->
 		<div class="form-group">
-			<label for="senha_pav">Senha</label>
-			<input type="text" class="form-control" name="senha_pav" value="<?= $senha_pppoe;?>">
+			<label for="senha_pppoe">Senha</label>
+			<input type="text" class="form-control" name="senha_pppoe" value="<?= $senha_pppoe;?>">
 		</div>
 		<div class="form-group">
 			<label for="ip">IP</label>
@@ -107,17 +105,29 @@ if($id){
 	
 	<div class="form-group">
 		<label for="script">Script</label>
-		<textarea class="wysihtml5-textarea form-control" rows="9" id="script" name="script"><?= $script;?></textarea>
+		<textarea class="wysihtml5-textarea form-control" rows="9" id="script" ><?= $script;?></textarea>
 	</div>
-	<input class="btn btn-default rtrn-conteudo" value="Solucionado" type="button" objeto="form-dados">
-	<input class="btn btn-default regular-link" value="CGR" type="button" objeto="form-dados">
+	<div class="form-group">
+		<label for="historico">Histórico</label>
+		<textarea class="wysihtml5-textarea form-control" rows="9" id="historico" name="historico"></textarea>
+	</div>
+	<div class="form-group">
+	<hr><label for="resumo">Resumo</label><br>
+	<input class="btn btn-success rtrn-conteudo" value="Solucionado" type="button" objeto="form-dados-solucionado">
+	<input class="btn btn-warning rtrn-conteudo" value="CGR" type="button" objeto="form-dados-cgr">
+	</div>
 	<?php 
 	if(isset($id)){
-		echo "<input type='hidden' name='id' value='$id'/>";
+		echo "<input type='hidden' name='id_pav' value='$id'/>";
 	}
 	?>
 	<input type="hidden" name="flag" value="<?= $flag;?>" />
-    <input type="hidden" name="tbl" value="pav" />
+    <input type="hidden" name="tbl" value="pav_inscritos" />
     <input type="hidden" name="caminho" value="controllers/sys/crud.sys.php" />
+	<input type="hidden" name="retorno" value="<?= $retorno;?>" />
+	<input type="hidden" name="hora_add" value="on" />
 	</form>	
+	<form id="form-dados-solucionado">
+	
+	</form>
 </div>

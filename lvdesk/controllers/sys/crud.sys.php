@@ -1,5 +1,6 @@
 <?php
 include("../model.inc.php");
+include("../actions.inc.php");
 if(!empty($_POST)){
 	switch($_POST['flag']){
 		case "existeUser":
@@ -49,8 +50,51 @@ if(!empty($_POST)){
 			if(isset($dados["valor"])){
 				$dados["valor"] = str_replace(',','.',str_replace('.','',$dados["valor"]));
 			}
-			unset($dados["confirmasenha"], $dados["flag"], $dados["tbl"], $dados["file"], $dados["caminho"]);
-			$a->add($tabela, $dados);
+			
+			if(isset($dados["hora_add"])){
+				unset($dados['hora_add']);
+				$dados["data_abertura"] = date("Y-m-d H:i:s");
+			}			
+			
+			unset($dados["confirmasenha"], $dados["flag"], $dados["tbl"], $dados["file"], $dados["caminho"], $dados["retorno"] );
+			
+			if(in_array(true, array_map('is_array', $dados), true) == ''){
+				unset($dados['chave_cerquilha']);
+				$a->add($tabela, $dados);
+			}else{
+				$i 	= 1; 				
+				$valor = NULL;
+				$array = NULL;
+				if($dados['chave_cerquilha']){
+					unset($dados['chave_cerquilha']);
+					
+					foreach($dados as $key=>$value){
+						if(is_array($value)){
+							foreach($value as $vlr){
+							  $valor .= $vlr;
+							  if($i < sizeof($value)){
+								$valor .= "#";
+								$i++;
+							  }
+							}
+							if(isset($array[$key])){
+								$array[$key] .= $valor;
+							} else{
+								$array[$key] = $valor;
+							}
+						}else{							
+							if(isset($array[$key])){
+								$array[$key] .= $value;
+							} else{
+								$array[$key] = $value;
+							}
+						}
+					}
+					$a->add($tabela, $array);
+				}else{
+					echo "00034 - Falha de função para arrays multifuncionais genérica";
+				}
+			}				
 		break;
 		case "addUser":
 			require_once("../parametros.inc.php");
@@ -225,8 +269,45 @@ if(!empty($_POST)){
 				$dados["valor"] = str_replace(',','.',str_replace('.','',$dados["valor"]));
 			}
 			unset($dados["confirmasenha"], $dados["flag"], $dados["tbl"], $dados["caminho"], $dados["retorno"] );
+			
 			if(isset($dados['id'])){
-				$a->upd($tabela, $dados, $dados['id']);
+				if(in_array(true, array_map('is_array', $dados), true) == ''){
+					unset($dados['chave_cerquilha']);
+					$a->upd($tabela, $dados, $dados['id']);
+				}else{
+					$i 	= 1; 				
+					$valor = NULL;
+					$array = NULL;
+					if($dados['chave_cerquilha']){
+						unset($dados['chave_cerquilha']);
+						
+						foreach($dados as $key=>$value){
+							if(is_array($value)){
+								foreach($value as $vlr){
+								  $valor .= $vlr;
+								  if($i < sizeof($value)){
+									$valor .= "#";
+									$i++;
+								  }
+								}
+								if(isset($array[$key])){
+									$array[$key] .= $valor;
+								} else{
+									$array[$key] = $valor;
+								}
+							}else{							
+								if(isset($array[$key])){
+									$array[$key] .= $value;
+								} else{
+									$array[$key] = $value;
+								}
+							}
+						}
+						$a->upd($tabela, $array, $dados['id']);
+					}else{
+						echo "00034 - Falha de função para arrays multifuncionais genérica";
+					}
+				}
 			}else{
 				$a->upd($tabela, $dados);
 			}
@@ -280,6 +361,59 @@ if(!empty($_POST)){
 				</div>";
 			}
 		break;
+		case "entrada": // Entrada de dados selecionados para atendimento 1º nível
+			global $array;
+			global $id;
+			$dados = $_POST; 
+			
+			$id	= $_SESSION['resultado_pesquisa']['id'];
+			unset($_SESSION['resultado_pesquisa']['id']);
+			
+			/* print_r($dados);
+			echo"<br><br>";
+			print_r($_SESSION['resultado_pesquisa']); */
+			
+			$indice = $dados["idd"];			
+			foreach($_SESSION['resultado_pesquisa'][$indice] as $key=>$value)
+				$array[$key] = $value;
+				
+			include("../../views/atendimento.php");	
+			
+			/*$indice = (array_search($dados['id'], array_column($_SESSION['resultado_pesquisa'], 'cpf_cnpj')));			
+			foreach($_SESSION['resultado_pesquisa'][$indice] as $key=>$value)
+				$array[$key] = $value;
+				
+			include("../../views/atendimento.php");	 */
+		break;
+		
+		case "emabertos":
+		$dados = $_POST;
+		$a = new Model;
+		$e = new Acoes;
+		$query		= "SELECT * FROM pav_inscritos WHERE lixo = 0 AND validado = 0 ORDER BY data_abertura ASC";
+		$return		= $a->queryFree($query);
+		while($linhas = $return->fetch_assoc()){
+			$e->conteudoTabelaCGR($linhas, $dados['caminho'], $dados['flag']);
+		}
+		break;
+		
+		case "pesquisaCGR":
+		$dados = $_POST;
+		$a = new Model;
+		$e = new Acoes;
+		$query = $a->selecionaQueryMySQL($dados['nome_cliente'], 'nome_cliente', $dados['cpf'], 'cpf_cnpj', $dados['nome_provedor'], 'nome_provedor', 'pav_inscritos');
+		$return = $a->queryFree($query);
+		if($return === false){
+			while($linhas = $return->fetch_assoc()){
+				$e->conteudoTabelaCGR($linhas, $dados['caminho'], $dados['flag']);
+			}
+		}else{
+			echo '
+			<tr><td>Nenhum registro encontrado.</td></tr>
+			';
+		}
+		break;
+		
 	}
   }	
 else{

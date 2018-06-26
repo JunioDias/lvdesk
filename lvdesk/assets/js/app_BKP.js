@@ -340,19 +340,10 @@ $(document).ready(function(){
 	$("body")
 	.on("click", ".rtrn-conteudo", function (event){ 
 		
-		if($(this).attr("doZero")){
-			var meucheckbox = $("#"+$(this).attr("objeto")).find("input[type=checkbox]");
-			if(meucheckbox){
-				$.each(meucheckbox, function(key, val){
-					if(!$(this).is(":checked")){
-						$(this).attr('value', '0');
-						$(this).attr('checked', 'checked');
-					}
-				});
-			}
-		}
 		var objeto = new FormData(document.querySelector("#"+$(this).attr("objeto")));	
-		
+		for (var value of objeto.values()) {
+		   console.log(value); 
+		}
 		$.ajax({
 			url: objeto.get("caminho"), 
 			data: objeto,
@@ -361,7 +352,6 @@ $(document).ready(function(){
   			contentType: false,
 			success: function(retornoDados){
 				if(objeto.get("retorno")){
-					$(".modal-backdrop").hide();
 					var retorno = objeto.get("retorno");
 					$(retorno).html(retornoDados);
 				}else{
@@ -375,35 +365,24 @@ $(document).ready(function(){
 	
 	$("body")
 	.on("click", ".rtrn-conteudo-listagem", function (event){ 
-		if($(this).attr('flag') == 'exc'){
-			$(".modal-footer").append("<input type='hidden' name='id' value='"+$(this).attr("item")+"'>");
-			$(".modal-footer").append("<input type='hidden' name='caminho' value='"+$(this).attr("caminho")+"'>");
-			$(".modal-footer").append("<input type='hidden' name='flag' value='"+$(this).attr("flag")+"'>");
-		}else{
-			var objeto = new FormData(document.querySelector("#"+$(this).attr("objeto")));
-			objeto.append("flag", $(this).attr("flag"));
-			objeto.append("id", $(this).attr("item"));
-			objeto.append("caminho", $(this).attr("caminho"));
-			if($(this).attr("idd")){
-				objeto.append("idd", $(this).attr("idd"));			
-			}
-			$.ajax({
-				url: objeto.get("caminho"), 
-				data: objeto,
-				type: 'post',
-				processData: false,  
-				contentType: false,
-				success: function(retornoDados){
-					if(objeto.get("retorno")){
-						var retorno = objeto.get("retorno");
-						$(retorno).html(retornoDados);
-					}else{
-						$(".content-sized").html(retornoDados);	
-					}							
-				}
-			}); 
-		}
 		
+		var objeto = new FormData(document.querySelector("#"+$(this).attr("objeto")));
+		objeto.append("flag", $(this).attr("flag"));
+		objeto.append("id", $(this).attr("item"));
+		objeto.append("caminho", $(this).attr("caminho"));
+		/* for (var value of objeto.values()) {
+		   console.log(value); 
+		}   */
+		$.ajax({
+			url: objeto.get("caminho"), 
+			data: objeto,
+			type: 'post',
+			processData: false,  
+  			contentType: false,
+			success: function(retornoDados){
+				$(".content-sized").html(retornoDados);				
+			}
+		});
 	});
 	
 	$("body")
@@ -426,7 +405,8 @@ $(document).ready(function(){
 			  width++; 
 			  elem.style.width = width + '%'; 
 			}
-		}		
+		}	
+		
 		
 		$.ajax({
 			
@@ -439,6 +419,12 @@ $(document).ready(function(){
 				$("#target-status"+id_div).html(retornoDados);				
 			}
 		});
+	});
+	
+	$("document")
+	.on("load", ".barra_de_progresso", function (event){
+		
+		
 	});
 	
 	//Ação para processamento das conexões com proveodores externos

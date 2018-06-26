@@ -1,7 +1,6 @@
 <?php
 if(isset($_POST['id'])){
 	$qry = "SELECT * FROM privilegios WHERE lixo = 0 AND id='".$_POST['id']."'";
-	$view = "SELECT acessos FROM privilegios WHERE lixo = 0 AND id = ".$_POST['id'];
 	include("../controllers/model.inc.php");
 	$e = new Model();
 	$e->queryFree($qry);	
@@ -13,12 +12,12 @@ if(isset($_POST['id'])){
 	
 	$id		   		= $edicao['id'];
 	$nome			= $edicao['nome'];
-	$acessos		= $edicao['acessos'];
+	
 	$flag	 		= "update";
 }else{
 	$id		   		= NULL;
 	$nome			= NULL;
-	$acessos		= NULL;
+
 	$flag	 		= "add";
 	
 	echo $head = '
@@ -34,17 +33,9 @@ if(isset($_POST['id'])){
 			<label for="nome">Nome</label>
 			<input type="text" class="form-control" class="nome" name="nome" value="<?= $nome;?>"/>
 		</div>
-		<div class="form-group">
-		  <label for="nome">Módulos Disponíveis</label>
-		<?php
-		if(isset($acessos)){
-		  $dados = $e->habilitaModulos($view);
-		}else{  
-		  echo "<br><h4><i class='ion-alert-circled'></i> Favor habilitar módulos</h4>";
-		}
-		?>
-		</div>
+		<div class="form-group">		
 		<input class="btn btn-default rtrn-conteudo" value="Salvar" type="button" objeto="form-modulo">
+		</div>
 	<?php 
 	if(isset($id)){
 		echo "<input type='hidden' name='id' value='$id'/>";

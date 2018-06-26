@@ -117,7 +117,7 @@ if(!empty($_SESSION["datalogin"])){
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li><a href="javascript:void(0)"> Perfil</a></li>
-                                        <li><a href="javascript:void(0)"> Configurações </a></li>
+                                        <li><a href="javascript:void(0)"><span class="badge badge-success pull-right">5</span> Configurações </a></li>
                                         <li><a class="regular-link" link="views/documentacao.html"> Documentação</a></li>
                                         <li class="divider"></li>
                                         <li><a class="rtrn-conteudo" objeto="form_objeto"> Logout</a></li>
@@ -165,12 +165,59 @@ if(!empty($_SESSION["datalogin"])){
 					<div id="sidebar-menu">
                         <ul>						
                             <li>
-                                <a href="index.php" class="waves-effect"><i class="mdi mdi-home"></i><span> Dashboard </span></a>
-                            </li>							
+                                <a href="index.php" class="waves-effect"><i class="mdi mdi-home"></i><span> Dashboard <span class="badge badge-primary pull-right">1</span></span></a>
+                            </li>
+							
 							<?php
 							$acesso = new Model();
 							$priv = $acesso->libPriv($dadoslogin['id_privilegio']);
 							?>
+							
+                            <li class="has_sub">
+                                <a href="views/driver.html" class="waves-effect"><i class="ion-briefcase"></i> <span> Contratos </span> <span class="pull-right"><i class="mdi mdi-plus"></i></span></a>                                
+                            </li>
+
+                            <li class="has_sub">
+                                <a href="javascript:void(0);" class="waves-effect"><i class="ion-ios7-telephone"></i> <span> Atendimento </span> <span class="pull-right"><i class="mdi mdi-plus"></i></span></a>
+                                <ul class="list-unstyled">
+                                    <li><a class="regular-link" link="#">Listagem</a></li>
+                                    <li><a class="regular-link" link="views/servicos.html">Serviços</a></li>
+                                    <li><a class="regular-link" link="#">Histórico</a></li>
+                                    <li><a class="regular-link" link="#">Leitura de e-mails</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="has_sub">
+                                <a href="javascript:void(0);" class="waves-effect"><i class="ion-cash"></i><span> Financeiro </span><span class="pull-right"><i class="mdi mdi-plus"></i></span></a>
+                                <ul class="list-unstyled">
+                                    
+                                    <li><a link="#">Contas Bancárias</a></li>
+                                    <li><a link="#">Contas a Pagar</a></li>
+                                    <li><a link="#">Contas a Receber</a></li>
+									<li><a link="#">Faturamento</a></li>
+									<li><a link="#">Relatórios</a></li>
+                                </ul>
+                            </li>
+
+                            <li>
+                                <a href="typography.html" class="waves-effect"><i class="ion-clock"></i><span> Gestão de Horário </span></a>
+                            </li>
+
+                            <li class="has_sub">
+                                <a href="javascript:void(0);" class="waves-effect"><i class="ion-gear-b"></i><span> Sistema </span><span class="pull-right"><i class="mdi mdi-plus"></i></span></a>
+                                <ul class="list-unstyled">
+                                    <li><a class="regular-link" link="views/usuarios.php">Usuários</a></li>
+                                    <li><a class="regular-link" link="views/permissoes.html">Permissões</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="has_sub">
+                                <a href="javascript:void(0);" class="waves-effect"><i class="ion-link"></i><span> Driver </span><span class="pull-right"><i class="mdi mdi-plus"></i></span></a>
+                                <ul class="list-unstyled">
+                                    <li><a class="regular-link" link="views/driver-conexoes.php">Conexões</a></li>
+                                </ul>
+                            </li>
+							
                         </ul>
                     </div>
                     <div class="clearfix"></div>
@@ -470,8 +517,6 @@ if(!empty($_SESSION["datalogin"])){
         <script src="assets/js/wow.min.js"></script>
         <script src="assets/js/jquery.nicescroll.js"></script>
         <script src="assets/js/jquery.scrollTo.min.js"></script>
-		
-		<script src="https://github.com/makeusabrew/bootbox/releases/download/v4.4.0/bootbox.min.js"></script>
 
         <!--Morris Chart-->
         <script src="assets/plugins/morris/morris.min.js"></script>

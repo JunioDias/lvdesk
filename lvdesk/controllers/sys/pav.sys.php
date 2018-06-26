@@ -25,12 +25,10 @@ if(!empty($_POST)){
 			  }else{
 				echo "<td class='text-danger' id='target-status".$dados['id']."'>Não foi possível conectar.</td>";  
 			  }		  
-	  }else{
-				  
+	  }else{ 
 		$con_string = $_SESSION['con_string']; 
 		$connect = pg_connect($con_string); 
-		$query = $a->selecionaQuery($dados['nome'], 'nome_cliente', $dados['cpf'], 'cpf_cnpj', $dados['endereco'], 'endereco', 'privado.cliente_view');
-		
+		$query = $a->selecionaQueryPostgreSQL($dados['nome'], 'nome_cliente', $dados['cpf'], 'cpf_cnpj', $dados['endereco'], 'endereco', 'privado.cliente_view');		
 		$result = pg_query($connect, $query);
 		$info = pg_fetch_all($result);
 		if($info === false){
