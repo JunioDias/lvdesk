@@ -47,14 +47,23 @@ if(!empty($_POST)){
 					}
 				}
 			}			
-			if(isset($dados["valor"])){
+			/* if(isset($dados["valor"])){
 				$dados["valor"] = str_replace(',','.',str_replace('.','',$dados["valor"]));
-			}
+			} */
 			
 			if(isset($dados["hora_add"])){
 				unset($dados['hora_add']);
 				$dados["data_abertura"] = date("Y-m-d H:i:s");
+				$dados["protocol"] = $a->protocolo();
 			}			
+			
+			if(isset($dados["idd"])){
+				if($dados["idd"] == "solucionado")	{			
+					$dados["id_pav"] 	= '0';
+					$dados["validado"] 	= '1';
+				}
+				unset($dados['idd']);
+			}	
 			
 			unset($dados["confirmasenha"], $dados["flag"], $dados["tbl"], $dados["file"], $dados["caminho"], $dados["retorno"] );
 			
@@ -265,9 +274,9 @@ if(!empty($_POST)){
 			}
 			
 			#####################Fim de Sessão#####################
-			if(isset($dados["valor"])){
+			/* if(isset($dados["valor"])){
 				$dados["valor"] = str_replace(',','.',str_replace('.','',$dados["valor"]));
-			}
+			} */
 			unset($dados["confirmasenha"], $dados["flag"], $dados["tbl"], $dados["caminho"], $dados["retorno"] );
 			
 			if(isset($dados['id'])){
@@ -366,12 +375,16 @@ if(!empty($_POST)){
 			global $id;
 			$dados = $_POST; 
 			
-			$id	= $_SESSION['resultado_pesquisa']['id'];
-			unset($_SESSION['resultado_pesquisa']['id']);
+			if(isset($_SESSION['resultado_pesquisa']['id'])){
+				$id	= $_SESSION['resultado_pesquisa']['id'];
+				unset($_SESSION['resultado_pesquisa']['id']);
+			}else{
+				echo "ATENÇÃO: ID do resultado da pesquisa retornou vazio!";
+			}
 			
 			/* print_r($dados);
 			echo"<br><br>";
-			print_r($_SESSION['resultado_pesquisa']); */
+			print_r($_SESSION['resultado_pesquisa']); */ 
 			
 			$indice = $dados["idd"];			
 			foreach($_SESSION['resultado_pesquisa'][$indice] as $key=>$value)
@@ -386,14 +399,21 @@ if(!empty($_POST)){
 			include("../../views/atendimento.php");	 */
 		break;
 		
+		case "entrada2Nivel": // Entrada de dados selecionados para atendimento 2º nível			
+			global $id;
+			$dados = $_POST;			
+			$id = $dados["idd"];			
+			include("../../views/atendimento-entrada-nivel-2.php");	 
+		break;
+		
 		case "emabertos":
 		$dados = $_POST;
 		$a = new Model;
 		$e = new Acoes;
-		$query		= "SELECT * FROM pav_inscritos WHERE lixo = 0 AND validado = 0 ORDER BY data_abertura ASC";
-		$return		= $a->queryFree($query);
+		$query	= "SELECT * FROM pav_inscritos WHERE lixo = 0 AND validado = 0 AND id_pav = 1 ORDER BY data_abertura ASC";
+		$return	= $a->queryFree($query);
 		while($linhas = $return->fetch_assoc()){
-			$e->conteudoTabelaCGR($linhas, $dados['caminho'], $dados['flag']);
+			$e->conteudoTabelaCGR($linhas, $dados['caminho'], "entrada2Nivel");
 		}
 		break;
 		
@@ -404,16 +424,55 @@ if(!empty($_POST)){
 		$query = $a->selecionaQueryMySQL($dados['nome_cliente'], 'nome_cliente', $dados['cpf'], 'cpf_cnpj', $dados['nome_provedor'], 'nome_provedor', 'pav_inscritos');
 		$return = $a->queryFree($query);
 		if($return === false){
+			echo '<tr><td>Nenhum registro encontrado.</td></tr>';
+		}else{
 			while($linhas = $return->fetch_assoc()){
 				$e->conteudoTabelaCGR($linhas, $dados['caminho'], $dados['flag']);
 			}
-		}else{
-			echo '
-			<tr><td>Nenhum registro encontrado.</td></tr>
-			';
 		}
 		break;
 		
+		case "pesquisaHistoricos":
+		$dados = $_POST;
+		$a = new Model;
+		$e = new Acoes;
+		
+		$query		= $a->selecionaQueryMySQL($dados['nome_cliente'], 'nome_cliente', $dados['cpf'], 'cpf_cnpj_cliente', $dados['nome_provedor'], 'nome_provedor', 'pav_inscritos');
+		if($query == 'SELECT * FROM pav_inscritos '){
+			$query 	   .= "WHERE validado = 1 ORDER BY data_abertura ASC";
+		}else{
+			$query 	   .= " AND validado = 1 ORDER BY data_abertura ASC";
+		}
+		$return = $a->queryFree($query);
+		if($return === false){
+			echo '<tr><td>Nenhum registro encontrado.</td></tr>';
+		}else{
+			while($linhas = $return->fetch_assoc()){
+				$e->conteudoTabelaCGR($linhas, $dados['caminho'], $dados['flag'], 'On');
+			}
+		}		
+		break;
+		
+		case "pesquisaListagem":
+		$dados = $_POST;
+		$a = new Model;
+		$e = new Acoes;
+		
+		$query		= $a->selecionaQueryMySQL($dados['nome_cliente'], 'nome_cliente', $dados['cpf'], 'cpf_cnpj_cliente', $dados['nome_provedor'], 'nome_provedor', 'pav_inscritos');
+		if($query == 'SELECT * FROM pav_inscritos '){
+			$query 	   .= "WHERE finalizado = 1 ORDER BY data_abertura ASC";
+		}else{
+			$query 	   .= " AND validado = 1 AND finalizado = 0 ORDER BY data_abertura ASC";
+		}
+		$return = $a->queryFree($query);
+		if($return === false){
+			echo '<tr><td>Nenhum registro encontrado.</td></tr>';
+		}else{
+			while($linhas = $return->fetch_assoc()){
+				$e->conteudoTabelaCGR($linhas, $dados['caminho'], $dados['flag']);
+			}
+		}		
+		break;
 	}
   }	
 else{

@@ -8,6 +8,7 @@
 <thead>
   <tr>
 	<th>Data</th>
+	<th>Protocolo</th>
 	<th>Nome do Cliente</th>        
 	<th>Entidade</th>
 	<th>Telefone</th>
@@ -30,13 +31,14 @@ $tabela  	= "pav_inscritos";				#tabela principal, alvo da rotina
 $cbkedit	= "views/atendimento-crud.php";	#callback do botão Editar
 $cbkdel 	= "views/atendimento.php";  	#callback do botão Excluir
 $link		= "controllers/sys/crud.sys.php";
-$flag		= "entrada";
+$flag		= "entrada2Nivel";
 
 if($result){
 	while($linhas 	= $result->fetch_assoc()){
 		echo("
 		<tr>
 		<td><time datetime='".date('c')."'>".date('d/m/Y', strtotime($linhas['data_abertura']))."</time></td>
+		<td>".$linhas['protocol']."</td>
 		<td>".$linhas['nome_cliente']."</td>
 		<td>".$linhas['nome_provedor']."</td>
 		<td>".$linhas['telefone_cliente']."</td>

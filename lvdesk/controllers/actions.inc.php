@@ -26,6 +26,12 @@ class Acoes{
 	<input objeto="form_action" class="btn btn-success btn_driver rtrn-conteudo-listagem" value="Dar entrada" type="button" flag="'.$flag.'" caminho="'.$link.'" item="'.$cpf.'" idd="'.$id.'">	
 	';
   }
+  
+  public function visualizar($id, $cpf, $link, $flag){
+	echo '
+	<input objeto="form_action" class="btn btn-success btn_driver rtrn-conteudo-listagem" value="Visualizar" type="button" flag="'.$flag.'" caminho="'.$link.'" item="'.$cpf.'" idd="'.$id.'">	
+	';
+  }
 
   public function chbxModulo($modulos = NULL, $acessos = NULL){
 	$retorno = NULL;
@@ -57,16 +63,21 @@ class Acoes{
 	return $retorno;	
   } 
   
-  public function conteudoTabelaCGR($array, $link, $flag){
+  public function conteudoTabelaCGR($array, $link, $flag, $pave = NULL){
 	echo "
 	<tr>
 	<td>".date('d/m/Y', strtotime($array['data_abertura']))."</td>
+	<td>$array[protocol]</td>
 	<td>$array[nome_cliente]</td>
 	<td>$array[nome_provedor]</td>
 	<td>$array[telefone_cliente]</td>
 	<td>
 	";  
-	$this->darEntrada($array['id'], $array['cpf_cnpj_cliente'], $link, $flag); 
+	if(is_null($pave)){
+		$this->darEntrada($array['id'], $array['cpf_cnpj_cliente'], $link, $flag); 
+	}else{
+		$this->visualizar($array['id'], $array['cpf_cnpj_cliente'], $link, $flag); 
+	}
 	echo "</td></tr>";
   }
 }

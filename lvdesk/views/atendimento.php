@@ -4,6 +4,10 @@
 	</div>
 	<div class="content-sized">
 <?php
+if(!empty($_SESSION["datalogin"])){
+	$datalogin 					= $_SESSION["datalogin"];
+	$atendente_responsavel		= $datalogin['id'];
+}
 $a = new Model;
 if($id){
 	$query = "SELECT * FROM pav WHERE id = '".$id."' AND lixo = 0";
@@ -51,7 +55,7 @@ if($id){
 	<div class="content-sized">';
 }	
 ?>
-	<form id="form-dados-cgr">
+	<form id="form-dados">
 	<div class="form-group">
 		<label for="nome_provedor">Provedor</label>
 		<input type="text" class="form-control" name="nome_provedor" value="<?= $provedor ;?>">
@@ -113,21 +117,21 @@ if($id){
 	</div>
 	<div class="form-group">
 	<hr><label for="resumo">Resumo</label><br>
-	<input class="btn btn-success rtrn-conteudo" value="Solucionado" type="button" objeto="form-dados-solucionado">
-	<input class="btn btn-warning rtrn-conteudo" value="CGR" type="button" objeto="form-dados-cgr">
+	<input class="btn btn-success rtrn-conteudo" id="solucionado" value="Solucionado" type="button" objeto="form-dados">
+	<input class="btn btn-warning rtrn-conteudo" value="CGR" type="button" objeto="form-dados">
 	</div>
-	<?php 
-	if(isset($id)){
-		echo "<input type='hidden' name='id_pav' value='$id'/>";
-	}
-	?>
-	<input type="hidden" name="flag" value="<?= $flag;?>" />
-    <input type="hidden" name="tbl" value="pav_inscritos" />
-    <input type="hidden" name="caminho" value="controllers/sys/crud.sys.php" />
-	<input type="hidden" name="retorno" value="<?= $retorno;?>" />
-	<input type="hidden" name="hora_add" value="on" />
+	<section class="input_hidden">
+		<?php 
+		if(isset($id)){
+			echo "<input type='hidden' name='id_pav' value='$id'/>";
+		}
+		?>
+		<input type="hidden" name="flag" value="<?= $flag;?>" />
+		<input type="hidden" name="tbl" value="pav_inscritos" />
+		<input type="hidden" name="caminho" value="controllers/sys/crud.sys.php" />
+		<input type="hidden" name="retorno" value="<?= $retorno;?>" />
+		<input type="hidden" name="hora_add" value="on" />
+		<input type="hidden" name="atendente_responsavel" value="<?= $atendente_responsavel;?>" />
+	</section>
 	</form>	
-	<form id="form-dados-solucionado">
-	
-	</form>
 </div>
