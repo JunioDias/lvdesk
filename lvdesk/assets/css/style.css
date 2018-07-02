@@ -91,6 +91,9 @@ a:focus {
   outline: 0;
   text-decoration: none;
 }
+.botao{
+	padding-left:3px;
+}
 .container {
   width: auto;
 }
@@ -312,6 +315,10 @@ a:focus {
 }
 .label-dark {
   background-color: #FF8C00;
+}
+.menu_acao form{
+	float: left;
+	padding-left: 5px;
 }
 .badge {
   text-transform: uppercase;
@@ -574,10 +581,10 @@ a:focus {
 .alert-warning hr {
   border-top-color: #f5a212;
 }
-.alert-danger {
+/* .alert-danger {
   color: #3292e0;
   background-color: rgba(50, 146, 224, 0.1);
-}
+} */
 .alert-danger .alert-link {
   color: #1d78c2;
 }
@@ -1427,8 +1434,8 @@ File: Components
 .btn-danger:focus,
 .btn-danger:hover,
 .open > .dropdown-toggle.btn-danger {
-  background-color: #2186d8 !important;
-  border: 1px solid #2186d8 !important;
+  background-color: #eb462c !important;
+  border: 1px solid #eb462c !important;
 }
 .btn-dark {
   background-color: #FF8C00 !important;
@@ -2019,6 +2026,9 @@ table.focus-on tbody tr.focused th {
 table.focus-on tbody tr.focused td {
   background-color: #32CD32;
   color: #ffffff;
+}
+table tr td {
+  vertical-align: middle !important;
 }
 .table-rep-plugin tbody th {
   font-size: 14px;

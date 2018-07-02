@@ -237,7 +237,7 @@ function($) {
 
 
 
-/* ------------ some utility functions ----------------------- */
+/* ------------ algumas funções de utility  ----------------------- */
 
 var w,h,dw,dh;
 var changeptype = function(){
@@ -321,15 +321,154 @@ function toggle_slimscroll(item){
     }
 }
 
-// for lazy function execution
-var Menufunction = [];
-
-//Meus scripts
+/**
+* Tema: LV Desk
+* Autor: Adan Ribeiro
+* JQuery
+* Data: 12/05/2018
+*/
 
 //Comportamento dos links do menu do painel administrativo
 $(document).ready(function(){
 	$("body")
-	.on('click', 'a, input[type="button"]', function(){
+	.on('click', '.regular-link', function(){ //links comuns para navegação casual.
    		$(".content").load($(this).attr("link"));
 	});
+	
+	//Actions com retorno de conteúdo para item simples.
+	
+	$("body")
+	.on("click", ".rtrn-conteudo", function (event){ 
+		
+		if($(this).attr("doZero")){
+			var meucheckbox = $("#"+$(this).attr("objeto")).find("input[type=checkbox]");
+			if(meucheckbox){
+				$.each(meucheckbox, function(key, val){
+					if(!$(this).is(":checked")){
+						$(this).attr('value', '0');
+						$(this).attr('checked', 'checked');
+					}
+				});
+			}
+		}
+		var objeto = new FormData(document.querySelector("#"+$(this).attr("objeto")));	
+		
+		$.ajax({
+			url: objeto.get("caminho"), 
+			data: objeto,
+			type: 'post',
+			processData: false,  
+  			contentType: false,
+			success: function(retornoDados){
+				if(objeto.get("retorno")){
+					$(".modal-backdrop").hide();
+					var retorno = objeto.get("retorno");
+					$(retorno).html(retornoDados);
+				}else{
+					$("body").html(retornoDados);
+				}								
+			}
+		});
+	});
+	
+	//Actions com retorno de conteúdo para listagens.
+	
+	$("body")
+	.on("click", ".rtrn-conteudo-listagem", function (event){ 
+		if($(this).attr('flag') == 'exc'){
+			$(".modal-footer").append("<input type='hidden' name='id' value='"+$(this).attr("item")+"'>");
+			$(".modal-footer").append("<input type='hidden' name='caminho' value='"+$(this).attr("caminho")+"'>");
+			$(".modal-footer").append("<input type='hidden' name='flag' value='"+$(this).attr("flag")+"'>");
+		}else{
+			var objeto = new FormData(document.querySelector("#"+$(this).attr("objeto")));
+			objeto.append("flag", $(this).attr("flag"));
+			objeto.append("id", $(this).attr("item"));
+			objeto.append("caminho", $(this).attr("caminho"));
+			if($(this).attr("idd")){
+				objeto.append("idd", $(this).attr("idd"));			
+			}
+			$.ajax({
+				url: objeto.get("caminho"), 
+				data: objeto,
+				type: 'post',
+				processData: false,  
+				contentType: false,
+				success: function(retornoDados){
+					if(objeto.get("retorno")){
+						var retorno = objeto.get("retorno");
+						$(retorno).html(retornoDados);
+					}else{
+						$(".content-sized").html(retornoDados);	
+					}							
+				}
+			}); 
+		}
+		
+	});
+	
+	$("body")
+	.on("click", ".rtrn-conteudo-listagem2", function (event){ 
+		
+		var id_div = $(this).attr("item");
+		$('#rotulo'+id_div).hide();
+		var objeto = new FormData(document.querySelector("#"+$(this).attr("objeto")));
+		objeto.append("flag", $(this).attr("flag"));
+		objeto.append("id", $(this).attr("item"));
+		objeto.append("caminho", $(this).attr("caminho"));
+		
+		var elem = document.getElementById("barra"+id_div);   
+		var width = 1;
+		var id = setInterval(frame, 10);
+		function frame() {
+			if (width >= 100) {
+			  clearInterval(id);
+			} else {
+			  width++; 
+			  elem.style.width = width + '%'; 
+			}
+		}		
+		
+		$.ajax({
+			
+			url: objeto.get("caminho"), 
+			data: objeto,
+			type: 'post',
+			processData: false,  
+  			contentType: false,
+			success: function(retornoDados){
+				$("#target-status"+id_div).html(retornoDados);				
+			}
+		});
+	});
+	
+	//Ação para processamento das conexões com proveodores externos
+	
+	$("body")
+	.on("click", ".rtrn-conteudo-conexao", function (event){ 
+		
+		var objeto = new FormData(document.querySelector("#"+$(this).attr("objeto")));
+		var objLnk = new FormData(document.querySelector("."+$(this).attr("objLnk")));
+		
+		for (var value of objLnk.values()) {
+		   console.log(value); 
+		}   
+		
+		for (var valor of objeto.values()) {
+		   console.log(valor); 
+		} 
+		$.ajax({
+			url: objeto.get("caminho"), 
+			data: objeto,
+			type: 'post',
+			processData: false,  
+  			contentType: false,
+			success: function(retornoDados){
+				$(".content-sized").html(retornoDados);				
+			}
+		});
+	});
 });
+
+
+// para execução de funções retardatárias
+var Menufunction = [];
