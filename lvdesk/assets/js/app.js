@@ -335,6 +335,17 @@ $(document).ready(function(){
    		$(".content").load($(this).attr("link"));
 	});
 	
+	//Captura o valor do option selecionado para conexão com provedores
+	$("body")
+	.on("change", "#select_provedor", function (event){ 
+		$("input[name='flag']").val($("select option:selected").attr('tipo'));
+		$("input[name='id_provedor']").val($("select option:selected").attr('value'));
+	});
+	
+	$("body")
+	.on("click", "#solucionado", function (event){ 
+		$(".input_hidden").append("<input type='hidden' name='idd' value='solucionado'>");
+	});
 	//Actions com retorno de conteúdo para item simples.
 	
 	$("body")
@@ -467,6 +478,7 @@ $(document).ready(function(){
 			}
 		});
 	});
+		
 });
 
 

@@ -24,6 +24,7 @@ if(isset($_POST['id'])){
 	$id		   		= NULL;
 	$nome			= NULL;
 	$bd				= NULL;
+	$tipo_bd		= NULL;
 	$nome_bd 	 	= NULL;
 	$host 			= NULL;	
 	$usuario		= NULL;

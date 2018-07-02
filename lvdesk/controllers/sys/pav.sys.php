@@ -19,12 +19,16 @@ if(!empty($_POST)){
 				  password='".$array['senha_pav']."'";
 			  
 			  $connect = pg_connect($con_string);			  
-		    
-			  if($connect){			
-				echo "<td><a data-toggle='modal' data-target='#myModal' >Pesquisar</a></td>";
+			
+			  if($connect){
+				if(isset($dados['listagem'])){
+					unset($dados['listagem']);
+				}else{
+					echo "<td><a data-toggle='modal' data-target='#myModal' >Pesquisar</a></td>";
+				}
 			  }else{
 				echo "<td class='text-danger' id='target-status".$dados['id']."'>Não foi possível conectar.</td>";  
-			  }		  
+			  }
 	  }else{ 
 		$con_string = $_SESSION['con_string']; 
 		$connect = pg_connect($con_string); 
@@ -40,7 +44,9 @@ if(!empty($_POST)){
 			</p>
 			</div>';
 		}else{
-			$info['id'] = $dados['id_provedor'];
+			if(isset($dados['id_provedor'])){
+				$info['id'] = $dados['id_provedor'];
+			}
 			$_SESSION['resultado_pesquisa']	= $info;
 			//print_r($_SESSION['resultado_pesquisa']);
 			include("../../views/resultado-pesquisa-provedor.php");

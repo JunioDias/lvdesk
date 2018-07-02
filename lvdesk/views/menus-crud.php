@@ -29,9 +29,6 @@ if(isset($_POST['id'])){
 	$id_pai			= NULL;
 	$admin			= NULL;
 	$flag	 		= "add";
-	
-	echo '
-	';
 }
 ?>
 <form id="form-dados">
