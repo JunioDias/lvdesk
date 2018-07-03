@@ -481,6 +481,5 @@ $(document).ready(function(){
 		
 });
 
-
 // para execução de funções retardatárias
 var Menufunction = [];

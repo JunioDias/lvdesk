@@ -392,12 +392,6 @@ if(!empty($_POST)){
 				$array[$key] = $value;
 				
 			include("../../views/atendimento.php");	
-			
-			/*$indice = (array_search($dados['id'], array_column($_SESSION['resultado_pesquisa'], 'cpf_cnpj')));			
-			foreach($_SESSION['resultado_pesquisa'][$indice] as $key=>$value)
-				$array[$key] = $value;
-				
-			include("../../views/atendimento.php");	 */
 		break;
 		
 		case "entrada2Nivel": // Entrada de dados selecionados para atendimento 2º nível			

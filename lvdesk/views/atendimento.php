@@ -1,8 +1,8 @@
 <div class="page-header-title">
-	  <h4 class="page-title">Atendimento</h4>
-	  <p>Movimentação dos chamados para atendimento</p>
-	</div>
-	<div class="content-sized">
+  <h4 class="page-title">Atendimento</h4>
+  <p>Movimentação dos chamados para atendimento</p>
+</div>
+<div class="content-sized">
 <?php
 if(!empty($_SESSION["datalogin"])){
 	$datalogin 					= $_SESSION["datalogin"];
@@ -10,6 +10,7 @@ if(!empty($_SESSION["datalogin"])){
 }
 $a = new Model;
 if($id){
+		
 	$query = "SELECT * FROM pav WHERE id = '".$id."' AND lixo = 0";
 	$result = $a->queryFree($query);
 	if($result){
@@ -220,5 +221,38 @@ if($id){
 	</section>
 	</form>	
 </div>
+<!--------------------- Modal de alerta para CGR ativo -------------------->
+<div id="alerta" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+<div class="modal-dialog">
+  <div class="modal-content">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		<h4 class="modal-title" id="myModalLabel">Atenção!</h4>
+	</div>
+	<div class="modal-body">
+		<h4>Chamado de segundo nível em curso.</h4>
+		<p>Este cliente já possui um chamado em aberto sendo verificado pelo CGR.<br>Por favor, cheque os últimos atendimentos realizados.</p>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Fechar</button>
+	</div>
+  </div><!-- /.modal-content -->
+</div><!-- /.modal.dialog -->
 
-
+<?php
+#Teste de CGR ativo
+$cgr_query = "SELECT COUNT(id) AS id FROM pav_inscritos WHERE cpf_cnpj_cliente = '".$array['cpf_cnpj']."' AND validado = 0 AND lixo = 0";
+$teste = $a->queryFree($cgr_query);
+if(isset($teste)){
+	$cgr_teste = $teste->fetch_assoc();
+	if($cgr_teste['id'] > 0){
+		echo ("
+		<script type='text/javascript'>
+		$(document).ready(function () {
+			$('#alerta').modal('show');	
+		});
+		</script>
+		");
+	}
+}
+?>

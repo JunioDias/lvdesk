@@ -11,7 +11,7 @@ class Acoes{
 * $id 				= Código do registro.
 * $tabela 			= Nome da tabela.
 * $callbackdelete 	= Página que vai retornar após a exclusão do registro.
-* $callbackedit 	= Páginas que vai retornar após a edição do registro. Esse link coincide com outras ações de POST.
+* $callbackedit 	= Página que vai retornar após a edição do registro. Esse link coincide com outras ações de POST.
 * $link 			= Destino do POST.
 */
   public function crudButtons($id, $callbackdelete, $callbackedit, $link){
