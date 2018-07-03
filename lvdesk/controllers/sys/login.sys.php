@@ -4,7 +4,7 @@ include("../model.inc.php");
 include("../parametros.inc.php");
 if(!empty($_POST)){
 	switch($_POST['flag']){
-		case "login":			
+		case "login":
 			unset($_POST["flag"],$_POST["caminho"]);
 			$acesso = new Model();
 			$resultado = $acesso->login($_POST["usuario"],md5($_POST["senha"]));
@@ -16,7 +16,7 @@ if(!empty($_POST)){
 		break;
 		case "recupera":
 			$dados = $_POST;
-			$a = new Model();			
+			$a = new Model();
 			$parametros = new Param();
 			$dados_email = $parametros->emailConfig();
 			$query = "SELECT * FROM usuarios WHERE lixo = 0 AND usuario = '".$dados['usuario']."'";
@@ -25,31 +25,34 @@ if(!empty($_POST)){
 			print_r($result);*/
 			if($result->num_rows == '1'){
 				$resultado = $result->fetch_assoc();
-				
+
 				$url = sprintf('id=%s&email=%s&uid=%s&key=%s', $resultado['id'], md5($resultado['usuario']), md5($resultado['uid']), md5($resultado['data_ts']));
 				$mensagem = 'Para confirmar a recuperação de sua senha clique no link:<br>';
 				$mensagem .= sprintf("http://".$dados_email['dominio']."/lvdesk/controllers/access.php?%s",$url);
-		
+
 				// enviar o email
 				$a->envia($resultado, 'Recuperador de senhas - '.$parametros->title(), $mensagem);
-				
+
 			}else{
-				echo '
-				<div class="alert alert-danger fade in">
-				<h4>Falha no processo.</h4>
-				<p>E-mail não existe na base de dados<br>Clique no botão abaixo para fechar esta mensagem.</p>
-				<p class="m-t-10">
-				  <a type="button" class="btn btn-default waves-effect" data-dismiss="alert" href="javascript:history.go(-1);">Fechar</a>
-				</p>
-				</div>
-				';
+				// echo '
+				// <div class="alert alert-danger fade in">
+				// <h4>Falha no processo.</h4>
+				// <p>E-mail não existe na base de dados<br>Clique no botão abaixo para fechar esta mensagem.</p>
+				// <p class="m-t-10">
+				//   <a type="button" class="btn btn-default waves-effect" data-dismiss="alert" href="javascript:history.go(-1);">Fechar</a>
+				// </p>
+				// </div>
+				// ';
+				$_SESSION['returnLogin'] = 'notEmail';
+				header('Location: ../../pages-recoverpw.php');
+				// echo '<script type="text/javascript"> window.history.go(-1); </script>';
 			}
 		break;
 		case "instrucoes":
-			$a = new Model();			
+			$a = new Model();
 			$parametros = new Param();
 			$dados = $_POST;
-			
+
 		break;
 	}
 }else{
