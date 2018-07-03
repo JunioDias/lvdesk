@@ -1,9 +1,11 @@
 <?php
 header('Content-Type: text/html; charset=utf-8'); 
-	$bd	   = "u641689554_bd" ; 
-	$senha = "Akz9ovKCruSk";
-	$user  = "u641689554_admin";	
-	$host	 = 'localhost';
+	$bd	   	= "u641689554_bd" ; 
+	$senha 	= "Akz9ovKCruSk";
+	$user  	= "u641689554_admin";	
+	$host	= "sql137.main-hosting.eu";
+	
+	/*$host	 = 'localhost'; */
 
 $mysqli = new MySQLi($host,$user,$senha,$bd);
 if($mysqli->connect_errno) {

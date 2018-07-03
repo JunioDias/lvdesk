@@ -379,7 +379,8 @@ if(!empty($_POST)){
 				$id	= $_SESSION['resultado_pesquisa']['id'];
 				unset($_SESSION['resultado_pesquisa']['id']);
 			}else{
-				echo "ATENÇÃO: ID do resultado da pesquisa retornou vazio!";
+				echo "ATENÇÃO: ID do resultado da pesquisa retornou vazio!<br>";
+				print_r($_SESSION['resultado_pesquisa']);
 			}
 			
 			/* print_r($dados);

@@ -68,10 +68,16 @@ $retorno		= ".content-sized";
 					</select>	
 				</div>
 			</div>
-				<div class="form-group">
+			<div class="row">
+				<div class="form-group col-sm-6">
 					<label for="autor">Autor</label>
 					<input type="text" class="form-control" name="autor" value="<?= $autor ;?>">
-				</div>			
+				</div>	
+				
+				<div class="form-group col-sm-6">
+					<label for="protocolo">Protocolo</label>
+					<input type="text" class="form-control" value="<?= $protocol ;?>">
+				</div>	
 			</div>
 		</div>
 	</div>	
@@ -134,13 +140,13 @@ $retorno		= ".content-sized";
 				<label for="historico">Descrição do Histórico</label>
 				<!-- Barra de Ferramentas -->
 				<div id="wysihtml5-toolbar" style="display: none;"> 
-				  <a data-wysihtml5-command="bold">bold</a>
-				  <a data-wysihtml5-command="italic">italic</a>				  
+				  <a data-wysihtml5-command="bold">Negrito</a>
+				  <a data-wysihtml5-command="italic">Itálico</a>				  
 				  
-				  <a data-wysihtml5-command="foreColor" data-wysihtml5-command-value="red">red</a>
-				  <a data-wysihtml5-command="foreColor" data-wysihtml5-command-value="green">green</a>
-				  <a data-wysihtml5-command="foreColor" data-wysihtml5-command-value="blue">blue</a>
-				  <a data-wysihtml5-command="createLink">insert link</a>
+				  <a data-wysihtml5-command="foreColor" data-wysihtml5-command-value="red">Vermelho</a>
+				  <a data-wysihtml5-command="foreColor" data-wysihtml5-command-value="green">Verde</a>
+				  <a data-wysihtml5-command="foreColor" data-wysihtml5-command-value="blue">Azul</a>
+				  <a data-wysihtml5-command="createLink">Link</a>
 				  <div data-wysihtml5-dialog="createLink" style="display: none;">
 					<label>
 					  Link:
