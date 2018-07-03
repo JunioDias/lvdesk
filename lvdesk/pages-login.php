@@ -67,6 +67,24 @@ $a = new Model();
                             </div>
                         </div>
 
+                        <?php
+                        if (isset($_SESSION['returnLogin'])) {
+                            switch ($_SESSION['returnLogin']) {
+                                case 'denied':
+                                    ?>
+                                    <div class="alert alert-danger fade in">
+                                        <h4>Falha na operação.</h4>
+                                        <p>Usuário ou senha não correspodem.</p>
+                                        <!-- <p class="m-t-10">
+                                            <a type="button" class="btn btn-default waves-effect regular-link" href="../../pages-login.php">Fechar</a>
+                                        </p> -->
+                                    </div>
+                                    <?php
+                                break;
+                            } // close switch ($_SESSION['returnLogin'])
+                        } // close if ($_SESSION['returnLogin'] === 'denied')
+                        session_destroy();
+                        ?>
                         <div class="form-group text-center m-t-40">
                             <div class="col-xs-12">
                                 <button class="btn btn-warning btn-block btn-lg waves-effect waves-light" type="submit" >Log In</button>
@@ -75,14 +93,14 @@ $a = new Model();
                         </div>
 						</form>
 						<div class="form-group m-t-30 m-b-0">
-						
-                        <form method="post" action="pages-recoverpw.html">
+
+                        <form method="post" action="pages-recoverpw.php">
 						<div class="col-sm-7">
 							<button class="btn btn-block btn-lg waves-effect waves-light esqueceu" type="submit" >Esqueceu sua senha?</button>
 							<!--<a href="pages-recoverpw.html" class="text-default"><i class="fa fa-lock m-r-5"></i> Esqueceu sua senha?</a>-->
 						</div>
 						</form>
-						
+
 						<form class="form-horizontal m-t-20" action="pages-register.html">
                             <div class="col-sm-5 text-right">
 								<!--<button class="btn btn-danger btn-block btn-lg waves-effect waves-light" type="submit">Contrate um plano</button>
@@ -112,6 +130,6 @@ $a = new Model();
         <script src="assets/js/jquery.scrollTo.min.js"></script>
 
         <script src="assets/js/app.js"></script>
-		
+
     </body>
 </html>
