@@ -198,7 +198,7 @@ if($id){
 <!----------------- fim da área do script ------------------------------->		
 	</div>
 	<div class="form-group">
-		<label for="historico">Histórico</label>
+		<label for="historico">Histórico de Ações</label>
 		<textarea class="wysihtml5-textarea form-control" rows="9" id="historico" name="historico"></textarea>
 	</div>
 	<div class="form-group">
@@ -227,18 +227,24 @@ if($id){
   <div class="modal-content">
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-		<h4 class="modal-title" id="myModalLabel">Atenção!</h4>
+		<h3 class="modal-title" id="myModalLabel">Atenção!</h3>
 	</div>
 	<div class="modal-body">
 		<h4>Chamado de segundo nível em curso.</h4>
 		<p>Este cliente já possui um chamado em aberto sendo verificado pelo CGR.<br>Por favor, cheque os últimos atendimentos realizados.</p>
 	</div>
 	<div class="modal-footer">
-		<button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Fechar</button>
+		<button type="button" class="btn btn-success waves-effect" data-dismiss="modal">OK</button>
 	</div>
   </div><!-- /.modal-content -->
 </div><!-- /.modal.dialog -->
-
+<script>
+	jQuery(document).ready(function(){
+		$('#historico').wysihtml5({
+		  locale: 'pt-BR'
+		}); 
+	});
+</script>
 <?php
 #Teste de CGR ativo
 $cgr_query = "SELECT COUNT(id) AS id FROM pav_inscritos WHERE cpf_cnpj_cliente = '".$array['cpf_cnpj']."' AND validado = 0 AND lixo = 0";

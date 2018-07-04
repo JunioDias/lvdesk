@@ -17,7 +17,9 @@ if(!empty($_SESSION["datalogin"])){
 
         <!--Morris Chart CSS -->
         <link rel="stylesheet" href="assets/plugins/morris/morris.css">
-
+		<!--bootstrap-wysihtml5-->
+		<link rel="stylesheet" type="text/css" href="assets/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.css">
+		
         <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
         <link href="assets/css/icons.css" rel="stylesheet" type="text/css">
         <link href="assets/css/style.css" rel="stylesheet" type="text/css">
@@ -470,17 +472,17 @@ if(!empty($_SESSION["datalogin"])){
         <script src="assets/js/wow.min.js"></script>
         <script src="assets/js/jquery.nicescroll.js"></script>
         <script src="assets/js/jquery.scrollTo.min.js"></script>
-		<!-- Wysiwyg5 Editor-->		
-		<script src="assets/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.js"></script>
-		<script src="assets/plugins/bootstrap-wysihtml5/advanced.js"></script>
-		<script src="assets/plugins/bootstrap-wysihtml5/wysihtml5-0.3.0.js"></script>
-		
+		<!-- Wysihtml js -->
+		<script type="text/javascript" src="assets/plugins/bootstrap-wysihtml5/wysihtml5-0.3.0.js"></script>
+		<script type="text/javascript" src="assets/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.js"></script>
+		<script type="text/javascript" src="assets/plugins/bootstrap-wysihtml5/src/locales/bootstrap-wysihtml5.pt-BR.js"></script>
         <!--Morris Chart-->
         <script src="assets/plugins/morris/morris.min.js"></script>
         <script src="assets/plugins/raphael/raphael-min.js"></script>
         <script src="assets/pages/dashborad.js"></script>
 		<script src="assets/js/validator.min.js"></script>
 		<script src="assets/js/app.js"></script>
+		
     </body>
 </html>
 <?php

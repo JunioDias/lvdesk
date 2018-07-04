@@ -5,7 +5,7 @@
 <div class="content-sized">
 <section class="menu_acao">
 	<form id="pesquisar">
-	<input class="btn btn-success btn_driver" value="Provedores" type="button" data-toggle='modal' data-target='#myModal'>
+	<input class="btn btn-success btn_driver" value="Provedores" type="button" data-toggle='modal' data-target='#provedor'>
 	</form>
 	<form id="salvarFiltros">
 	<input class="btn btn-warning btn_driver" value="Salvar Filtros" type="button" >
@@ -43,7 +43,7 @@ $flag		= "entrada";
 </table>
 </div>
 
-<div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+<div id="provedor" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
 <div class="modal-dialog">
   <div class="modal-content">
 	<div class="modal-header">

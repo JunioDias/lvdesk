@@ -137,27 +137,10 @@ $retorno		= ".content-sized";
 			  </div>
 			</div>
 			<div class="form-group">
-				<label for="historico">Descrição do Histórico</label>
-				<!-- Barra de Ferramentas -->
-				<div id="wysihtml5-toolbar" style="display: none;"> 
-				  <a data-wysihtml5-command="bold">Negrito</a>
-				  <a data-wysihtml5-command="italic">Itálico</a>				  
-				  
-				  <a data-wysihtml5-command="foreColor" data-wysihtml5-command-value="red">Vermelho</a>
-				  <a data-wysihtml5-command="foreColor" data-wysihtml5-command-value="green">Verde</a>
-				  <a data-wysihtml5-command="foreColor" data-wysihtml5-command-value="blue">Azul</a>
-				  <a data-wysihtml5-command="createLink">Link</a>
-				  <div data-wysihtml5-dialog="createLink" style="display: none;">
-					<label>
-					  Link:
-					  <input data-wysihtml5-dialog-field="href" value="http://" class="text">
-					</label>
-					<a data-wysihtml5-dialog-action="save">OK</a> <a data-wysihtml5-dialog-action="cancel">Cancelar</a>
-				  </div>
-				</div>
-				<!-- Fim Barra de Ferramentas -->
-				<textarea class="form-control " name="historico" id="historico"><?= $historico;?></textarea>
-				
+				<label for="historico">Histórico de Ações</label>
+				<textarea class="wysihtml5-textarea form-control" rows="9" id="historico" name="historico">
+				<?= $historico;?>
+				</textarea>
 			</div>
 			</div>
 		</div>
@@ -168,9 +151,10 @@ $retorno		= ".content-sized";
 	<!--</div>-->
 	<input class="btn btn-success" value="Solucionado" type="button" >
 </form>
-	<script>
-	var editor = new wysihtml5.Editor("historico", { // id of textarea element
-	  toolbar:      "wysihtml5-toolbar", // id of toolbar element
-	  parserRules:  wysihtml5ParserRules // defined in parser rules set 
+<script>
+	jQuery(document).ready(function(){
+		$('#historico').wysihtml5({
+		  locale: 'pt-BR'
+		}); 
 	});
-	</script>
+</script>
