@@ -187,24 +187,10 @@ class Model{
 		#echo "INSERT INTO $tabela ($coluna) VALUES($valor)";
 		$mysqli->query("INSERT INTO $tabela ($coluna) VALUES($valor)");
 		if ($mysqli->affected_rows > 0) {
-			echo '
-			<div class="alert alert-success fade in">
-			<h4>Operação executada com sucesso.</h4>
-			<p>Clique no botão abaixo para fechar esta mensagem.</p>
-			<p class="m-t-10">
-			  <button type="button" class="btn btn-default waves-effect rtrn-conteudo" >Fechar</button>
-			</p>
-			</div>';
+			return true;
 		}
 		else{
-			echo '
-			<div class="alert alert-danger fade in">
-			<h4>Falha na operação.</h4>
-			<p>Clique no botão abaixo para fechar esta mensagem.</p>
-			<p class="m-t-10">
-			  <button type="button" class="btn btn-default waves-effect rtrn-conteudo" >Fechar</button>
-			</p>
-			</div>';
+			return false;
 		}
 	}
 	function addUser($tabela, $array){

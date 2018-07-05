@@ -1,6 +1,7 @@
 <?php
 include("../model.inc.php");
 include("../actions.inc.php");
+include("../logs.inc.php");
 if(!empty($_POST)){
 	switch($_POST['flag']){
 		case "existeUser":
@@ -57,6 +58,10 @@ if(!empty($_POST)){
 				$dados["protocol"] = $a->protocolo();
 			}			
 			
+			if(isset($dados["_wysihtml5_mode"])){
+				unset($dados["_wysihtml5_mode"]);
+			}
+			
 			if(isset($dados["idd"])){
 				if($dados["idd"] == "solucionado")	{			
 					$dados["id_pav"] 	= '0';
@@ -105,6 +110,41 @@ if(!empty($_POST)){
 				}
 			}				
 		break;
+		
+		case "addLog":
+			$id 			= $_POST['id']; 
+			$id_atendente 	= $_POST['id_atendente'];
+			$query = "SELECT * FROM pav_inscritos WHERE id = $id";
+			$a = new Model();
+			$result = $a->queryFree($query);
+			if($result){
+				$array = $result->fetch_assoc();
+				$dados['protocol'] 		= $array['protocol'];
+				$dados['descricao']		= $_POST['historico'];
+				$dados['files']			= NULL;
+				$dados['id_atendente']	= $id_atendente;
+				$dados['id_pav']		= $array['id'];
+				$dados['data']			= date('Y-m-d H:i:s');
+			}
+			$captura = $a->add('pav_movimentos', $dados);
+			if($captura == true){
+				$log = new Logs;
+				$query_movimentos = "
+				SELECT pav.*, atend.nome AS atendente_nome
+				FROM pav_movimentos AS pav  
+				INNER JOIN atendentes AS atend ON pav.id_atendente = atend.id
+				WHERE pav.id_pav = $id 
+				ORDER BY pav.data DESC";
+				$result = $a->queryFree($query_movimentos);
+				if($result){
+					while($linhas = $result->fetch_assoc()){
+						$log->timeline($linhas);
+					}			
+					
+				}
+			}
+		break;
+		
 		case "addUser":
 			require_once("../parametros.inc.php");
 			$parametros_server = new Param();
@@ -274,9 +314,24 @@ if(!empty($_POST)){
 			}
 			
 			#####################Fim de Sessão#####################
-			/* if(isset($dados["valor"])){
-				$dados["valor"] = str_replace(',','.',str_replace('.','',$dados["valor"]));
-			} */
+			if(isset($dados["hora_add"])){
+				unset($dados['hora_add']);
+				/* $dados["data_abertura"] = date("Y-m-d H:i:s");
+				$dados["protocol"] = $a->protocolo(); */
+			}			
+			
+			if(isset($dados["_wysihtml5_mode"])){
+				unset($dados["_wysihtml5_mode"]);
+			}
+			
+			if(isset($dados["idd"])){
+				if($dados["idd"] == "solucionado")	{			
+					$dados["id_pav"] 	= '0';
+					$dados["validado"] 	= '1';
+				}
+				unset($dados['idd']);
+			}
+			
 			unset($dados["confirmasenha"], $dados["flag"], $dados["tbl"], $dados["caminho"], $dados["retorno"] );
 			
 			if(isset($dados['id'])){

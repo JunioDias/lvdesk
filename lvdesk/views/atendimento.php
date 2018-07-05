@@ -139,23 +139,29 @@ if($id){
 						<label for="ultimos">ÚLTIMOS ATENDIMENTOS</label>
 						</div>
 					<?php
-					$queryAtend	= "
-					SELECT pav.protocol, pav.historico, atend.nome FROM pav_inscritos AS pav INNER JOIN atendentes AS atend ON atend.id = pav.atendente_responsavel WHERE cpf_cnpj_cliente = $cpf_cnpj AND pav.lixo = 0 ORDER BY pav.protocol DESC LIMIT 8
-					";
-					if(isset($cpf_cnpj)){
-						$result = $a->queryFree($queryAtend);
-						if(isset($result)){
-							while($linhas = $result->fetch_assoc()){
-								echo "
-								<div class='form-group'>
-								   <a title='".$linhas['historico']."'>".$linhas['protocol']." por ".$linhas['nome']." </a>
-								</div>
-								";
+					$cgr_query = "SELECT id AS id FROM pav_inscritos WHERE cpf_cnpj_cliente = '".$array['cpf_cnpj']."' AND validado = 0 AND lixo = 0";
+					$teste = $a->queryFree($cgr_query);
+					if(isset($teste)){
+						$cgr_teste = $teste->fetch_assoc();
+						if($cgr_teste){
+							
+							$queryAtend	= "
+							SELECT pav.protocol, pav.data, pav.descricao, atend.nome FROM pav_movimentos AS pav INNER JOIN atendentes AS atend ON atend.id = pav.id_atendente WHERE pav.id_pav = ".$cgr_teste['id']." AND pav.lixo = 0 ORDER BY pav.data DESC LIMIT 8
+							";							
+							$result = $a->queryFree($queryAtend);
+							if(isset($result)){
+								while($linhas = $result->fetch_assoc()){
+									echo "
+									<div class='form-group'>
+									   <a title='".$linhas['descricao']."'>".$linhas['protocol']." em ".date('d/m/Y', strtotime($linhas['data']))." por ".$linhas['nome']." </a>
+									</div>
+									";
+								}
 							}
-						}else{
-							echo  "<div class='form-group'>Nenhum atendimento recente.</div>";	
-						}
-					}				
+						}	
+					}else{
+						echo  "<div class='form-group'>Nenhum atendimento em aberto.</div>";
+					}			
 					?>
 					</div>
 				</div>
@@ -171,7 +177,6 @@ if($id){
 						<h4 class="page-header m-t-0">Script</h4>
 					</div>
 				</div>
-
 				<div class="row">
 					<div class="col-sm-12">
 						<div class="panel-group" id="accordion-test-2">
@@ -198,8 +203,36 @@ if($id){
 <!----------------- fim da área do script ------------------------------->		
 	</div>
 	<div class="form-group">
-		<label for="historico">Histórico de Ações</label>
-		<textarea class="wysihtml5-textarea form-control" rows="9" id="historico" name="historico"></textarea>
+		<div class="panel panel-primary">
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-sm-12">
+						<h4 class="page-header m-t-0">Histórico de Ações</h4>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="panel-group" id="accordion-test-1">
+							<div class="panel panel-success panel-color">
+								<div class="panel-heading">
+									<h4 class="panel-title">
+										<a data-toggle="collapse" data-parent="#accordion-test-1" href="#collapseOne-1" aria-expanded="false" class="collapsed">
+											Descrição
+										</a>
+									</h4>
+								</div>
+								<div id="collapseOne-1" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+									<div class="panel-body">
+									<textarea class="wysihtml5-textarea form-control" rows="9" id="historico" name="historico"></textarea>
+									</div>
+								</div>
+							</div>
+						</div>	
+					</div>
+				</div>  <!-- end row -->
+
+			</div>
+		</div>		
 	</div>
 	<div class="form-group">
 	<hr><label for="resumo">Resumo</label><br>
@@ -242,7 +275,10 @@ if($id){
 	jQuery(document).ready(function(){
 		$('#historico').wysihtml5({
 		  locale: 'pt-BR'
-		}); 
+		});
+		$('#script').wysihtml5({
+		  locale: 'pt-BR'
+		});
 	});
 </script>
 <?php

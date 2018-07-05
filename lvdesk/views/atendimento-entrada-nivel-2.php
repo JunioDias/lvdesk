@@ -20,15 +20,23 @@ $endereco 		= $matriz['endereco_cliente'];
 $telefone		= $matriz['telefone_cliente'];
 $usuario		= $matriz['usuario'];
 $senha_pppoe	= $matriz['senha_pppoe'];
-// $nas			= $matriz['nas'];
-// $pppoe		= $matriz['pppoe'];
+$nas			= $matriz['nas'];
+$pppoe			= $matriz['pppoe'];
 $ip				= $matriz['ip'];
 $protocol		= $matriz['protocol'];
 $status			= $matriz['status'];
 $historico		= $matriz['historico'];
 $nome_provedor  = $matriz['nome_provedor'];
-$flag	 		= "add";
+$situacao		= $matriz['situacao'];
+$flag	 		= "update";
 $retorno		= ".content-sized";
+
+if(!empty($_SESSION["datalogin"])){
+	$datalogin 					= $_SESSION["datalogin"];
+	$atendente_responsavel		= $datalogin['id'];
+}
+
+$log = new Logs;
 ?>
 
 <form id="form-dados">
@@ -112,18 +120,18 @@ $retorno		= ".content-sized";
 				</div>
 				<div class="form-group">
 					<label for="situacao">Situação</label>
-					<input type="text" class="form-control" name="situacao" value="<?= $status;?>">
+					<input type="text" class="form-control" name="situacao" value="<?= $situacao;?>">
 				</div>
 			  </div>
 			  <div class="form-group col-sm-6">
 				
 				<div class="form-group">
 					<label for="nas">NAS IP</label>
-					<input type="text" class="form-control" name="nas" value="">			
+					<input type="text" class="form-control" name="nas" value="<?= $nas ;?>">			
 				</div>
 				<div class="form-group">
 					<label for="pppoe">PPPoE</label>
-					<input type="text" class="form-control" name="pppoe" value="">
+					<input type="text" class="form-control" name="pppoe" value="<?= $pppoe ;?>">
 				</div>
 				<div class="form-group">
 					<label for="senha_pppoe">Senha</label>
@@ -137,20 +145,155 @@ $retorno		= ".content-sized";
 			  </div>
 			</div>
 			<div class="form-group">
-				<label for="historico">Histórico de Ações</label>
-				<textarea class="wysihtml5-textarea form-control" rows="9" id="historico" name="historico">
-				<?= $historico;?>
-				</textarea>
+				<div class="panel panel-primary">
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-sm-12">
+								<h4 class="page-header m-t-0">Histórico de Ações</h4>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-12">
+							<div class="panel-group" id="accordion-test-1">
+								<div class="panel panel-success panel-color">
+								<div class="panel-heading">
+								<h4 class="panel-title">
+									<a data-toggle="collapse" data-parent="#accordion-test-1" href="#collapseOne-1" aria-expanded="false" class="collapsed">
+										Descrição
+									</a>
+								</h4>
+								</div>
+								<div id="collapseOne-1" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+								<div class="panel-body">
+								<input class="btn btn-success btn_driver" value="Novo" type="button" data-toggle='modal' data-target='#modal-log' style="float: right; margin: 0 15px 15px 0;">
+								
+  <!---------------------------------------------------------  Timeline  --------------------------------------------->								
+						<div class="content">
+							<div class="">
+								<div class="page-header-title" style="background: #D5FFD5;">
+								<h4><span style="color: #000;">Protocolo: <?= $protocol; ?></span></h4>
+								</div>
+							</div>
+
+							<div class="page-content-wrapper ">
+
+							<div class="container">
+								<div class="row">
+									<div class="col-sm-12">
+										<div class="panel panel-primary">
+											<div class="panel-body">
+												<div class="row">
+													<div class="col-md-12">
+														<section id="cd-timeline" class="cd-container">
+															
+															<section class="section_historico">
+				<?php
+				$query_movimentos = "
+				SELECT pav.*, atend.nome AS atendente_nome
+				FROM pav_movimentos AS pav  
+				INNER JOIN atendentes AS atend ON pav.id_atendente = atend.id
+				WHERE pav.id_pav = $id 
+				ORDER BY pav.data DESC";
+				$resultado = $a->queryFree($query_movimentos);
+				if($resultado){
+					while($linhas = $resultado->fetch_assoc()){
+						$log->timeline($linhas);
+					}					
+				}
+				?>
+															</section>
+																
+														</section> <!-- cd-timeline -->
+													</div>
+												</div><!-- Row -->
+
+											</div>
+										</div>
+									</div>
+								</div><!-- end row -->
+								</div><!-- container -->
+							</div> <!-- Page content Wrapper -->
+						</div> <!-- content -->
+<!-------------------------------------------------------  Fim da Timeline  --------------------------------------------->
+								</div>
+								<div class="panel-footer">
+								<input type="button" class="btn btn-default" data-toggle="collapse" data-parent="#accordion-test-1" href="#collapseOne-1" aria-expanded="false" value="Fechar">
+								<input class="btn btn-success btn_driver" value="Novo" type="button" data-toggle='modal' data-target='#modal-log'>
+								</div>
+								</div>
+								</div>
+							</div>	
+							</div>
+						</div>  <!-- end row -->
+
+					</div>
+				</div>		
 			</div>
 			</div>
 		</div>
 	</div>	
 		
-	</div><!-- Fim Painel -->
-	
-	<!--</div>-->
-	<input class="btn btn-success" value="Solucionado" type="button" >
+	</div><!-- Fim Painel -->	
+	<!-- Validadores -->
+	<section class="input_hidden">
+		<?php 
+		if(isset($id)){
+			echo "<input type='hidden' name='id' value='$id'/>";
+		}
+		?>
+		<input type="hidden" name="flag" value="<?= $flag;?>" />
+		<input type="hidden" name="tbl" value="pav_inscritos" />
+		<input type="hidden" name="caminho" value="controllers/sys/crud.sys.php" />
+		<input type="hidden" name="retorno" value="<?= $retorno;?>" />
+		<!-- <input type="hidden" name="hora_add" value="on" /> -->
+		<input type="hidden" name="atendente_responsavel" value="<?= $atendente_responsavel;?>" />
+	</section>
+	<!-- Fim dos Validadores -->
+	<input class="btn btn-success rtrn-conteudo" id="solucionado" value="Solucionado" type="button" objeto="form-dados">
 </form>
+
+<!--------------------- Modal de Inserção de Logs -------------------->
+<div id="modal-log" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+<form id="form-log">
+	<div class="modal-dialog">
+	  <div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			<h3 class="modal-title" id="myModalLabel">Incluir Ações</h3>
+		</div>
+		<div class="modal-body">
+			<p>Relate abaixo as informações relativas a esse atendimento</p>
+			<div class="form-group">
+				<label for="protocol">Protocolo</label>
+				<input type="text" class="form-control" name="protocol" value="<?= $a->protocolo(); ?>">
+			</div>
+			<div class="form-group">
+				<label for="historico">Histórico</label>
+				<textarea class="wysihtml5-textarea form-control" rows="9" id="historico" name="historico"></textarea>
+			</div>
+		</div>
+		<div class="modal-footer">			
+			
+		<!------------------- Validadores --------------------->
+			<section class="input_hidden">
+				<?php 
+				if(isset($id)){
+					echo "<input type='hidden' name='id' value='$id'/>";
+				}
+				?>
+				<input type="hidden" name="id_atendente" value="<?= $atendente_responsavel; ?>" />
+				<input type="hidden" name="flag" value="addLog" />
+				<input type="hidden" name="caminho" value="controllers/sys/crud.sys.php" />
+				<input type="hidden" name="retorno" value=".section_historico" />
+				<button type="button" class="btn btn-success waves-effect rtrn-conteudo" data-dismiss="modal" objeto="form-log">Salvar</button>
+			</section>
+		<!------------------- Validadores --------------------->
+
+		</div>
+	  </div><!-- /.modal-content -->
+	</div><!-- /.modal.dialog -->
+</form>
+</div><!-- /#modal-log -->
 <script>
 	jQuery(document).ready(function(){
 		$('#historico').wysihtml5({
