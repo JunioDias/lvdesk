@@ -573,8 +573,12 @@ class Model{
 		fpassthru($f);
 	}
 
-	public function protocolo(){
-		$alfa = date('Ymdhis');
+	public function protocolo($numero = NULL){
+		if(is_null($numero)){
+			$alfa = date('Ymdhis');
+		}else{
+			$alfa = $numero;
+		}
 		return $alfa;
 	}
 }

@@ -31,7 +31,7 @@ if(!empty($_POST)){
 			  }
 	  }else{ 
 		$con_string = $_SESSION['con_string']; 
-		$connect = pg_connect($con_string); 
+		$connect = pg_connect($con_string);
 		$query = $a->selecionaQueryPostgreSQL($dados['nome'], 'nome_cliente', $dados['cpf'], 'cpf_cnpj', $dados['endereco'], 'endereco', 'privado.cliente_view');		
 		$result = pg_query($connect, $query);
 		$info = pg_fetch_all($result);

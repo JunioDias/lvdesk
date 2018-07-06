@@ -346,7 +346,15 @@ $(document).ready(function(){
 	.on("click", "#solucionado", function (event){ 
 		$(".input_hidden").append("<input type='hidden' name='idd' value='solucionado'>");
 	});
-	//Actions com retorno de conteúdo para item simples.
+	//Actions com envio para modal na mesma página.
+	$("body")
+	.on("click", ".envia-modal", function (event){ 
+		var a = $(this).attr("item");
+		var b = $(this).attr("desc");
+		$("#recebeValor").attr("value", a);
+		var wysihtml5Editor = $('#log').data("wysihtml5").editor;
+		wysihtml5Editor.composer.commands.exec("insertHTML", b);		
+	});
 	
 	$("body")
 	.on("click", ".rtrn-conteudo", function (event){ 
@@ -391,7 +399,7 @@ $(document).ready(function(){
 			$(".modal-footer").append("<input type='hidden' name='caminho' value='"+$(this).attr("caminho")+"'>");
 			$(".modal-footer").append("<input type='hidden' name='flag' value='"+$(this).attr("flag")+"'>");
 		}else{
-			var objeto = new FormData(document.querySelector("#"+$(this).attr("objeto")));
+			var objeto  = new FormData(document.querySelector("#"+$(this).attr("objeto")));
 			objeto.append("flag", $(this).attr("flag"));
 			objeto.append("id", $(this).attr("item"));
 			objeto.append("caminho", $(this).attr("caminho"));

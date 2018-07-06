@@ -300,4 +300,4 @@ $log = new Logs;
 		  locale: 'pt-BR'
 		}); 
 	});
-</script>
+</script> 

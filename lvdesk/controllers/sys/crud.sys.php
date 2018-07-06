@@ -70,12 +70,24 @@ if(!empty($_POST)){
 				unset($dados['idd']);
 			}	
 			
-			unset($dados["confirmasenha"], $dados["flag"], $dados["tbl"], $dados["file"], $dados["caminho"], $dados["retorno"] );
+			if(isset($dados['subTabela'])){ //inicialmente apenas para a rotina de históricos
+				$newlog['protocol'] 		= $dados['protocol'];
+				$newlog['descricao']		= $dados['historico'];
+				$newlog['files']			= NULL;
+				$newlog['id_atendente']		= $dados['id_atendente'];;
+				$newlog['id_pav']			= $dados['id_pav'];
+				$newlog['data']				= date('Y-m-d H:i:s');
+				
+				$a->add($dados['subTabela'], $newlog);
+				unset($dados['id_atendente']);
+			}
+			unset($dados["confirmasenha"], $dados["flag"], $dados["tbl"], $dados["file"], $dados["caminho"], $dados["retorno"], $dados['subTabela'] );
 			
 			if(in_array(true, array_map('is_array', $dados), true) == ''){
 				unset($dados['chave_cerquilha']);
 				$a->add($tabela, $dados);
 			}else{
+				//Para os checkboxes da rotina de módulos etc.
 				$i 	= 1; 				
 				$valor = NULL;
 				$array = NULL;
@@ -106,7 +118,7 @@ if(!empty($_POST)){
 					}
 					$a->add($tabela, $array);
 				}else{
-					echo "00034 - Falha de função para arrays multifuncionais genérica";
+					echo "Erro #00034ADD - Falha de função para arrays multifuncionais genérica";
 				}
 			}				
 		break;
