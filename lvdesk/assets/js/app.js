@@ -350,10 +350,44 @@ $(document).ready(function(){
 	$("body")
 	.on("click", ".envia-modal", function (event){ 
 		var a = $(this).attr("item");
-		var b = $(this).attr("desc");
-		$("#recebeValor").attr("value", a);
-		var wysihtml5Editor = $('#log').data("wysihtml5").editor;
-		wysihtml5Editor.composer.commands.exec("insertHTML", b);		
+		var b = $(this).attr("item_id");
+		var c = $(this).attr("desc");
+		$("#protocol").attr("value", a);
+		$("input[name='id']").attr("value", b);
+		/* $('#log').wysihtml5({
+		  locale: 'pt-BR'
+		}).data("wysihtml5").editor.setValue(c); */
+		$('#log').data("wysihtml5").editor.setValue(c);
+	});
+	
+	$("body")
+	.on("click", "#new_protcol", function (event){ 
+		var a = function dataAtualFormatada(){
+			var data = new Date();
+			var dia = data.getDate();
+			if (dia.toString().length == 1)
+			  dia = "0"+dia;
+			
+			var mes = data.getMonth()+1;
+			if (mes.toString().length == 1)
+			  mes = "0"+mes;
+			
+			var ano = data.getFullYear();
+            
+			var time = data.getHours();
+			if (time.toString().length == 1)         
+              time = "0"+time;                
+                
+            var min = data.getMinutes();			
+            if (min.toString().length == 1)
+              min = "0"+min;
+		  
+		    var sec = data.getSeconds();			
+            if (sec.toString().length == 1)
+              sec = "0"+sec;
+			return ano+mes+dia+time+min+sec;
+		}
+		$("#protocol").attr("value", a);
 	});
 	
 	$("body")
@@ -400,9 +434,15 @@ $(document).ready(function(){
 			$(".modal-footer").append("<input type='hidden' name='flag' value='"+$(this).attr("flag")+"'>");
 		}else{
 			var objeto  = new FormData(document.querySelector("#"+$(this).attr("objeto")));
-			objeto.append("flag", $(this).attr("flag"));
-			objeto.append("id", $(this).attr("item"));
-			objeto.append("caminho", $(this).attr("caminho"));
+			if($(this).attr("flag")){
+				objeto.append("flag", $(this).attr("flag"));
+			}
+			if($(this).attr("item")){
+				objeto.append("id", $(this).attr("item"));
+			}
+			if($(this).attr("caminho")){
+				objeto.append("caminho", $(this).attr("caminho"));
+			}
 			if($(this).attr("idd")){
 				objeto.append("idd", $(this).attr("idd"));			
 			}

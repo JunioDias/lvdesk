@@ -8,10 +8,11 @@ if(!empty($_SESSION["datalogin"])){
 	$datalogin 					= $_SESSION["datalogin"];
 	$atendente_responsavel		= $datalogin['id'];
 }
-$a = new Model;
-if($id){
+$a 		= new Model;
+$log 	= new Logs;
+if($id_provedor){//Existe um provedor
 		
-	$query = "SELECT * FROM pav WHERE id = '".$id."' AND lixo = 0";
+	$query = "SELECT * FROM pav WHERE id = '".$id_provedor."' AND lixo = 0";
 	$result = $a->queryFree($query);
 	if($result){
 		$matriz = $result->fetch_assoc();
@@ -33,7 +34,7 @@ if($id){
 	$retorno		= ".content-sized";
 	
 }else{
-	$id		   		= NULL;
+	$id_provedor	= NULL;
 	$nome_cliente	= NULL;
 	$cpf_cnpj		= NULL;
 	$provedor 	 	= NULL;
@@ -138,37 +139,9 @@ if($id){
 						<div class="form-group">
 						<label for="ultimos">ÚLTIMOS ATENDIMENTOS</label>
 						</div>
-						<section class="section_historico">
+						<section class="section_historico_log">
 					<?php
-					$cgr_query = "SELECT id FROM pav_inscritos WHERE cpf_cnpj_cliente = '".$array['cpf_cnpj']."' AND validado = 0 AND lixo = 0";
-					$teste_id = $a->queryFree($cgr_query);
-					if(isset($teste_id)){
-						$cgr_teste = $teste_id->fetch_assoc();
-						if(count($cgr_teste)){							
-							$queryAtend	= "
-							SELECT pav.protocol, pav.data, pav.descricao, atend.nome FROM pav_movimentos AS pav INNER JOIN atendentes AS atend ON atend.id = pav.id_atendente WHERE pav.id_pav = ".$cgr_teste['id']." AND pav.lixo = 0 ORDER BY pav.data DESC LIMIT 8
-							";							
-							$result = $a->queryFree($queryAtend);
-							if(isset($result)){
-								while($linhas = $result->fetch_assoc()){
-									echo "
-									<div class='form-group' title='".$linhas['descricao']."'>
-									<button type='button' class='btn btn-primary waves-effect waves-light envia-modal' data-toggle='modal' data-target='#modalLastLog' item=".$linhas['protocol']." desc='".$linhas['descricao']."'>".$linhas['protocol']." em ".date('d/m/Y', strtotime($linhas['data']))."</button>									   
-									</div>
-									";									
-								}
-							}
-						}else{
-							echo "
-							<div class='form-group' style='text-align: center;'>
-							  <div title='Nenhum atendimento aberto recentemente.' class='cd-timeline-img cd-success' style='margin-top: 35%;'>
-								<i class='fa fa-hand-peace-o' ></i>									
-							  </div>							  
-							</div>";
-						}	
-					}else{
-						echo  "<div class='form-group'>Nenhum atendimento em aberto.</div>"; 
-					}	 		
+					$log->ultimosAtendimentos($array['cpf_cnpj']);	
 					?>
 					</section>
 					</div>
@@ -232,13 +205,7 @@ if($id){
 								<div id="collapseOne-1" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
 									<div class="panel-body">
 									<form id="form-log">
-									<textarea class="wysihtml5-textarea form-control" rows="9" id="historico" name="historico"></textarea>
-									<!------------------- Validadores --------------------->
-									<section class="input_hidden">								
-										<input type="hidden" name="subTabela" value="pav_movimentos" />
-										<input type="hidden" name="id_atendente" value="<?= $atendente_responsavel;?>
-									</section>
-									<!------------------- Validadores --------------------->
+									<textarea class="wysihtml5-textarea form-control" rows="9" id="historico" name="historico"> </textarea>									
 									</form>
 									</div>
 								</div>
@@ -257,8 +224,8 @@ if($id){
 	</div>
 	<section class="input_hidden">
 		<?php 
-		if(isset($id)){
-			echo "<input type='hidden' name='id_pav' value='$id'/>";
+		if(isset($id_provedor)){
+			echo "<input type='hidden' name='id_pav' value='$id_provedor'/>";
 		}
 		?>
 		<input type="hidden" name="flag" value="<?= $flag;?>" />
@@ -266,6 +233,7 @@ if($id){
 		<input type="hidden" name="caminho" value="controllers/sys/crud.sys.php" />
 		<input type="hidden" name="retorno" value="<?= $retorno;?>" />
 		<input type="hidden" name="hora_add" value="on" />
+		<input type="hidden" name="subTabela" value="pav_movimentos" />
 		<input type="hidden" name="atendente_responsavel" value="<?= $atendente_responsavel;?>" />
 	</section>
 	</form>	
@@ -283,7 +251,16 @@ if($id){
 			<p>Relate abaixo as informações relativas ao atendimento selecionado</p>
 			<div class="form-group">
 				<label for="protocol">Protocolo</label>
-				<input type="text" class="form-control" name="protocol" id="recebeValor" value="">
+				<div class="row">
+					<div class="form-group col-sm-8">
+					  <input type="text" class="form-control" name="protocol" id="protocol" value="" >
+					</div>
+					<div class="form-group col-sm-4" title="Gerar novo protocolo">
+					  <button type="button" class="btn waves-effect btn-warning" id="new_protcol" style="float: left; height: 100%;"> 
+						<i class="fa fa-refresh"></i> 
+					  </button>
+					</div>
+				</div>
 			</div>
 			<div class="form-group">
 				<label for="historico">Histórico</label>
@@ -293,20 +270,19 @@ if($id){
 		<div class="modal-footer">
 		<!------------------- Validadores --------------------->
 			<section class="input_hidden">
-				<?php 
-				if(isset($id)){
-					echo "<input type='hidden' name='id' value='$id'/>";
-				}
-				?>
+				<input type='hidden' name='id' value=''/>
+				<input type="hidden" name="subTabela" value="pav_movimentos" />
 				<input type="hidden" name="id_atendente" value="<?= $atendente_responsavel; ?>" />
 				<input type="hidden" name="flag" value="addLog" />
 				<input type="hidden" name="caminho" value="controllers/sys/crud.sys.php" />
-				<input type="hidden" name="retorno" value=".section_historico" />
-				<button type="button" class="btn btn-success waves-effect rtrn-conteudo" data-dismiss="modal" objeto="form-log">Salvar</button>
+				<input type="hidden" name="retorno" value=".section_historico_log" />				
 			</section>
 		<!------------------- Validadores --------------------->
+		<button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Fechar</button>
+		<button type="button" class="btn btn-success waves-effect rtrn-conteudo" data-dismiss="modal" objeto="form-log">Salvar
 		</div>
 	  </div><!-- /.modal-content -->
+	</button>
 	</div><!-- /.modal.dialog -->
 </form>
 </div><!-- /#modal-log -->
@@ -330,7 +306,7 @@ if($id){
 <script>
 	jQuery(document).ready(function(){
 		$('#historico').wysihtml5({
-		  locale: 'pt-BR'
+		    locale: 'pt-BR'
 		});
 		$('#script').wysihtml5({
 		  locale: 'pt-BR'

@@ -29,7 +29,7 @@ if(isset($_POST['id'])){
 	$cep			= $edicao['cep'];
 	$cidade			= $edicao['cidade'];
 	$uf				= $edicao['uf'];
-	$qtd_filhos		= $edicao['quantidade_filhos'];	
+	$tipo_atendente	= $edicao['tipo_atendente'];	
 	$foto			= $edicao['foto'];
 	$flag	 		= "update";
 }else{
@@ -51,7 +51,7 @@ if(isset($_POST['id'])){
 	$cep			= NULL;
 	$cidade			= NULL;
 	$uf				= NULL;
-	$qtd_filhos		= NULL;
+	$tipo_atendente	= NULL;
 	$foto			= NULL;
 	$flag	 		= "add";
 	
@@ -133,8 +133,8 @@ if(isset($_POST['id'])){
 			<input type="text" class="form-control" name="uf" value="<?= $uf;?>"/>
 		</div>
 		<div class="form-group">
-			<label for="quantidade_filhos">Quantidade de filhos</label>
-			<input type="text" class="form-control" name="quantidade_filhos" value="<?= $qtd_filhos;?>"/>
+			<label for="tipo_atendente">Tipo de atendimento</label>
+			<input type="text" class="form-control" name="tipo_atendente" value="<?= $tipo_atendente;?>"/>
 		</div>
 		
 		<div class="row">

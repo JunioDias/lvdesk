@@ -103,13 +103,14 @@ $flag		= "entrada";
 			  <input type="text" class="form-control" name="endereco" />
 			</div>
 			<section class="input_hidden">
-				<input type="hidden" name='id_provedor'   />
+				<input type="hidden" name='id_provedor' />
+				
 			</section>
 		</form>	  
 		</div>
 		<div class="modal-footer">
 		  <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Fechar</button>
-		  <a class='btn btn-success rtrn-conteudo-listagem' objeto='form_search_clientes' flag='<?= $connect['tipo_bd']; ?>' caminho='controllers/sys/pav.sys.php' data-dismiss="modal">Pesquisar</a>
+		  <a class='btn btn-success rtrn-conteudo-listagem' item='on' objeto='form_search_clientes' flag='<?= $connect['tipo_bd']; ?>' caminho='controllers/sys/pav.sys.php' data-dismiss="modal">Pesquisar</a>
 		</div>
 	  </div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->

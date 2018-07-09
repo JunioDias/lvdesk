@@ -63,29 +63,58 @@ if(!empty($_POST)){
 			}
 			
 			if(isset($dados["idd"])){
-				if($dados["idd"] == "solucionado")	{			
-					$dados["id_pav"] 	= '0';
+				if($dados["idd"] == "solucionado")	{
 					$dados["validado"] 	= '1';
+					$dados["status"]	= '2';
 				}
 				unset($dados['idd']);
 			}	
 			
-			if(isset($dados['subTabela'])){ //inicialmente apenas para a rotina de históricos
-				$newlog['protocol'] 		= $dados['protocol'];
-				$newlog['descricao']		= $dados['historico'];
-				$newlog['files']			= NULL;
-				$newlog['id_atendente']		= $dados['id_atendente'];;
-				$newlog['id_pav']			= $dados['id_pav'];
-				$newlog['data']				= date('Y-m-d H:i:s');
-				
-				$a->add($dados['subTabela'], $newlog);
-				unset($dados['id_atendente']);
+			if(isset($dados['subTabela'])){ 
+				if(isset($dados['id'])){ //caso seja uma inserção de logs para o CGR
+					$newlog['protocol'] 		= $dados['protocol'];
+					$newlog['descricao']		= $dados['historico'];
+					$newlog['files']			= NULL;
+					$newlog['id_atendente']		= $dados['atendente_responsavel'];
+					$newlog['id_pav_inscritos']	= $dados['id'];
+					$newlog['data']				= date('Y-m-d H:i:s');
+					
+					$grab = $a->add($dados['subTabela'], $newlog);
+					unset($dados['id_atendente'], $dados['subTabela'], $dados['id']);
+				}else{ //caso seja a primeira inserção de log (nível 1)
+					if(isset($dados["status"])){
+						if($dados["status"]	== '2'){
+							$newlog['solution'] 	= 1;
+						}
+					}
+					$newlog['protocol'] 		= $dados['protocol'];
+					$newlog['descricao']		= $dados['historico'];
+					$newlog['files']			= NULL;
+					$newlog['id_atendente']		= $dados['atendente_responsavel'];
+					$newlog['data']				= date('Y-m-d H:i:s');
+					$newlog['tabela']			= $dados['subTabela'];
+					unset($dados['id_atendente'], $dados['subTabela'], $dados['id']);
+				}
 			}
-			unset($dados["confirmasenha"], $dados["flag"], $dados["tbl"], $dados["file"], $dados["caminho"], $dados["retorno"], $dados['subTabela'] );
+			unset($dados["confirmasenha"], $dados["flag"], $dados["tbl"], $dados["file"], $dados["caminho"], $dados["retorno"] );
 			
 			if(in_array(true, array_map('is_array', $dados), true) == ''){
 				unset($dados['chave_cerquilha']);
-				$a->add($tabela, $dados);
+				$grab = $a->add($tabela, $dados);
+				if($grab == true){
+					if(isset($newlog['tabela'])){
+						$newlog['id_pav_inscritos'] = $_SESSION['ult_id'];
+						$tabela = $newlog['tabela'];
+						unset($newlog['tabela']);
+						$a->add($tabela, $newlog);
+					}
+					echo '
+					<div class="alert alert-success">
+					<h4>Muito bom!</h4>
+                    A operação foi realizada com sucesso. <a href="." class="alert-link">Clique aqui</a> para atualizar os status do sistema.
+					</div>	
+				';
+				}
 			}else{
 				//Para os checkboxes da rotina de módulos etc.
 				$i 	= 1; 				
@@ -123,38 +152,40 @@ if(!empty($_POST)){
 			}				
 		break;
 		
-		case "addLog":
-			$id 			= $_POST['id']; 
-			$id_atendente 	= $_POST['id_atendente'];
-			$query = "SELECT * FROM pav_inscritos WHERE id = $id";
+		case "addLog":		
+			$array 	= $_POST; 
 			$a = new Model();
-			$result = $a->queryFree($query);
-			if($result){
-				$array = $result->fetch_assoc();
-				$dados['protocol'] 		= $array['protocol'];
-				$dados['descricao']		= $_POST['historico'];
-				$dados['files']			= NULL;
-				$dados['id_atendente']	= $id_atendente;
-				$dados['id_pav']		= $array['id'];
-				$dados['data']			= date('Y-m-d H:i:s');
-			}
+			$dados['protocol'] 			= $array['protocol'];
+			$dados['descricao']			= $array['historico'];
+			$dados['files']				= NULL;
+			$dados['id_atendente']		= $array['id_atendente'];
+			$dados['id_pav_inscritos']	= $array['id'];
+			$dados['data']				= date('Y-m-d H:i:s');
+			isset($array['solution']) ? $dados['solution'] = $array['solution'] : $dados['solution'] = 0;
+			
 			$captura = $a->add('pav_movimentos', $dados);
-			if($captura == true){
-				$log = new Logs;
-				$query_movimentos = "
-				SELECT pav.*, atend.nome AS atendente_nome
-				FROM pav_movimentos AS pav  
-				INNER JOIN atendentes AS atend ON pav.id_atendente = atend.id
-				WHERE pav.id_pav = $id 
-				ORDER BY pav.data DESC";
-				$result = $a->queryFree($query_movimentos);
-				if($result){
-					while($linhas = $result->fetch_assoc()){
-						$log->timeline($linhas);
-					}			
-					
+			
+			if($array["retorno"] == ".section_historico_log"){
+				if($captura == true){
+					$log = new Logs;
+					$query = "SELECT cpf_cnpj_cliente FROM pav_inscritos WHERE id = '".$array['id']."'";
+					$ok = $a->queryFree($query);
+					if($arr = $ok->fetch_assoc()){
+						$log->ultimosAtendimentos($arr['cpf_cnpj_cliente']);	
+					}
 				}
-			}
+			}else{	
+				if($captura == true){
+					$log = new Logs;						
+					$query_movimentos = "SELECT pav.id, pav.protocol, pav.data, pav.descricao, pav.solution, atend.nome FROM pav_movimentos AS pav INNER JOIN atendentes AS atend ON atend.id = pav.id_atendente INNER JOIN pav_inscritos ON pav_inscritos.id = pav.id_pav_inscritos WHERE pav.id_pav_inscritos = '".$array['id']."'  AND pav.lixo = 0 ORDER BY pav.data DESC ";
+					$result = $a->queryFree($query_movimentos);
+					if($result){
+						while($linhas = $result->fetch_assoc()){
+							$log->timeline($linhas, $linhas['solution'], 'fa-check');
+						}									
+					}
+				}
+			} 
 		break;
 		
 		case "addUser":
@@ -278,6 +309,21 @@ if(!empty($_POST)){
 			echo json_encode($resultado);
 			//header($path);
 		break;
+		
+		/* case "subUpdate":
+		if(isset($dados['subTabela'])){ //inicialmente apenas para a rotina de históricos
+				$newlog['protocol'] 		= $dados['protocol'];
+				$newlog['descricao']		= $dados['historico'];
+				$newlog['files']			= NULL;
+				$newlog['id_atendente']		= $dados['id_atendente'];;
+				$newlog['id_pav']			= $dados['id_pav'];
+				$newlog['data']				= date('Y-m-d H:i:s');
+				#$a->update($dados['subTabela'], $newlog, $dados['id']);
+				unset($dados['id_atendente'], $dados['subTabela']);
+				print_r($newlog);
+			}
+		break; */
+		
 		case "update":		#Código de Atualização da Edição			
 			$dados = $_POST;
 			$tabela = $dados["tbl"];
@@ -340,6 +386,7 @@ if(!empty($_POST)){
 				if($dados["idd"] == "solucionado")	{			
 					$dados["id_pav"] 	= '0';
 					$dados["validado"] 	= '1';
+					$dados["status"]	= '2';
 				}
 				unset($dados['idd']);
 			}
@@ -390,23 +437,18 @@ if(!empty($_POST)){
 			
 			if($mysqli->affected_rows != '-1'){
 				echo '
-				<div class="alert alert-success fade in">
-				<h4>Operação executada com sucesso.</h4>
-				<p>Clique no botão abaixo para fechar esta mensagem.</p>
-				<p class="m-t-10">
-				  <button type="button" class="btn btn-default waves-effect" data-dismiss="alert" >Fechar</button>
-				</p>
-				</div>
+					<div class="alert alert-success">
+                    <h4>Muito bom!</h4>
+					A operação foi realizada com sucesso. <a href="." class="alert-link">Clique aqui</a> para atualizar os status do sistema.
+					</div>	
 				';
 				die();
 			}else{
 				echo '
 				<div class="alert alert-danger fade in">
 				<h4>Falha no processo.</h4>
-				<p>Houve um erro de causa desconhecida. Contacte o suporte.<br>Clique no botão abaixo para fechar esta mensagem.</p>
-				<p class="m-t-10">
-				  <button type="button" class="btn btn-default waves-effect" data-dismiss="alert" >Fechar</button>
-				</p>
+				<p>Houve um erro de causa desconhecida. Contacte o suporte.<br>Será necessário reiniar a rotina.</p>
+				<a href="." class="alert-link">Clique aqui</a> para atualizar o navegador.
 				</div>
 				';
 				die();
@@ -439,20 +481,22 @@ if(!empty($_POST)){
 		break;
 		case "entrada": // Entrada de dados selecionados para atendimento 1º nível
 			global $array;
-			global $id;
+			global $id_provedor;
 			$dados = $_POST; 
 			
 			if(isset($_SESSION['resultado_pesquisa']['id'])){
-				$id	= $_SESSION['resultado_pesquisa']['id'];
+				$id_provedor = $_SESSION['resultado_pesquisa']['id'];
 				unset($_SESSION['resultado_pesquisa']['id']);
 			}else{
 				echo "ATENÇÃO: ID do resultado da pesquisa retornou vazio!<br>";
-				print_r($_SESSION['resultado_pesquisa']);
+				//print_r($_SESSION['resultado_pesquisa']);
 			}
 			
-			/* print_r($dados);
+			/* echo $id."<br><br>";
+			print_r($dados);
 			echo"<br><br>";
-			print_r($_SESSION['resultado_pesquisa']); */ 
+			print_r($_SESSION['resultado_pesquisa']); 
+			echo"<br><br>"; */
 			
 			$indice = $dados["idd"];			
 			foreach($_SESSION['resultado_pesquisa'][$indice] as $key=>$value)
@@ -472,7 +516,7 @@ if(!empty($_POST)){
 		$dados = $_POST;
 		$a = new Model;
 		$e = new Acoes;
-		$query	= "SELECT * FROM pav_inscritos WHERE lixo = 0 AND validado = 0 AND id_pav = 1 ORDER BY data_abertura ASC";
+		$query	= "SELECT * FROM pav_inscritos WHERE lixo = 0 AND validado = 0 ORDER BY data_abertura ASC";
 		$return	= $a->queryFree($query);
 		while($linhas = $return->fetch_assoc()){
 			$e->conteudoTabelaCGR($linhas, $dados['caminho'], "entrada2Nivel");
@@ -512,7 +556,7 @@ if(!empty($_POST)){
 			while($linhas = $return->fetch_assoc()){
 				$e->conteudoTabelaCGR($linhas, $dados['caminho'], $dados['flag'], 'On');
 			}
-		}		
+		}	 	
 		break;
 		
 		case "pesquisaListagem":
@@ -534,6 +578,12 @@ if(!empty($_POST)){
 				$e->conteudoTabelaCGR($linhas, $dados['caminho'], $dados['flag']);
 			}
 		}		
+		break;
+		
+		case "visualizar":
+			global $id;			
+			$id = $_POST["idd"];
+			include("../../views/historicos-visualizar.php");
 		break;
 	}
   }	

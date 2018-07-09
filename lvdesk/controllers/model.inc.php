@@ -187,6 +187,7 @@ class Model{
 		#echo "INSERT INTO $tabela ($coluna) VALUES($valor)";
 		$mysqli->query("INSERT INTO $tabela ($coluna) VALUES($valor)");
 		if ($mysqli->affected_rows > 0) {
+			$_SESSION['ult_id'] = $mysqli->insert_id;
 			return true;
 		}
 		else{

@@ -48,7 +48,7 @@ $log = new Logs;
 			<div class="row">
 				<div class="form-group col-sm-6">
 					<label for="data_abertura">Data de abertura</label>
-					<input type="text" class="form-control" value="<?= date("d/m/Y", strtotime($data_abertura)) ;?>">
+					<input type="text" class="form-control" name="data_abertura" value="<?= date("d/m/Y", strtotime($data_abertura)) ;?>">
 				</div>
 				<div class="form-group col-sm-6">
 					<label for="grupo_responsavel">Grupo responsável</label>
@@ -178,8 +178,7 @@ $log = new Logs;
 								</div>
 								<div id="collapseOne-1" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
 								<div class="panel-body">
-								<input class="btn btn-success btn_driver" value="Novo" type="button" data-toggle='modal' data-target='#modal-log' style="float: right; margin: 0 15px 15px 0;">
-								
+															
   <!---------------------------------------------------------  Timeline  --------------------------------------------->								
 						<div class="content">
 							<div class="">
@@ -227,7 +226,7 @@ $log = new Logs;
 								</div>
 								<div class="panel-footer">
 								<input type="button" class="btn btn-default" data-toggle="collapse" data-parent="#accordion-test-1" href="#collapseOne-1" aria-expanded="false" value="Fechar">
-								<input class="btn btn-success btn_driver" value="Novo" type="button" data-toggle='modal' data-target='#modal-log'>
+								
 								</div>
 								</div>
 								</div>
@@ -241,75 +240,10 @@ $log = new Logs;
 			</div>
 		</div>
 	</div>	
-		
 	</div><!-- Fim Painel -->	
-	
-	<!-- Validadores -->
-	<section class="input_hidden">
-		<?php 
-		if(isset($id)){
-			echo "<input type='hidden' name='id' value='$id'/>";
-		}
-		?>
-		<input type="hidden" name="flag" value="<?= $flag;?>" />
-		<input type="hidden" name="tbl" value="pav_inscritos" />
-		<input type="hidden" name="caminho" value="controllers/sys/crud.sys.php" />
-		<input type="hidden" name="retorno" value="<?= $retorno;?>" />
-		<input type="hidden" name="atendente_responsavel" value="<?= $atendente_responsavel;?>" />
-	</section>
-	<!-- Fim dos Validadores -->	
-	<input class="btn btn-success rtrn-conteudo" id="solucionado" value="Solucionado" type="button" objeto="form-dados">
 </form>
 
-<!--------------------- Modal de Inserção de Logs -------------------->
-<div id="modal-log" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-<form id="form-log">
-	<div class="modal-dialog">
-	  <div class="modal-content">
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-			<h3 class="modal-title" id="myModalLabel">Incluir Ações</h3>
-		</div>
-		<div class="modal-body">
-			<p>Relate abaixo as informações relativas a esse atendimento</p>
-			<div class="form-group">
-				<label for="protocol">Protocolo</label>
-				<input type="text" class="form-control" name="protocol" value="<?= $a->protocolo(); ?>">
-			</div>
-			<div class="form-group">
-				<label for="historico">Histórico</label>
-				<textarea class="wysihtml5-textarea form-control" rows="9" id="historico" name="historico"></textarea>
-			</div>
-		</div>
-		<div class="modal-footer">			
-			
-		<!------------------- Validadores --------------------->
-			<section class="input_hidden">
-				<?php 
-				if(isset($id)){
-					echo "<input type='hidden' name='id' value='$id'/>";
-				}
-				?>
-				<input type="hidden" name="id_atendente" value="<?= $atendente_responsavel; ?>" />
-				<input type="hidden" name="flag" value="addLog" />
-				<input type="hidden" name="caminho" value="controllers/sys/crud.sys.php" />
-				<input type="hidden" name="retorno" value=".section_historico" />
-				<div class="row">
-				  <div class="form-group col-sm-6">
-					<label><input name="solution" type="checkbox" value='1'> Marcar este como solução</label>
-				  </div>				
-				  <div class="form-group col-sm-6">
-					<button type="button" class="btn btn-success waves-effect rtrn-conteudo" data-dismiss="modal" objeto="form-log">Salvar</button>
-				  </div>
-				</div>
-			</section>
-		<!------------------- Validadores --------------------->
 
-		</div>
-	  </div><!-- /.modal-content -->
-	</div><!-- /.modal.dialog -->
-</form>
-</div><!-- /#modal-log -->
 <script>
 	jQuery(document).ready(function(){
 		$('#historico').wysihtml5({

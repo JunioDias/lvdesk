@@ -27,9 +27,9 @@ class Acoes{
 	';
   }
   
-  public function visualizar($id, $cpf, $link, $flag){
+  public function visualizar($id){
 	echo '
-	<input objeto="form_action" class="btn btn-success btn_driver rtrn-conteudo-listagem" value="Visualizar" type="button" flag="'.$flag.'" caminho="'.$link.'" item="'.$cpf.'" idd="'.$id.'">	
+	<input objeto="form_view" class="btn btn-success btn_driver rtrn-conteudo-listagem" value="Visualizar" type="button" idd="'.$id.'">	
 	';
   }
 
@@ -76,7 +76,7 @@ class Acoes{
 	if(is_null($pave)){
 		$this->darEntrada($array['id'], $array['cpf_cnpj_cliente'], $link, $flag); 
 	}else{
-		$this->visualizar($array['id'], $array['cpf_cnpj_cliente'], $link, $flag); 
+		$this->visualizar($array['id']); 
 	}
 	echo "</td></tr>";
   }
