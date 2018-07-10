@@ -42,7 +42,7 @@ class Logs {
 						}else{
 							echo "btn-success";
 						}
-						echo " waves-effect waves-light envia-modal' data-toggle='modal' data-target='#modalLastLog' item_id=".$linhas['id']." item=".$linhas['protocol']." desc='".$linhas['descricao']."'>".$linhas['protocol']." em ".date('d/m/Y', strtotime($linhas['data']))."</button>									   
+						echo " waves-effect waves-light envia-modal' data-toggle='modal' data-target='#modalLastLog' cliente_id=".$cgr_teste['id']." item_id=".$linhas['id']." item=".$linhas['protocol']." desc='".$linhas['descricao']."'>".$linhas['protocol']." em ".date('d/m/Y', strtotime($linhas['data']))."</button>									   
 						</div>
 						";									
 					}

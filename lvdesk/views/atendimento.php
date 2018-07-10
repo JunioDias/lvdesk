@@ -2,7 +2,7 @@
   <h4 class="page-title">Atendimento</h4>
   <p>Movimentação dos chamados para atendimento</p>
 </div>
-<div class="content-sized">
+<div class="content-sized"> 
 <?php
 if(!empty($_SESSION["datalogin"])){
 	$datalogin 					= $_SESSION["datalogin"];

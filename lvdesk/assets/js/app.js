@@ -335,6 +335,13 @@ $(document).ready(function(){
    		$(".content").load($(this).attr("link"));
 	});
 	
+	$("body")
+	.on('click', '.grava-listagem', function(){
+		var id_priv = $(".teste").children("select").val();
+		console.log(id_priv);
+		
+	});
+	
 	//Captura o valor do option selecionado para conexão com provedores
 	$("body")
 	.on("change", "#select_provedor", function (event){ 
@@ -350,13 +357,10 @@ $(document).ready(function(){
 	$("body")
 	.on("click", ".envia-modal", function (event){ 
 		var a = $(this).attr("item");
-		var b = $(this).attr("item_id");
+		var b = $(this).attr("cliente_id");
 		var c = $(this).attr("desc");
 		$("#protocol").attr("value", a);
 		$("input[name='id']").attr("value", b);
-		/* $('#log').wysihtml5({
-		  locale: 'pt-BR'
-		}).data("wysihtml5").editor.setValue(c); */
 		$('#log').data("wysihtml5").editor.setValue(c);
 	});
 	

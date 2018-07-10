@@ -299,6 +299,7 @@ $log = new Logs;
 					<label><input name="solution" type="checkbox" value='1'> Marcar este como solução</label>
 				  </div>				
 				  <div class="form-group col-sm-6">
+					<button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Fechar</button>
 					<button type="button" class="btn btn-success waves-effect rtrn-conteudo" data-dismiss="modal" objeto="form-log">Salvar</button>
 				  </div>
 				</div>

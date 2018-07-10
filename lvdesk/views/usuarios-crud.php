@@ -1,29 +1,25 @@
 <?php
 $retorno	= ".content-sized";
-
 if(isset($_POST['id'])){
 	$qry = "SELECT * FROM usuarios WHERE lixo = 0 AND id='".$_POST['id']."'";
 	include("../controllers/model.inc.php");
 	$e = new Model();
 	$e->queryFree($qry);	
 	#if($result->num_rows > 0){  Indica que um registro foi selecionado para edição
-	
 	$edicao 	= $_POST;
 	$edicao 	= $result->fetch_assoc();
 	
 	$id		   		= $edicao['id'];
 	$nome			= $edicao['nome'];
-	$usuario 	 	= $edicao['usuario'];
-	$password	 	= $edicao['senha'];	
-	
+	$usuarios 	 	= $edicao['usuario'];
+	$password	 	= $edicao['senha'];		
 	$foto			= $edicao['foto'];
 	$flag	 		= "update";
 }else{
 	$id		   		= NULL;
 	$nome			= NULL;
-	$usuario 	 	= NULL;
-	$password	 	= NULL;	
-		
+	$usuarios 	 	= NULL;
+	$password	 	= NULL;			
 	$foto			= NULL;
 	$flag	 		= "add";
 	
@@ -42,7 +38,7 @@ if(isset($_POST['id'])){
 		</div>
 		<div class="form-group">
 			<label for="usuario">Nome de usuário (e-mail)</label>
-			<input type="text" class="form-control" name="usuario" value="<?= $usuario;?>"/>
+			<input type="text" class="form-control" name="usuario" value="<?= $usuarios; ?>"/>
 		</div>
 		<div class="form-group">
 			<label for="senha" class="control-label">Password</label>

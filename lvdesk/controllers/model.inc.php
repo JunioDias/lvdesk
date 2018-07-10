@@ -68,22 +68,13 @@ class Model{
 		if($tbl == 'usuarios'){
 			global $img;
 		}
-
 		if(!empty($img['name'])){#para o caso de nenhuma imagem seja carregada, mas outro item qualquer seja editado
 			if($img['type']=="image/png" || $img['type']=="image/jpg" || $img['type']=="image/jpeg" ||  $img['type']=="image/gif"){
 				if($img['size']<5242880){
 					$extfile  = strtolower(substr($img['name'], strripos($img['name'], '.', -1)));
 					if($extfile == ".jpg" || $extfile == ".png" || $extfile == ".gif" || $extfile == ".jpeg"){
 						if($tbl == 'usuarios'){
-							$path = "../media/imagens/avatar/";
-						}else if($tbl == 'artigos'){
-							$path = "../media/imagens/galeria/artigos/";
-						}else if($tbl == 'produtos'){
-							$path = "../media/imagens/galeria/produtos/";
-						}else if($tbl == 'servicos'){
-							$path = "../media/imagens/galeria/servicos/";
-						}else if($tbl == 'pav'){
-							$path = "../media/imagens/galeria/pav/";
+							$path = "../../assets/images/users/";
 						}
 						$img['name'] = time().rand (5, 15).$extfile;
 						move_uploaded_file($img['tmp_name'], $path.$img['name']);
@@ -91,15 +82,17 @@ class Model{
 						return $media;
 					}else{
 						echo '
-						<div msg_dialog class="alerta" title="Clique para fechar.">
-						Extensão inválida para fotos! Edição não permitida.
+						<div class="alert alert-danger">
+							<h4>Tivemos um problema...</h4>
+							Extensão inválida para fotos! <a href="." class="alert-link">Clique aqui</a> para atualizar os status do sistema.
 						</div>';
 						die();
 					}
 				}else{
 					echo '
-					<div msg_dialog class="alerta" title="Clique para fechar.">
-					Tamanho do arquivo não pode<br> ser maior que 5 Mb! <br>Edição não permitida.
+					<div class="alert alert-danger">
+					<h4>Tivemos um problema...</h4>
+					Tamanho do arquivo não pode<br> ser maior que 5 Mb! <a href="." class="alert-link">Clique aqui</a> para atualizar os status do sistema.
 					</div>';
 					die();
 				}
@@ -119,15 +112,18 @@ class Model{
 						$media = $this->queryFree("INSERT INTO ".$tbl."(midia, tipo) VALUES('".$img['name']."', 'video')");
 						return $media;
 					}else{
-						echo '
-						<div msg_dialog class="alerta" title="Clique para fechar.">
-						Extensão inválida para áudio/vídeo! Edição não permitida.
-						</div>';
+						echo '						
+							<div class="alert alert-danger">
+							<h4>Tivemos um problema...</h4>
+							Extensão inválida para áudio/vídeo.  <a href="." class="alert-link">Clique aqui</a> para atualizar os status do sistema.
+							</div>	
+						';
 						die();
 					}
 				}else{
 					echo '
-					<div msg_dialog class="alerta" title="Clique para fechar.">
+					<div class="alert alert-danger">
+					<h4>Tivemos um problema...</h4>
 					Tamanho do arquivo não pode<br> ser maior que 15 Mb! <br>Edição não permitida.
 					</div>';
 					die();
@@ -142,7 +138,7 @@ class Model{
 			global $img;
 			if(is_array($_FILES)){
 				# é um array simples
-				$img = $_FILES[$vetor];
+				$img   = $_FILES[$vetor];
 				$media = $this->ajeitaFoto($img, $tbl);
 				return $media;
 			}else{
@@ -152,8 +148,8 @@ class Model{
 				foreach($arr as $key => $dados){
 					for($z=0; $z<count($dados); $z++){
 						$goose[$z][$key] = $dados[$z];
-					} # close for($z=0; $z<count($dados); $z++)
-				} # close foreach($arr as $key => $dados)
+					} 
+				} 
 
 				foreach($goose as $indice){
 					$media = $this->ajeitaFoto($indice, $tbl);
@@ -161,10 +157,11 @@ class Model{
 				}
 			}#if(testArray($_FILES))
 		}else{
-			echo "
-			<div msg_dialog class='erro' title='Clique para fechar.'>
+			echo '
+			<div class="alert alert-danger">
+			<h4>Tivemos um problema...</h4>
 			Ambiente de upload não configurado!<br>Contate o suporte.
-			</div>";
+			</div>';
 			die();
 		}#if (isset($_FILES))
 	}
@@ -356,6 +353,8 @@ class Model{
 					echo "<li><a class='regular-link' link='".$subMenu['valor']."' lv>";
 					if($subMenu['nome'] == 'Serviços'){
 						$this->notification();
+					}else if($subMenu['nome'] == 'Leitura de e-mails'){
+						$this->notification('1');
 					}
 					echo $subMenu['nome']."</a></li>";
 				}
@@ -396,15 +395,27 @@ class Model{
 	  }
 	}
 
-	public function notification(){
-		$query = "SELECT COUNT(id) as qnt_id FROM pav_inscritos WHERE validado = 0 AND lixo = 0";
-		$foo = $this->queryFree($query);
-		$val = $foo->fetch_assoc();
-		if($val['qnt_id'] > 0){
-			echo '<span style="vertical-align: top;" id="notificador" class="badge badge-primary pull-right">'.$val['qnt_id'].'</span>';
-			return true;
+	public function notification($flag = NULL){
+		if(is_null($flag)){
+			$query = "SELECT COUNT(id) as qnt_id FROM pav_inscritos WHERE validado = 0 AND lixo = 0";
+			$foo = $this->queryFree($query);
+			$val = $foo->fetch_assoc();
+			if($val['qnt_id'] > 0){
+				echo '<span style="vertical-align: top;" id="notificador" class="badge badge-primary pull-right">'.$val['qnt_id'].'</span>';
+				return true;
+			}else{
+				return false;
+			}
 		}else{
-			return false;
+			if ($_SESSION['mail_box']) {
+				$total_de_mensagens = imap_num_msg($_SESSION['mail_box']);
+				if($total_de_mensagens > 0){
+					echo '<span style="vertical-align: top;" id="notificador" class="badge badge-primary pull-right">'.$total_de_mensagens.'</span>';
+					return true;
+				}else{
+					return false;
+				}
+			}
 		}
 	}
 
