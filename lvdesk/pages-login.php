@@ -66,26 +66,7 @@ $a = new Model();
                                 </div>
                             </div>
                         </div>
-
-                        <?php
-                        if (isset($_SESSION['returnLogin'])) {
-                            switch ($_SESSION['returnLogin']) {
-                                case 'denied':
-                                    ?>
-                                    <div class="alert alert-danger fade in">
-                                        <h4>Falha na operação.</h4>
-                                        <p>Usuário ou senha não correspodem.</p>
-                                        <!-- <p class="m-t-10">
-                                            <a type="button" class="btn btn-default waves-effect regular-link" href="../../pages-login.php">Fechar</a>
-                                        </p> -->
-                                    </div>
-                                    <?php
-                                break;
-                            } // close switch ($_SESSION['returnLogin'])
-                        } // close if ($_SESSION['returnLogin'] === 'denied')
-                        session_destroy();
-                        ?>
-                        <div class="form-group text-center m-t-40">
+                       <div class="form-group text-center m-t-40">
                             <div class="col-xs-12">
                                 <button class="btn btn-warning btn-block btn-lg waves-effect waves-light" type="submit" >Log In</button>
 								<input type="hidden" name="flag" value="login" />
@@ -131,5 +112,32 @@ $a = new Model();
 
         <script src="assets/js/app.js"></script>
 
+        <div id="alerta" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h3 class="modal-title" id="myModalLabel">Atenção!</h3>
+                    </div>
+                    <div class="modal-body">
+                        <h4>Falha no processo.</h4>
+                        <p>Usuário ou senha não correspodem.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success waves-effect" data-dismiss="modal">OK</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal.dialog -->
+        </div>
+        <?php
+        if (isset($_SESSION['returnLogin']) && $_SESSION['returnLogin'] === 'denied') {
+            ?>
+            <script type="text/javascript">
+                $('#alerta').modal();
+            </script>
+            <?php
+        } // close if ($_SESSION['returnLogin'] === 'denied')
+        session_destroy();
+        ?>
     </body>
 </html>

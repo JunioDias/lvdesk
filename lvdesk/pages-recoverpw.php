@@ -52,22 +52,6 @@
                                 <input class="form-control" type="text" name="usuario" required="" placeholder="e-mail">
                             </div>
                         </div>
-
-                        <?php
-                        if (isset($_SESSION['returnLogin']) && $_SESSION['returnLogin'] === 'notEmail') {
-                            ?>
-                            <div class="alert alert-danger fade in">
-                                <h4>Falha no processo.</h4>
-                                <p>E-mail não existe na base de dados<br>Clique no botão abaixo para fechar esta mensagem.</p>
-                                <!-- <p class="m-t-10">
-                                  <a type="button" class="btn btn-default waves-effect" data-dismiss="alert" href="javascript:history.go(-1);">Fechar</a>
-                                </p> -->
-                            </div>
-                            <?php
-                        } // close if ($_SESSION['returnLogin'] === 'denied')
-                        session_destroy();
-                        ?>
-
                         <div class="form-group text-center m-t-30 m-b-0">
                             <div class="col-xs-12">
                                 <button class="btn btn-primary btn-block btn-lg waves-effect waves-light" type="submit" >Enviar e-mail</button>
@@ -97,5 +81,32 @@
 
         <script src="assets/js/app.js"></script>
 
+        <div id="alerta" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h3 class="modal-title" id="myModalLabel">Atenção!</h3>
+                    </div>
+                    <div class="modal-body">
+                        <h4>Falha no processo.</h4>
+                        <p>E-mail não existe na base de dados<br>Clique no botão abaixo para fechar esta mensagem.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success waves-effect" data-dismiss="modal">OK</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal.dialog -->
+        </div>
+        <?php
+        if (isset($_SESSION['returnLogin']) && $_SESSION['returnLogin'] === 'notEmail') {
+            ?>
+            <script type="text/javascript">
+                $('#alerta').modal();
+            </script>
+            <?php
+        } // close if ($_SESSION['returnLogin'] === 'denied')
+        session_destroy();
+        ?>
     </body>
 </html>
