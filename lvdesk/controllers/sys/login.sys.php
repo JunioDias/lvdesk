@@ -6,9 +6,20 @@ if(!empty($_POST)){
 	switch($_POST['flag']){
 		case "login":
 			unset($_POST["flag"],$_POST["caminho"]);
-			$acesso = new Model();
-			$resultado = $acesso->login($_POST["usuario"],md5($_POST["senha"]));
-			echo $resultado;
+			$dados = $_POST;
+			$a = new Model();
+			/*Teste para identificar o ambiente de clientes*/
+			$query = "SELECT * FROM clientes WHERE usuario = '".$dados["usuario"]."' AND lixo = 0";
+			$retorna_query = $a->queryFree($query);
+			$teste = $retorna_query->fetch_assoc();
+			if(empty($teste['id'])){ #caso nada seja encontrado procede o login normalmente
+				$resultado = $a->login($dados["usuario"], md5($dados["senha"]));
+				return $resultado;
+			}else{
+				$resultado = $a->loginCliente($teste["usuario"], md5($dados["senha"]));
+				return $resultado;
+			}	 	
+			#echo $resultado;
 		break;
 		case "logout":
 			session_destroy();

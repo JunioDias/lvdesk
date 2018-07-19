@@ -112,8 +112,9 @@ if($id_provedor){//Existe um provedor
 						<label for="usuario">Usuário</label>
 						<input type="text" class="form-control" name="usuario" value="<?= $usuario;?>">
 					</div>
-					</div>			    
-				
+					</div>	
+
+					
 					<div class="form-group col-sm-4">
 					<div class="form-group">
 						<label for="nas">NAS IP</label>
@@ -139,13 +140,41 @@ if($id_provedor){//Existe um provedor
 						<div class="form-group">
 						<label for="ultimos">ÚLTIMOS ATENDIMENTOS</label>
 						</div>
-						<section class="section_historico_log">
-					<?php
-					$log->ultimosAtendimentos($array['cpf_cnpj']);	
-					?>
-					</section>
+						<section class="section_historico_log">						
+							<?php
+							$log->ultimosAtendimentos($array['cpf_cnpj']);	
+							?>						
+							
+						</section>						
 					</div>
 				</div>
+				
+				<div class="row">
+					<div class="form-group col-sm-4">
+						<div class="form-group">
+							<label for="origem">Origem do contato</label>
+							<div class="radio radio-primary">
+								<input type="radio" name="origem" id="whatsapp" value="whatsapp" >
+								<label for="whatsapp">
+									WhatsApp
+								</label>
+							</div>
+							<div class="radio radio-primary">
+								<input type="radio" name="origem" id="recebida" value="recebida">
+								<label for="recebida">
+									Ligação Recebida
+								</label>
+							</div>
+							<div class="radio radio-primary">
+								<input type="radio" name="origem" id="efetuada" value="efetuada">
+								<label for="efetuada">
+									Ligação Efetuada
+								</label>
+							</div>
+						</div>							
+					</div>
+				</div>
+				
 			</div>			
 		</div>
 	
@@ -245,9 +274,39 @@ if($id_provedor){//Existe um provedor
 	  <div class="modal-content">
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			<h3 class="modal-title" id="modalLabelLog">Histórico de ações</h3>
+		</div>
+		<div class="modal-body">		
+			<div class="form-group">
+				<div class="form-group"><!-- Área da timeline -->
+					<label for="historico">Cliente</label><p><?= $nome_cliente;?></p><hr>
+					<section class="section_historico"></section>
+				</div>
+			</div>			
+		</div>
+		<div class="modal-footer">		
+			<button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Fechar</button>
+			<button type="button" class="btn btn-success waves-effect rtrn-conteudo" data-toggle='modal' data-target='#modalAddLog'>Incluir</button>
+		</div>
+	  </div><!-- /.modal-content -->
+	</button>
+	</div><!-- /.modal.dialog -->
+</form>
+</div><!-- /#modal-log -->
+<form id="form_ultimos_atendimentos">
+	<input type="hidden" name="flag" value="ultimosAtendimentos" />
+	<input type="hidden" name="retorno" value=".section_historico" />
+</form>
+<!--------------------- Modal de Inserção de Logs -------------------->
+<div id="modalAddLog" class="modal fade" tabindex="-2" role="dialog" aria-labelledby="modalLabelLog" aria-hidden="true" style="display: none;">
+<form id="form-add-log">
+	<div class="modal-dialog">
+	  <div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 			<h3 class="modal-title" id="modalLabelLog">Incluir Ações</h3>
 		</div>
-		<div class="modal-body">
+		<div class="modal-body">		
 			<p>Relate abaixo as informações relativas ao atendimento selecionado</p>
 			<div class="form-group">
 				<label for="protocol">Protocolo</label>
@@ -266,6 +325,7 @@ if($id_provedor){//Existe um provedor
 				<label for="historico">Histórico</label>
 				<textarea class="wysihtml5-textarea form-control" rows="9" id="log" name="historico"></textarea>
 			</div>
+			
 		</div>
 		<div class="modal-footer">
 		<!------------------- Validadores --------------------->
@@ -275,11 +335,11 @@ if($id_provedor){//Existe um provedor
 				<input type="hidden" name="id_atendente" value="<?= $atendente_responsavel; ?>" />
 				<input type="hidden" name="flag" value="addLog" />
 				<input type="hidden" name="caminho" value="controllers/sys/crud.sys.php" />
-				<input type="hidden" name="retorno" value=".section_historico_log" />				
+				<input type="hidden" name="retorno" value=".section_historico" />				
 			</section>
 		<!------------------- Validadores --------------------->
 		<button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Fechar</button>
-		<button type="button" class="btn btn-success waves-effect rtrn-conteudo" data-dismiss="modal" objeto="form-log">Salvar
+		<button type="button" class="btn btn-success waves-effect rtrn-conteudo" data-dismiss="modal" objeto="form-add-log">Salvar
 		</div>
 	  </div><!-- /.modal-content -->
 	</button>

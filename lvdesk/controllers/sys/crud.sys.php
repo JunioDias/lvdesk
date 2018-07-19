@@ -56,6 +56,7 @@ if(!empty($_POST)){
 				unset($dados['hora_add']);
 				$dados["data_abertura"] = date("Y-m-d H:i:s");
 				$dados["protocol"] = $a->protocolo();
+				$dados["autor"] = $dados['atendente_responsavel'];
 			}			
 			
 			if(isset($dados["_wysihtml5_mode"])){
@@ -310,20 +311,6 @@ if(!empty($_POST)){
 			//header($path);
 		break;
 		
-		/* case "subUpdate":
-		if(isset($dados['subTabela'])){ //inicialmente apenas para a rotina de históricos
-				$newlog['protocol'] 		= $dados['protocol'];
-				$newlog['descricao']		= $dados['historico'];
-				$newlog['files']			= NULL;
-				$newlog['id_atendente']		= $dados['id_atendente'];;
-				$newlog['id_pav']			= $dados['id_pav'];
-				$newlog['data']				= date('Y-m-d H:i:s');
-				#$a->update($dados['subTabela'], $newlog, $dados['id']);
-				unset($dados['id_atendente'], $dados['subTabela']);
-				print_r($newlog);
-			}
-		break; */
-		
 		case "update":		#Código de Atualização da Edição			
 			$dados = $_POST;
 			$tabela = $dados["tbl"];
@@ -512,6 +499,20 @@ if(!empty($_POST)){
 			include("../../views/atendimento-entrada-nivel-2.php");	 
 		break;
 		
+		case "ultimosAtendimentos":
+		$log = new Logs;
+		$a = new Model;
+		$dados = $_POST;
+		$query_movimentos = "
+		SELECT pav.id, pav.protocol, pav.data, pav.descricao, pav.solution, atend.nome FROM pav_movimentos AS pav INNER JOIN atendentes AS atend ON atend.id = pav.id_atendente INNER JOIN pav_inscritos ON pav_inscritos.id = pav.id_pav_inscritos WHERE pav.id_pav_inscritos = '".$dados['id']."' AND pav.lixo = 0 ORDER BY pav.data DESC";
+		$resultado = $a->queryFree($query_movimentos);
+		if($resultado){
+			while($linhas = $resultado->fetch_assoc()){
+				$log->timeline($linhas, $linhas['solution'], 'fa-check');
+			}					
+		}
+		break;
+		
 		case "emabertos":
 		$dados = $_POST;
 		$a = new Model;
@@ -545,15 +546,17 @@ if(!empty($_POST)){
 		
 		$query		= $a->selecionaQueryMySQL($dados['nome_cliente'], 'nome_cliente', $dados['cpf'], 'cpf_cnpj_cliente', $dados['nome_provedor'], 'nome_provedor', 'pav_inscritos');
 		if($query == 'SELECT * FROM pav_inscritos '){
-			$query 	   .= "WHERE validado = 1 ORDER BY data_abertura ASC";
+			$query 	   .= "WHERE validado = 1 AND autor = ".$dados['autor']." ORDER BY data_abertura ASC";
 		}else{
-			$query 	   .= " AND validado = 1 ORDER BY data_abertura ASC";
+			$query 	   .= " AND validado = 1 AND autor = ".$dados['autor']." ORDER BY data_abertura ASC";
 		}
-		$return = $a->queryFree($query);
-		if($return === false){
+		$retorno = $a->queryFree($query);
+		$t = $a->queryFree($query);
+		$teste = $t->fetch_assoc();
+		if(empty($teste['id'])){
 			echo '<tr><td>Nenhum registro encontrado.</td></tr>';
 		}else{
-			while($linhas = $return->fetch_assoc()){
+			while($linhas = $retorno->fetch_assoc()){
 				$e->conteudoTabelaCGR($linhas, $dados['caminho'], $dados['flag'], 'On');
 			}
 		}	 	

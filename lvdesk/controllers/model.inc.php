@@ -22,32 +22,37 @@ class Model{
 	}
 
 	function login($user, $senha){
-		#by Adan, 24 de junho de 2015.
+		#by Adan, 24 de junho de 2015. Atualizado em 19 de julho de 2017 para acesso a ambiente de cliente.
 		global $mysqli;
 		global $result;
 		$query = "SELECT u.*, p.nome AS 'nomep' FROM usuarios AS u INNER JOIN privilegios AS p ON id_privilegio = p.id WHERE usuario = '$user' AND senha = '$senha' AND u.lixo = 0";
 		$mysql_result = $mysqli->query($query);
 		$result = $mysql_result->fetch_assoc();
-
 		if($result){
 			$_SESSION["datalogin"] = $result;
 			return header("Location: ../../index.php");
-		}
-		else{
-			// $result = '
-			// <div class="alert alert-danger fade in">
-			// <h4>Falha na operação.</h4>
-			// <p>Usuário e senha não correspodem.</p>
-			// <p class="m-t-10">
-			//   <a type="button" class="btn btn-default waves-effect regular-link" href="../../pages-login.php">Fechar</a>
-			// </p>
-			// </div>';
-			// session_destroy();
+		}else{
 			$_SESSION['returnLogin'] = 'denied';
-			// $result = '<script type="text/javascript"> window.history.go(-1); </script>';
 			return header('Location: ../../pages-login.php');
-		}
-	}
+		} 
+	}	
+	
+	function loginCliente($user, $senha){
+		#by Adan em 19 de julho de 2018 para acesso a ambiente de cliente.
+		global $mysqli;
+		global $result;
+		$query = "SELECT c.*, p.nome AS 'nomep' FROM clientes AS c INNER JOIN privilegios AS p ON id_privilegio = p.id WHERE usuario = '$user' AND senha = '$senha' AND c.lixo = 0";
+		$mysql_result = $mysqli->query($query);
+		$result = $mysql_result->fetch_assoc();
+		if($result){
+			/* $_SESSION["datalogin"] = $result;
+			return header("Location: ../../index.php"); */
+			echo "Ambiente de Cliente";
+		}else{
+			$_SESSION['returnLogin'] = 'denied';
+			return header('Location: ../../pages-login.php');
+		} 
+	}	
 
 	public function queryFree($query){
 		#by Adan, 04 de junho de 2015.
@@ -407,7 +412,7 @@ class Model{
 				return false;
 			}
 		}else{
-			if ($_SESSION['mail_box']) {
+			if (isset($_SESSION['mail_box'])) {
 				$total_de_mensagens = imap_num_msg($_SESSION['mail_box']);
 				if($total_de_mensagens > 0){
 					echo '<span style="vertical-align: top;" id="notificador" class="badge badge-primary pull-right">'.$total_de_mensagens.'</span>';

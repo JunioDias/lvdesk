@@ -119,6 +119,10 @@ a:focus {
   overflow: hidden;
   width: 100%;
 }
+#notificador{
+	position: relative;
+	top:-3px;
+}
 .page {
   bottom: 0;
   left: 0;

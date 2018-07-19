@@ -1,13 +1,10 @@
 <?php
+include("../controllers/model.inc.php");	
 $retorno	= ".content-sized";
-
+$e = new Model();
 if(isset($_POST['id'])){
-	$qry = "SELECT * FROM atendentes WHERE lixo = 0 AND id='".$_POST['id']."'";
-	include("../controllers/model.inc.php");
-	$e = new Model();
+	$qry = "SELECT * FROM atendentes WHERE lixo = 0 AND id='".$_POST['id']."'";	
 	$e->queryFree($qry);	
-	#if($result->num_rows > 0){  Indica que um registro foi selecionado para edição
-	
 	$edicao 	= $_POST;
 	$edicao 	= $result->fetch_assoc();
 	
@@ -65,8 +62,23 @@ if(isset($_POST['id'])){
 ?>
 	<form id="form-modulo">
 		<div class="form-group">
-			<label for="nome">Nome completo do usuário</label>
-			<input type="text" class="form-control" name="nome" value="<?= $nome;?>"/>
+			<label for="nome">Usuário</label>
+			<select class="form-control" name="nome">
+			<?php
+			$query 	= "SELECT id, nome FROM usuarios WHERE lixo = 0";
+			if(is_null($id)){
+				$result = $e->queryFree($query);
+				while($linhas = $result->fetch_assoc()){
+					echo "<option value='".$linhas['id']."'>".$linhas['nome']."</option>";
+				}		
+			}else{	
+				$result = $e->queryFree($query);
+				while($linhas = $result->fetch_assoc()){
+					echo "<option value='".$linhas['id']."' ".($linhas['id']==$id ? 'selected' : '').">".$linhas['nome']."</option>";
+				} 
+			}			  
+			?>
+			</select>
 		</div>
 		<div class="form-group">
 			<label for="usuario">Nome de usuário (e-mail)</label>
@@ -133,21 +145,23 @@ if(isset($_POST['id'])){
 			<input type="text" class="form-control" name="uf" value="<?= $uf;?>"/>
 		</div>
 		<div class="form-group">
-			<label for="tipo_atendente">Tipo de atendimento</label>
-			<input type="text" class="form-control" name="tipo_atendente" value="<?= $tipo_atendente;?>"/>
-		</div>
-		
-		<div class="row">
-			<div class="col-sm-6">
-			  <div class="form-group">
-				<label for="foto">Imagem</label>
-				<input type="text" class="form-control" name="foto" value="<?= $foto;?>"/>
-			  </div>
-			</div>
-			<div class="col-sm-6">
-				<label >Enviar nova imagem</label >
-				<input class="filestyle" data-input="false" id="filestyle-1" style="position: absolute; clip: rect(0px, 0px, 0px, 0px);" tabindex="-1" type="file" name="foto" title="Extensões válidas .jpg, .jpeg, .gif e .png"><div class="bootstrap-filestyle input-group"><span class="group-span-filestyle " tabindex="0"><label for="filestyle-1" class="btn btn-default "><span class="icon-span-filestyle glyphicon glyphicon-folder-open"></span> <span class="buttonText">Selecionar</span></label></span></div>
-			</div>
+			<label for="tipo_atendente">Tipo de atendente</label>
+			<select class="form-control" name="tipo_atendente">
+			<?php
+			$query 	= "SELECT id, nome FROM tipo_atendentes WHERE lixo = 0";
+			if(isset($id)){
+				$result = $e->queryFree($query);
+				while($linhas = $result->fetch_assoc()){
+					echo "<option value='".$linhas['id']."' ".($linhas['id'] == $tipo_atendente ? 'selected' : '').">".$linhas['nome']."</option>";
+				}		
+			}else{	
+				$result = $e->queryFree($query);
+				while($linhas = $result->fetch_assoc()){
+					echo "<option value='".$linhas['id']."'>".$linhas['nome']."</option>";
+				} 
+			}			  
+			?>
+			</select>
 		</div>
 		<input class="btn btn-default rtrn-conteudo" value="Salvar" type="button" objeto="form-modulo">
 	<?php 

@@ -1,7 +1,8 @@
-<head>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-</head>
-<body>
+<section class="new_content" style="padding: 5px 10px;">
+<section class="titulo">
+<h4>Cadastro de Perfil</h4>
+<p>Gerenciador de perfis contratuais</p><br>
+</section>
 <section id="find-me">
 	  
 	<table class="table table-hover">
@@ -50,11 +51,11 @@
 		  <div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-				<h3 class="modal-title" id="myModalLabel">Tem certeza que deseja fazer essa ação?</h3>
+				<h4 class="modal-title" id="myModalLabel">Tem certeza que deseja fazer essa ação?</h4>
 			</div>
 			<div class="modal-footer">	
 				<!------------------- Validadores --------------------->
-				<section class="modal_input_hidden">
+				<section id="modal_input_hidden">
 					<input type="hidden" name="flag" value="addLog" />
 					<input type="hidden" name="caminho" value="controllers/sys/crud.sys.php" />
 					<input type="hidden" name="retorno" value=".section_historico" />
@@ -69,13 +70,14 @@
 		</div><!-- /.modal.dialog -->
 	</form>
 </div><!-- /#modal-log -->
-
+</section> <!-- New_Content -->
 <script type="text/javascript">
 $(document).ready(function(){
 $("body")
 	.on('click', '.content_trigger_post', function(){
-		var x = $(this).attr("objeto");
-		var input_hidden = $(this).attr("input_hidden");
+		var y = $(this).attr("input_hidden");
+		var input_hidden = document.getElementById(y);
+		var x = $(this).attr("objeto");		
 		var z = document.getElementById(x);
 		objeto = new FormData(z);
 		for(var pair of objeto.entries()) {
@@ -101,9 +103,4 @@ $("body")
 		
 	});
 });
-
-
-
 </script>
-</body>
-

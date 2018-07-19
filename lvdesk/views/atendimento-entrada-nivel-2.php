@@ -15,7 +15,7 @@ $data_abertura	= $matriz['data_abertura'];
 $grupo		 	= $matriz['grupo_responsavel'];
 $nome_cliente	= $matriz['nome_cliente'];
 $cpf_cnpj		= $matriz['cpf_cnpj_cliente'];
-$autor	 	 	= $matriz['nome'];
+$autor	 	 	= $matriz['autor'];
 $endereco 		= $matriz['endereco_cliente'];
 $telefone		= $matriz['telefone_cliente'];
 $usuario		= $matriz['usuario'];
@@ -92,7 +92,14 @@ $log = new Logs;
 			<div class="row">
 				<div class="form-group col-sm-6">
 					<label for="autor">Autor</label>
-					<input type="text" class="form-control" name="autor" value="<?= $autor ;?>">
+					<?php
+					$queryAtend	= "SELECT id, nome FROM atendentes WHERE id = $autor";
+					if(isset($id)){
+						$result = $a->queryFree($queryAtend);
+						$linha = $result->fetch_assoc();
+						echo '<input type="text" class="form-control" value="'.$linha['nome'].'" />';	
+					}				
+					?>
 				</div>	
 				
 				<div class="form-group col-sm-6">

@@ -328,6 +328,10 @@ function toggle_slimscroll(item){
 * Data: 12/05/2018
 */
 
+$(document).keypress(function(e) {
+    if(e.which == 13) $('#primario').click();
+});
+
 //Comportamento dos links do menu do painel administrativo
 $(document).ready(function(){
 	$("body")
@@ -357,11 +361,29 @@ $(document).ready(function(){
 	$("body")
 	.on("click", ".envia-modal", function (event){ 
 		var a = $(this).attr("item");
-		var b = $(this).attr("cliente_id");
-		var c = $(this).attr("desc");
+		var b = $(this).attr("cliente_id");		
 		$("#protocol").attr("value", a);
 		$("input[name='id']").attr("value", b);
-		$('#log').data("wysihtml5").editor.setValue(c);
+		var objeto = new FormData(document.querySelector("#"+$(this).attr("objeto")));
+		objeto.append('id', b);
+		
+		$.ajax({
+			url: "controllers/sys/crud.sys.php", 
+			data: objeto,
+			type: 'post',
+			processData: false,  
+  			contentType: false,
+			success: function(retornoDados){
+				if(objeto.get("retorno")){
+					//$(".modal-backdrop").hide();
+					var retorno = objeto.get("retorno");
+					$(retorno).html(retornoDados);
+				}else{
+					$("body").html(retornoDados);
+				}								
+			}
+		});
+		
 	});
 	
 	$("body")

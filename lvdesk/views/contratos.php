@@ -1,7 +1,3 @@
-<head>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-</head>
-<body>
 <section id="find-me">
 	  
 	<table class="table table-hover">
@@ -101,9 +97,4 @@ $("body")
 		
 	});
 });
-
-
-
 </script>
-</body>
-

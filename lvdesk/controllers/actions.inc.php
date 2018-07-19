@@ -80,5 +80,22 @@ class Acoes{
 	}
 	echo "</td></tr>";
   }
+  
+ /*  public function conteudoTabelaInput($array, $link, $flag, $pave = NULL){
+	$count = 0;
+	for 
+	echo "
+	<tr>
+	<form id='x".$count."'>
+	<td><input type='hidden' name='".."' value='".."' />".."</td>	
+	";  
+	if(is_null($pave)){
+		$this->darEntrada($array['id'], $array['cpf_cnpj_cliente'], $link, $flag); 
+	}else{
+		$this->visualizar($array['id']); 
+	}
+	echo "</td></tr>";
+	$count++;
+  } */
 }
 ?>

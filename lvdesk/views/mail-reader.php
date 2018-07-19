@@ -1,5 +1,11 @@
 <?php
-include("../controllers/conexao.inc.php");
+$username 			= "noc@lvnetwork.com.br";
+$password 			= "lvn37w0rk5";
+$incoming_server 	= "srv214.prodns.com.br";
+$port 				= "993";
+
+$_SESSION['mail_box'] = imap_open("{" . $incoming_server . ":" . $port . "/imap/ssl/novalidate-cert}INBOX", $username, $password) or die("<div class='alert alert-danger fade in'><h4>Falha na conexão</h4><p>Erro retornado: ".imap_last_error()."</p><br><a href='.' class='alert-link'>Clique aqui</a> para atualizar o navegador.</div>");
+
 if ($_SESSION['mail_box']) {
 	$mail_box = $_SESSION['mail_box'];
     $total_de_mensagens = imap_num_msg($mail_box);

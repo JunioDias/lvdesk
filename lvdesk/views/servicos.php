@@ -16,6 +16,9 @@
 	<form id="salvarFiltros">
 	<input class="btn btn-warning btn_driver" value="Salvar Filtros" type="button" >
 	</form>
+	<form id="incluirAtendimento">
+	<input class="btn btn-info btn_driver regular-link" value="Incluir" type="button" link="views/atendimento-entrada-nivel-3.html">
+	</form>
 </section>
 <table class="table table-hover">
 <thead>
@@ -80,7 +83,7 @@ $flag		= "entrada2Nivel";
 		</div>
 		<div class="modal-footer">
 			<button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Fechar</button>
-			<a class='btn btn-success rtrn-conteudo-listagem' objeto='form_search' flag='pesquisaCGR' caminho='controllers/sys/crud.sys.php' data-dismiss="modal">Pesquisar</a>
+			<a id="primario" class='btn btn-success rtrn-conteudo-listagem' objeto='form_search' flag='pesquisaCGR' caminho='controllers/sys/crud.sys.php' data-dismiss="modal">Pesquisar</a>
 		</div>
 	  </div><!-- /.modal-content -->
 	</div><!-- /.modal dialog -->

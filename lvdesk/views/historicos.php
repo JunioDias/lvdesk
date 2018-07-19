@@ -1,3 +1,11 @@
+<?php
+session_start();
+if(!empty($_SESSION["datalogin"])){
+	$datalogin 					= $_SESSION["datalogin"];
+	$atendente_responsavel		= $datalogin['id'];
+}
+?>
+
 <div class="page-header-title">
   <h4 class="page-title">Históricos de Serviços</h4>
   <p>Listagem de clientes de atendimentos finalizados</p>
@@ -24,22 +32,7 @@
 	  </tr>
 	</thead>
 	<tbody id="table_servicos" >
-	<?php
-	/* include("../controllers/model.inc.php"); 
-	include("../controllers/actions.inc.php");
-	$i = 0;
-	$botoes = new Acoes();
-	$a = new Model();
-
-	$query		= "SELECT * FROM pav_inscritos WHERE lixo = 0 AND validado = 1 ORDER BY data_abertura ASC";
-	$result 	= $a->queryFree($query);
-
-	$tabela  	= "pav_inscritos";						#tabela principal, alvo da rotina
-	$cbkedit	= "views/historicos-visualizar.php";	#callback do botão Editar
-	$cbkdel 	= "views/historicos.php";  				#callback do botão Excluir
-	$link		= "controllers/sys/crud.sys.php";
-	$flag		= "visualizar"; */
-	?>	
+	
 	</tbody>
 	</table>
 
@@ -68,15 +61,19 @@
 			</div>
 			<?php 
 			if(isset($search['id'])){
-			  echo "<input type='hidden' name='id_provedor' value='".$search['id']."'/>";
+			  echo "
+			  <input type='hidden' name='id_provedor' value='".$search['id']."'/>			  
+			  ";
 			}
+			echo "<input type='hidden' name='autor' value='".$atendente_responsavel."'/>";
 			?>
+			
 			<input type="hidden" name="retorno" value="#table_servicos" />
 		</form>	  
 		</div>
 		<div class="modal-footer">
 		  <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Fechar</button>
-		  <a class='btn btn-success rtrn-conteudo-listagem' objeto='form_action' flag='pesquisaHistoricos' caminho='controllers/sys/crud.sys.php' data-dismiss="modal">Pesquisar</a>
+		  <a id="primario" class='btn btn-success rtrn-conteudo-listagem' objeto='form_action' flag='pesquisaHistoricos' caminho='controllers/sys/crud.sys.php' data-dismiss="modal">Pesquisar</a>
 		</div>
 	  </div><!-- /.modal-content -->
 	</div><!-- /.m-->
