@@ -379,7 +379,7 @@ if(!empty($_POST)){
 			}
 			
 			unset($dados["confirmasenha"], $dados["flag"], $dados["tbl"], $dados["caminho"], $dados["retorno"] );
-			
+			print_r($dados);
 			if(isset($dados['id'])){
 				if(in_array(true, array_map('is_array', $dados), true) == ''){
 					unset($dados['chave_cerquilha']);

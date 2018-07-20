@@ -199,7 +199,7 @@ if(isset($_POST['id'])){
 		?>
 		<input type="hidden" name="retorno" value="<?= $retorno;?>" />
 		<input type="hidden" name="flag" value="<?= $flag;?>" />
-		<input type="hidden" name="tbl" value="atendentes" />
+		<input type="hidden" name="tbl" value="clientes" />
 		<input type="hidden" name="caminho" value="controllers/sys/crud.sys.php" />
 	</div>
 </div>
