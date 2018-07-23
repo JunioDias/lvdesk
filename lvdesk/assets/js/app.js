@@ -340,12 +340,19 @@ $(document).ready(function(){
 	});
 	
 	$("body")
-	.on('click', '.grava-listagem', function(){
-		var id_priv = $(".teste").children("select").val();
-		console.log(id_priv);
+	.on('click', '.envia-listagem-deliberar', function(){
 		
-	});
+		var linha = new FormData(document.querySelector("#"+$(this).attr("linha")));			
+		for(var pair of linha.entries()) {
+			$(".input_hidden").append("<input class='remove-me' type='hidden' name='"+pair[0]+"' value='"+ pair[1]+"' />"); 
+		}
+	}); 
 	
+	$("body")
+	.on("click", ".remove-inputs", function (event){ 
+		$(".remove-me").remove();
+	});
+	 
 	//Captura o valor do option selecionado para conexão com provedores
 	$("body")
 	.on("change", "#select_provedor", function (event){ 
@@ -357,6 +364,7 @@ $(document).ready(function(){
 	.on("click", "#solucionado", function (event){ 
 		$(".input_hidden").append("<input type='hidden' name='idd' value='solucionado'>");
 	});
+	
 	//Actions com envio para modal na mesma página.
 	$("body")
 	.on("click", ".envia-modal", function (event){ 
@@ -552,8 +560,9 @@ $(document).ready(function(){
 			}
 		});
 	});
-		
-});
+	
+	
 
+});
 // para execução de funções retardatárias
 var Menufunction = [];

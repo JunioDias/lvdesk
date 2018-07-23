@@ -27,25 +27,27 @@ $i = 1;
 $botoes = new Acoes();
 $a = new Model();
 global $select;
-
+$i = 0;
 $resultado = $a->queryFree($query);
 if($resultado){	
-	while($linhas = $resultado->fetch_assoc()){
+	while($linhas_priv = $resultado->fetch_assoc()){
 		echo("
-		<tr class='teste'>		
-		<td>".$linhas['nome']."</td>
-		<td>
-		<select name='id_privilegio' class='form-control id_privilegio'>
-		");
-		if($select = $a->queryFree($query_priv)){
-			while($row = $select->fetch_assoc()){
-				echo "<option value='".$row['id']."' ".($row['id'] == $linhas['id_privilegio'] ? "selected" : '').">".$row['nome']."</option>";
+		<tr>
+		<td>".$linhas_priv['nome']."</td>
+		<td><form id='privilegio".$i."'>		
+			<select name='id_privilegio' class='form-control id_privilegio'>
+			");
+			if($select = $a->queryFree($query_priv)){
+				while($row = $select->fetch_assoc()){
+					echo "<option value='".$row['id']."' ".($row['id'] == $linhas_priv['id_privilegio'] ? "selected" : '').">".$row['nome']."</option>";
+				}
 			}
-		}
-		echo ("
-		</select>
+			echo ("
+			</select>	
+			<input type='hidden' name='id' value='".$linhas_priv['id']."'/>
+		</form>
 		</td>
-		<td><input class='btn btn-success grava-listagem' value='Salvar' item='".$linhas['id']."'/></td>
+		<td><input class='btn btn-success envia-listagem-deliberar' data-toggle='modal' data-target='#confirma' value='Salvar'  objeto='form_action' linha='privilegio".$i."'/></td>
 		</tr>
 		");	
 		$i++;
@@ -59,7 +61,7 @@ if($resultado){
 <form id='form_action'>
 	<!--Início do modal de confirmação -->
 	<div id='confirma' class='modal fade' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true' style='display: none;'>
-	  <div class='modal-dialog'>
+	  <div class="modal-dialog">
 	    <div class="modal-content">
 		  <div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -69,14 +71,17 @@ if($resultado){
 			<p>O registro selecionado será modificado.</p>
 		  </div>
 		  <div class="modal-footer">
-			<input class='btn btn-success waves-effect' data-dismiss="modal" value='Não'/>
-			<input objeto='form_action' class='btn btn-danger botao rtrn-conteudo' value='Sim'/>
+			<input class='btn btn-danger waves-effect remove-inputs' data-dismiss="modal" value='Não'/>
+			<input objeto='form_action' class='btn btn-success rtrn-conteudo' value='Sim'/>			
 		  </div>
 		</div>
 	  </div>
 	</div>
-	<!--Fim do modal de confirmação -->
-	<input type='hidden' name='tbl' value='<?=$tabela;?>' />
-	<input type='hidden' name='retorno' value='<?=$nomediv;?>' />
+	<section class="input_hidden">
+		<input type='hidden' name='tbl' value='<?=$tabela;?>' />
+		<input type='hidden' name='retorno' value='<?=$nomediv;?>' />
+		<input type='hidden' name='caminho' value='<?=$link;?>' /> 
+		<input type='hidden' name='flag' value='update' />		
+	</section>
 </form>
 </div>

@@ -379,7 +379,7 @@ if(!empty($_POST)){
 			}
 			
 			unset($dados["confirmasenha"], $dados["flag"], $dados["tbl"], $dados["caminho"], $dados["retorno"] );
-			print_r($dados);
+			
 			if(isset($dados['id'])){
 				if(in_array(true, array_map('is_array', $dados), true) == ''){
 					unset($dados['chave_cerquilha']);
@@ -587,6 +587,11 @@ if(!empty($_POST)){
 			global $id;			
 			$id = $_POST["idd"];
 			include("../../views/historicos-visualizar.php");
+		break;
+		
+		case "testar":
+			$dados = $_POST;
+			print_r($dados);
 		break;
 	}
   }	

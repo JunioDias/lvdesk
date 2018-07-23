@@ -14,7 +14,7 @@ if(isset($_POST['id'])){
 	$data_contrato 	= $edicao['data_contrato'];	
 	$cpf_cnpj		= $edicao['cpf_cnpj'];
 	$contato		= $edicao['contato'];
-	$provedor		= $edicao['provedor'];
+	$provedor		= $edicao['id_provedor'];
 	$codarea		= $edicao['codareatelefone'];
 	$telefones		= $edicao['telefones'];
 	$codareacel		= $edicao['codareacelular'];
@@ -89,19 +89,41 @@ if(isset($_POST['id'])){
 					<label for="data_contrato">Início do Contrato</label>
 					<input type="date" class="form-control" name="data_contrato" value="<?= $data_contrato;?>"/>
 				</div>
+			</div>
+			<div class="form-group col-sm-6">
 				<div class="form-group">
 					<label for="cpf_cnpj">CPF/CNPJ</label>
 					<input type="text" class="form-control" name="cpf_cnpj" value="<?= $cpf_cnpj;?>"/>
 				</div>
 			</div>
-			<div class="form-group col-sm-6">
+			<div class="form-group col-sm-4">
 				<div class="form-group">
 					<label for="contato">Contato Legal</label>
 					<input type="text" class="form-control" name="contato" value="<?= $contato;?>"/>
 				</div>
+			</div>
+			<div class="form-group col-sm-6">
 				<div class="form-group">
 					<label for="provedor">Software de Gestão</label>
-					<input type="text" class="form-control" name="provedor" value="<?= $provedor;?>"/>
+					<select class="form-control" name="provedor">							
+					<?php	
+					$query = "SELECT * FROM pav WHERE lixo = 0";
+					$resultado = $a->queryFree($query);
+					if(isset($resultado)){
+						while($linhas = $resultado->fetch_assoc()){					
+							echo "<option value='".$linhas['id']."' ".($linhas['id'] == $provedor ? "selected" : '').">".$linhas['nome']."</option>";						
+						}
+					}else{
+						echo "<option>Cadastre um software de provedor antes de usar</option>";
+					}							
+					?>
+				</select>
+				</div>
+			</div>
+			<div class="form-group col-sm-2">
+				<label for="add">Novo Software</label>
+				<div class="form-group">
+					<button class="form-control btn-success" data-toggle='modal' data-target='#modalAddSoftware'>Adicionar</button>
 				</div>
 			</div>
 			<div class="form-group col-sm-6">
@@ -178,14 +200,14 @@ if(isset($_POST['id'])){
 				<label for="tipo_perfil">Tipo de Perfil</label>
 				<select class="form-control" name="tipo_perfil">							
 					<?php	
-					$query = "SELECT * FROM perfil WHERE id = $tipo_perfil AND lixo = 0";
+					$query = "SELECT * FROM perfil WHERE lixo = 0";
 					$resultado = $a->queryFree($query);
 					if(isset($resultado)){
-						echo "<option>Cadastre um perfil antes de usar</option>";
-					}else{
 						while($linhas = $resultado->fetch_assoc()){					
-							echo "<option value='".$row['id']."' ".($row['id'] == $linhas['tipo_perfil'] ? "selected" : '').">".$row['nome']."</option>";						
+							echo "<option value='".$linhas['id']."' ".($linhas['id'] == $tipo_perfil ? "selected" : '').">".$linhas['titulo']."</option>";						
 						}
+					}else{
+						echo "<option>Cadastre um perfil antes de usar</option>";
 					}							
 					?>
 				</select>	
@@ -207,3 +229,24 @@ if(isset($_POST['id'])){
 	<input class="btn btn-success rtrn-conteudo" value="Salvar" type="button" objeto="form-dados-clientes">
 </div>
 </form>
+<!--------------------- Modal de Inserção de Logs -------------------->
+<div id="modalAddSoftware" class="modal fade" tabindex="-2" role="dialog" aria-labelledby="modalAddSoftware" aria-hidden="true" style="display: none;">
+<form id="form-log">
+	<div class="modal-dialog">
+	  <div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			<h3 class="modal-title" id="modalAddSoftware">Cadastrar Software</h3>
+		</div>
+		<div class="modal-body">		
+			<?php $foo = include("driver-conexoes-crud.php"); echo $foo; ?>
+		</div>
+		<div class="modal-footer">		
+			<button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Fechar</button>
+			<!--<button type="button" class="btn btn-success waves-effect rtrn-conteudo" data-toggle='modal' data-target='#modalAddLog'>Incluir</button>-->
+		</div>
+	  </div><!-- /.modal-content -->
+	</button>
+	</div><!-- /.modal.dialog -->
+</form>
+</div><!-- /#modal-log -->

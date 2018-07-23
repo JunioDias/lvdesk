@@ -10,19 +10,21 @@ if(isset($_POST['id'])){
 	
 	$id		   		= $edicao['id'];
 	$titulo			= $edicao['titulo'];
-	$data_inicio 	= $edicao['data_inicio'];
-	$data_fim 		= $edicao['data_fim'];	
+	$duracao 		= $edicao['duracao'];
+	$valor 			= $edicao['valor'];	
 	$id_categoria	= $edicao['id_categoria'];
 	$id_privilegio	= $edicao['id_privilegio'];
+	$id_auditoria	= $edicao['id_auditoria'];
 	$id_menu		= $edicao['id_menu'];	
 	$flag	 		= "update";
 }else{
 	$id		   		= NULL;
 	$titulo			= NULL;
-	$data_inicio 	= NULL;
-	$data_fim 		= NULL;
+	$duracao 		= NULL;
+	$valor	 		= NULL;
 	$id_categoria	= NULL;
 	$id_privilegio	= NULL;
+	$id_auditoria	= NULL;
 	$id_menu		= NULL;
 	$flag	 		= "add";
 	
@@ -45,18 +47,17 @@ if(isset($_POST['id'])){
 			<label for="titulo">Título</label>
 				<input type="text" class="form-control" name="titulo" value="<?= $titulo;?>"/>
 			</div>
-		</div>
-	
+		</div>	
 			
 		<div class="row">	
 			<div class="form-group col-sm-6">
 				<div class="form-group">
-					<label for="data_inicio">Data de início</label>
-					<input type="date" class="form-control" name="data_inicio" value="<?= $data_inicio;?>"/>
+					<label for="duracao">Duração (em dias corridos)</label>
+					<input type="text" class="form-control" name="duracao" value="<?= $duracao;?>"/>
 				</div>
 				<div class="form-group">
-					<label for="data_fim">Data de finalização</label>
-					<input type="date" class="form-control" name="data_fim" value="<?= $data_fim;?>"/>
+					<label for="valor">Preço Final</label>
+					<input type="text" class="form-control" name="valor" value="<?= $valor;?>"/>
 				</div>
 			</div>
 			<div class="form-group col-sm-6">
@@ -66,12 +67,12 @@ if(isset($_POST['id'])){
 					$query = "SELECT * FROM categorias WHERE lixo = 0";
 					$resultado = $a->queryFree($query);
 					if(isset($resultado)){
-						echo "<option>Nenhum registro encontrado</option>";
-					}else{
 						while($linhas = $resultado->fetch_assoc()){					
-							echo "<option value='".$row['id']."' ".($row['id'] == $linhas['id_categoria'] ? "selected" : '').">".$row['nome']."</option>";						
+							echo "<option value='".$linhas['id']."' ".($linhas['id'] == $id_categoria ? "selected" : '').">".$linhas['nome']."</option>";						
 						}
-					}							
+					}else{
+						echo "<option>Nenhum registro encontrado</option>";					
+					}
 					?>
 				</select>
 			</div>
@@ -82,16 +83,24 @@ if(isset($_POST['id'])){
 					$query = "SELECT * FROM privilegios WHERE lixo = 0";
 					$resultado = $a->queryFree($query);
 					if(isset($resultado)){
-						echo "<option>Cadastre um perfil antes de usar</option>";
-					}else{
 						while($linhas = $resultado->fetch_assoc()){					
-							echo "<option value='".$row['id']."' ".($row['id'] == $linhas['id_privilegio'] ? "selected" : '').">".$row['nome']."</option>";						
-						}
+							echo "<option value='".$linhas['id']."' ".($linhas['id'] == $id_privilegio ? "selected" : '').">".$linhas['nome']."</option>";						
+						}	
+					}else{
+						echo "<option>Cadastre um perfil antes de usar</option>";
 					}							
 					?>
 				</select>
 			</div>
-			
+		</div>
+		<div class="row">
+			<div class="form-group col-sm-6">
+					<label for="id_auditoria">Auditoria</label>
+				<select class="form-control" name="id_auditoria">							
+					<option value='0' <?=($id_auditoria == 0 ? "selected" : '')?>>Não</option>
+					<option value='1' <?=($id_auditoria == 1 ? "selected" : '')?>>Sim</option>
+				</select>
+			</div>
 		</div>
 	</div>
 </div>

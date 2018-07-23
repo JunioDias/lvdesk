@@ -8,9 +8,9 @@
 <thead>
   <tr>
 	<th>Id</th>
-	<th>Nome</th>        
-	<th>E-mail</th>
-	<th>Telefones</th>
+	<th>Título</th>        
+	<th>Duração</th>
+	<th>Categoria</th>
 	<th>Ações</th>
   </tr>
 </thead>
@@ -36,7 +36,7 @@ if($result){
 		<tr>
 		<td>".$linhas['id']."</td>
 		<td>".$linhas['titulo']."</td>
-		<td>".$linhas['data_inicio']."</td>
+		<td>".$linhas['duracao']."</td>
 		<td>".$linhas['nome']."</td>
 		<td>");	$botoes->crudButtons($linhas['id'], $cbkdel, $cbkedit, $link); echo("</td>
 		</tr>
