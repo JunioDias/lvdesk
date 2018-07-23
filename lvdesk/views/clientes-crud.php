@@ -105,7 +105,7 @@ if(isset($_POST['id'])){
 			<div class="form-group col-sm-6">
 				<div class="form-group">
 					<label for="provedor">Software de Gestão</label>
-					<select class="form-control" name="provedor">							
+					<select class="form-control" name="provedor" id="addSoftware">							
 					<?php	
 					$query = "SELECT * FROM pav WHERE lixo = 0";
 					$resultado = $a->queryFree($query);
@@ -123,7 +123,7 @@ if(isset($_POST['id'])){
 			<div class="form-group col-sm-2">
 				<label for="add">Novo Software</label>
 				<div class="form-group">
-					<button class="form-control btn-success" data-toggle='modal' data-target='#modalAddSoftware'>Adicionar</button>
+				<input class="form-control btn-success" data-toggle='modal' data-target='#modalAddSoftware' value='Adicionar'  type="button"/>
 				</div>
 			</div>
 			<div class="form-group col-sm-6">
@@ -197,17 +197,17 @@ if(isset($_POST['id'])){
 	<div class="panel-body">
 		<div class="row">
 			<div class="form-group">
-				<label for="tipo_perfil">Tipo de Perfil</label>
+				<label for="tipo_perfil">Tipo de Plano</label>
 				<select class="form-control" name="tipo_perfil">							
 					<?php	
-					$query = "SELECT * FROM perfil WHERE lixo = 0";
+					$query = "SELECT * FROM planos WHERE lixo = 0";
 					$resultado = $a->queryFree($query);
 					if(isset($resultado)){
 						while($linhas = $resultado->fetch_assoc()){					
 							echo "<option value='".$linhas['id']."' ".($linhas['id'] == $tipo_perfil ? "selected" : '').">".$linhas['titulo']."</option>";						
 						}
 					}else{
-						echo "<option>Cadastre um perfil antes de usar</option>";
+						echo "<option>Cadastre um plano antes de usar</option>";
 					}							
 					?>
 				</select>	
@@ -231,22 +231,93 @@ if(isset($_POST['id'])){
 </form>
 <!--------------------- Modal de Inserção de Logs -------------------->
 <div id="modalAddSoftware" class="modal fade" tabindex="-2" role="dialog" aria-labelledby="modalAddSoftware" aria-hidden="true" style="display: none;">
-<form id="form-log">
 	<div class="modal-dialog">
 	  <div class="modal-content">
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 			<h3 class="modal-title" id="modalAddSoftware">Cadastrar Software</h3>
 		</div>
-		<div class="modal-body">		
-			<?php $foo = include("driver-conexoes-crud.php"); echo $foo; ?>
+		<div class="modal-body">
+			<section class="modal-body-add">
+			<form id="form-dados">				
+			<div class="panel panel-color panel-warning">
+				<div class="panel-heading">
+					<h3 class="panel-title">Indentificação</h3>
+				</div>
+				<div class="panel-body">	
+				
+					<div class="form-group">
+						<label for="nome">Nome do Provedor</label>
+						<input type="text" class="form-control" name="nome" >
+					</div>
+					<div class="row">
+						<div class="form-group col-sm-6">
+							<div class="form-group">
+								<label for="tipo_bd">Tipo do banco de dados</label>
+								<input type="text" class="form-control" name="tipo_bd" >
+							</div>
+						</div>
+						<div class="form-group col-sm-6">
+							<div class="form-group">
+								<label for="nome_bd">Nome do bando de dados</label>
+								<input type="text" class="form-control" name="nome_bd" >
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-sm-6">
+						<div class="form-group">
+							<label for="host">Host</label>
+							<input type="text" class="form-control" name="host" >			
+						</div>
+						</div>
+						<div class="form-group col-sm-6">
+							<div class="form-group">
+								<label for="porta">Porta</label>
+								<input type="text" class="form-control" name="porta" >
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-sm-6">	
+							<div class="form-group">
+								<label for="usuario">Usuário</label>
+								<input type="text" class="form-control" name="usuario" >
+							</div>
+						</div>
+						<div class="form-group col-sm-6">
+							<div class="form-group">
+								<label for="senha_pav">Senha</label>
+								<input type="text" class="form-control" name="senha_pav" >
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="script">Script</label>
+						<textarea class="wysihtml5-textarea form-control" rows="9" id="script" name="script"></textarea>
+					</div>				
+				</div>
+				<section id="input_hidden">								
+					<input type="hidden" name="retorno" value=".modal-body-add" />
+					<input type="hidden" name="flag" value="add" />
+					<input type="hidden" name="tbl" value="pav" />
+					<input type="hidden" name="caminho" value="controllers/sys/crud.sys.php" />
+				</section>
+			</div>
+			</form>	
+			</section>
 		</div>
 		<div class="modal-footer">		
 			<button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Fechar</button>
-			<!--<button type="button" class="btn btn-success waves-effect rtrn-conteudo" data-toggle='modal' data-target='#modalAddLog'>Incluir</button>-->
+			<button type="button" class="btn btn-success waves-effect rtrn-conteudo" objeto="form-dados">Incluir</button>
 		</div>
 	  </div><!-- /.modal-content -->
-	</button>
 	</div><!-- /.modal.dialog -->
-</form>
 </div><!-- /#modal-log -->
+<script>
+	jQuery(document).ready(function(){
+		$('#script').wysihtml5({
+		  locale: 'pt-BR'
+		}); 
+	});
+</script>

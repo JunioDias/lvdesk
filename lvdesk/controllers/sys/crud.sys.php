@@ -97,6 +97,11 @@ if(!empty($_POST)){
 					unset($dados['id_atendente'], $dados['subTabela'], $dados['id']);
 				}
 			}
+			
+			if($dados["retorno"]==".modal-body-add"){
+				$select_retorno = $dados["retorno"];
+			}
+			
 			unset($dados["confirmasenha"], $dados["flag"], $dados["tbl"], $dados["file"], $dados["caminho"], $dados["retorno"] );
 			
 			if(in_array(true, array_map('is_array', $dados), true) == ''){
@@ -109,12 +114,17 @@ if(!empty($_POST)){
 						unset($newlog['tabela']);
 						$a->add($tabela, $newlog);
 					}
-					echo '
-					<div class="alert alert-success">
-					<h4>Muito bom!</h4>
-                    A operação foi realizada com sucesso. <a href="." class="alert-link">Clique aqui</a> para atualizar os status do sistema.
-					</div>	
-				';
+					if(isset($select_retorno)){
+						$foo = $a->queryFree("SELECT id, nome FROM pav");
+						$retorno = $foo->fetch_assoc();
+						return $retorno;
+					}else{
+						echo '
+						<div class="alert alert-success">
+						<h4>Muito bom!</h4>
+						A operação foi realizada com sucesso. <a href="." class="alert-link">Clique aqui</a> para atualizar os status do sistema.
+						</div>';
+					}
 				}
 			}else{
 				//Para os checkboxes da rotina de módulos etc.

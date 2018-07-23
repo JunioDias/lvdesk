@@ -448,9 +448,15 @@ $(document).ready(function(){
   			contentType: false,
 			success: function(retornoDados){
 				if(objeto.get("retorno")){
-					$(".modal-backdrop").hide();
-					var retorno = objeto.get("retorno");
-					$(retorno).html(retornoDados);
+					if(objeto.get("retorno")==".modal-body-add"){
+						for(var pair of retornoDados.entries()) {
+							$("#addSoftware").append("<option value='"+ pair[0]+"' >"+ pair[1]+"</option>"); 
+						} 
+					}else{
+						$(".modal-backdrop").hide();
+						var retorno = objeto.get("retorno");
+						$(retorno).html(retornoDados);
+					}
 				}else{
 					$("body").html(retornoDados);
 				}								
