@@ -41,12 +41,14 @@ class Model{
 		#by Adan em 19 de julho de 2018 para acesso a ambiente de cliente.
 		global $mysqli;
 		global $result;
-		$query = "SELECT c.*, p.nome AS 'nomep' FROM clientes AS c INNER JOIN privilegios AS p ON id_privilegio = p.id WHERE usuario = '$user' AND senha = '$senha' AND c.lixo = 0";
+		$query = "SELECT c.*, p.nome AS 'nomep' FROM clientes AS c 
+		INNER JOIN privilegios AS p ON id_privilegio = p.id 
+		WHERE usuario = '$user' AND senha = '$senha' AND c.lixo = 0 ";
 		$mysql_result = $mysqli->query($query);
 		$result = $mysql_result->fetch_assoc();
 		if($result){
 			/* $_SESSION["datalogin"] = $result;
-			return header("Location: ../../index.php"); */
+			return header("Location: ../../index-cliente.php"); */
 			echo "Ambiente de Cliente";
 		}else{
 			$_SESSION['returnLogin'] = 'denied';
@@ -400,14 +402,19 @@ class Model{
 	  }
 	}
 
-	public function notification($flag = NULL){
+	public function notification($flag = NULL, $panel = NULL){
 		if(is_null($flag)){
 			$query = "SELECT COUNT(id) as qnt_id FROM pav_inscritos WHERE validado = 0 AND lixo = 0";
 			$foo = $this->queryFree($query);
 			$val = $foo->fetch_assoc();
 			if($val['qnt_id'] > 0){
-				echo '<span style="vertical-align: top;" id="notificador" class="badge badge-primary pull-right">'.$val['qnt_id'].'</span>';
-				return true;
+				if(is_null($panel)){
+					echo '<span style="vertical-align: top;" id="notificador" class="badge badge-primary pull-right">'.$val['qnt_id'].'</span>';
+					return true;
+				}else{
+					#echo $val['qnt_id'];
+					return true;
+				}
 			}else{
 				return false;
 			}
