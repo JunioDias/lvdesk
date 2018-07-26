@@ -48,9 +48,9 @@ if(!empty($_POST)){
 					}
 				}
 			}			
-			/* if(isset($dados["valor"])){
-				$dados["valor"] = str_replace(',','.',str_replace('.','',$dados["valor"]));
-			} */
+			if(isset($dados["valor_unit"])){
+				$dados["valor_unit"] = str_replace(',','.',str_replace('.','',$dados["valor_unit"]));
+			}
 			
 			if(isset($dados["hora_add"])){
 				unset($dados['hora_add']);
@@ -350,16 +350,7 @@ if(!empty($_POST)){
 					$nomeFile = $pic['imagem']["name"];
 					$vetor = "imagem";
 				}
-				/* 
-				if(isset($nomeFile)){
-					$media = $a->addFoto($nomeFile, $vetor, $tabela);
-					if(isset($media)){
-						$dados[$vetor] = $media['name'];
-					}
-				}else{
-					unset($dados['media']); # só é possível a partir de addProdutos.php, pois o submit é personalizado
-					echo "<strong>Unset media<br></strong>";
-				} */	
+					
 			}
 			# Tratamento para campos tipo DATE no perfil do usuário
 			if(isset($dados["data_nascimento"])){
@@ -368,7 +359,10 @@ if(!empty($_POST)){
 				}
 			}
 			
-			#####################Fim de Sessão#####################
+			if(isset($dados["valor_unit"])){
+				$dados["valor_unit"] = str_replace(',','.',str_replace('.','',$dados["valor_unit"]));
+			}
+			
 			if(isset($dados["hora_add"])){
 				unset($dados['hora_add']);
 				/* $dados["data_abertura"] = date("Y-m-d H:i:s");

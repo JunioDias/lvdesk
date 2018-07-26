@@ -52,12 +52,14 @@ if(isset($_POST['id'])){
 		<div class="row">	
 			<div class="form-group col-sm-6">
 				<div class="form-group">
-					<label for="limite">Duração (em dias corridos)</label>
+					<label for="limite">Limite de atendimentos</label>
 					<input type="text" class="form-control" name="limite" value="<?= $limite;?>"/>
 				</div>
+			</div>
+			<div class="form-group col-sm-6">
 				<div class="form-group">
 					<label for="valor_unit">Preço Unitário</label>
-					<input type="text" class="form-control" name="valor_unit" value="<?= $valor_unit;?>"/>
+					<input type="text" class="form-control dinheiro" name="valor_unit" value="<?= $valor_unit;?>"/>
 				</div>
 			</div>
 		</div>	

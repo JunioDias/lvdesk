@@ -234,6 +234,7 @@ if(!empty($_SESSION["datalogin"])){
         <script src="assets/js/wow.min.js"></script>
         <script src="assets/js/jquery.nicescroll.js"></script>
         <script src="assets/js/jquery.scrollTo.min.js"></script>
+		<script src="assets/js/jquery.mask.min.js"></script>
 		<!-- Wysihtml js -->
 		<script type="text/javascript" src="assets/plugins/bootstrap-wysihtml5/wysihtml5-0.3.0.js"></script>
 		<script type="text/javascript" src="assets/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.js"></script>

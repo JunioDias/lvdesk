@@ -605,4 +605,10 @@ class Model{
 		}
 		return $alfa;
 	}
+	
+	public function moneyFormatReal($valor){
+		$numero = "R$ ";
+		$numero .= number_format($valor, 2 , ',' , '.' );	
+		return $numero;
+	}
 }

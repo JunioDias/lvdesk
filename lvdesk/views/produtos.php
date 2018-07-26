@@ -8,9 +8,7 @@
 <thead>
   <tr>
 	<th>Id</th>
-	<th>Título</th>        
-	<th>Duração</th>
-	<th>Categoria</th>
+	<th>Título</th>	
 	<th>Ações</th>
   </tr>
 </thead>
@@ -19,9 +17,9 @@
 include("../controllers/actions.inc.php"); 
 include("../controllers/model.inc.php");
 	
-$query 			= "SELECT p.*, c.nome AS nome FROM produtos AS p INNER JOIN planos AS c ON c.id = id_planos WHERE p.lixo = 0";
+$query 			= "SELECT * FROM produtos WHERE lixo = 0";
 
-$nomediv		= ".content-sized";			#nome da div onde o callback vai ocorrer
+$nomediv		= ".content-sized";				#nome da div onde o callback vai ocorrer
 $tabela  		= "produtos";					#tabela principal, alvo da rotina
 $cbkedit		= "views/produtos-crud.php";	#callback do botão Editar
 $cbkdel 		= "views/produtos.php";  		#callback do botão Excluir
@@ -36,8 +34,7 @@ if($result){
 		<tr>
 		<td>".$linhas['id']."</td>
 		<td>".$linhas['titulo']."</td>
-		<td>".$linhas['duracao']."</td>
-		<td>".$linhas['nome']."</td>
+		
 		<td>");	$botoes->crudButtons($linhas['id'], $cbkdel, $cbkedit, $link); echo("</td>
 		</tr>
 		");	

@@ -6,6 +6,7 @@ class Param{
 		return $titulo;
 	} 	
 	public function copyright(){
+		setlocale(LC_MONETARY, 'pt_BR');
 		date_default_timezone_set('America/Sao_Paulo');
 		$nome = $this->title();
 		$frase 	= "© Diretos reservados por ".$nome.": 2018 - ".date("Y");

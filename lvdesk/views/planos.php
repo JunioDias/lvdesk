@@ -37,7 +37,7 @@ if($result){
 		<td>".$linhas['id']."</td>
 		<td>".$linhas['nome']."</td>
 		<td>".$linhas['limite']."</td>
-		<td>".$linhas['valor_unit']."</td>
+		<td>".$a->moneyFormatReal($linhas['valor_unit'])."</td>
 		<td>");	$botoes->crudButtons($linhas['id'], $cbkdel, $cbkedit, $link); echo("</td>
 		</tr>
 		");	
