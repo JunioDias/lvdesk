@@ -9,7 +9,7 @@
   <tr>
 	<th>Id</th>
 	<th>Papel</th>        
-	<th>Acessos</th>
+	
 	<th>Ações</th>
   </tr>
 </thead>
@@ -34,7 +34,6 @@ if($result){
 		<tr>
 		<td>".$linhas['id']."</td>
 		<td>".$linhas['nome']."</td>
-		<td class='text-success'>".$linhas['acessos']."</td>
 		<td>");	$botoes->crudButtons($linhas['id'], $cbkdel, $cbkedit, $link); echo("</td>
 		</tr>
 		");	

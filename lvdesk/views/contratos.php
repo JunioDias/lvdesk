@@ -9,7 +9,8 @@
   <tr>
 	<th>Id</th>
 	<th>Cliente</th>        
-	<th>Data</th>
+	<th>Data de Início</th>
+	<th>Término</th>
 	<th>Ações</th>
   </tr>
 </thead>
@@ -28,18 +29,19 @@ $link			= "controllers/sys/crud.sys.php";
 
 $botoes = new Acoes();
 $a = new Model();
-$result = $a->queryFree($query);
+$woo = $a->queryFree($query); $result = $a->queryFree($query);
 $foo = $result->fetch_assoc();
 if(is_null($foo['id'])){
 	echo"<tr><td>Nenhum registro foi encontrado.</td></tr>";
 }
 else{	
-	foreach($foo as $linhas => $value){
+	while($linhas = $woo->fetch_assoc()){
 		echo("
 		<tr>
 		<td>".$linhas['id']."</td>
-		<td>".$linhas['id_cliente']."</td>
-		<td>".$linhas['criado_em']."</td>
+		<td>".$linhas['nome']."</td>
+		<td>".date("d/m/Y", strtotime($linhas['criado_em']))."</td>
+		<td>".date("d/m/Y", strtotime($linhas['finaliza_em']))."</td>
 		<td>");	$botoes->crudButtons($linhas['id'], $cbkdel, $cbkedit, $link); echo("</td>
 		</tr>
 		");	

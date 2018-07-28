@@ -15,7 +15,7 @@ if(isset($_POST['id'])){
 	$dominio		= $edicao['dominio'];
 	$criado_em		= $edicao['criado_em'];
 	$finaliza_em	= $edicao['finaliza_em'];
-	$id_planos_mov	= $edicao['id_planos_mov'];
+	$id_planos_mov	= explode("#", $edicao['id_planos_mov']);
 	$id_produtos	= $edicao['id_produtos'];
 	$id_cliente		= $edicao['id_cliente'];	
 	$flag	 		= "update";
@@ -94,27 +94,35 @@ if(isset($_POST['id'])){
 						?>
 					</select>
 				</div>
-				<div class="form-group col-sm-6">
+			</div>
+			<div class="row">
+				<div class="form-group col-sm-12">
+					<div class="form-group col-sm-6">
 					<label for="id_planos_mov">Planos</label>
-					<select class="form-control" name="id_planos_mov">							
+						<br>					
 						<?php	
-						$query = "SELECT * FROM planos WHERE lixo = 0";
+						$query = "SELECT * FROM planos WHERE lixo = 0 ORDER BY nome ASC";
 						$resultado = $a->queryFree($query);
 						if(isset($resultado)){
 							while($linhas = $resultado->fetch_assoc()){					
-								echo "<option value='".$linhas['id']."' ".($linhas['id'] == $id_planos ? "selected" : '').">".$linhas['nome']."</option>";						
+								echo  "
+								  <div class='checkbox checkbox-success'>
+								  <input type='checkbox' name='id_planos_mov[]' id='check".$linhas['id']."' value='".$linhas['id']."' ";
+								  
+								  foreach($id_planos_mov as $value){
+									  if($linhas['id'] == $value)
+										  echo "checked";
+								  }								  
+								  
+								  echo " /><label for='check".$linhas['id']."'> ".$linhas['nome']."</label></div>
+								  ";								
 							}
 						}else{
 							echo "<option>Nenhum registro encontrado</option>";					
 						}
 						?>
-					</select>
-				</div>
-				
-			</div>
-			<div class="row">
-				<div class="form-group col-sm-12">
 					
+				</div>
 				</div>
 			</div>
 		</div>
@@ -125,6 +133,7 @@ if(isset($_POST['id'])){
 		<input type="hidden" name="retorno" value="<?= $retorno;?>" />
 		<input type="hidden" name="flag" value="<?= $flag;?>" />
 		<input type="hidden" name="tbl" value="contratos" />
+		<input type="hidden" name="chave_cerquilha" value="on" />
 		<input type="hidden" name="caminho" value="controllers/sys/crud.sys.php" />
 	</section>
 	<div class="form-group">

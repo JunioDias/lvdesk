@@ -7,6 +7,7 @@ global $woo;
 global $modulos;
 global $acessos;
 global $row;
+$retorno = ".content-sized";
 $view = "SELECT id, nome FROM modulos WHERE lixo = 0 AND admin = 0";
 $modulos = $foe->queryFree($view);
 if(isset($_POST['id'])){
@@ -68,10 +69,17 @@ if(isset($_POST['id'])){
 					$i = 0;
 					echo  ("
 					  <div class='checkbox checkbox-primary'>
-						<input id='checkbox".$row['id']."' type='checkbox' data-parsley-multiple='group1' name='acessos[]' value='".$row['id']."' ".($row['id'] == $acessos[$i] ? 'checked' : '').">
+						<input id='checkbox".$row['id']."' type='checkbox' data-parsley-multiple='group1' name='acessos[]' value='".$row['id']."' ");
+						
+						foreach($acessos as $value){
+							if($row['id'] == $value)
+								echo 'checked';
+						}
+						
+						echo " >
 						<label for='checkbox".$row['id']."'>".$row['nome']."</label>
 					  </div>
-					");
+					";
 					$i++;
 				}else{ 		
 					$i = 0;
@@ -107,6 +115,7 @@ if(isset($_POST['id'])){
 	<input type="hidden" name="flag" value="<?= $flag;?>" />
     <input type="hidden" name="tbl" value="privilegios" />
     <input type="hidden" name="caminho" value="controllers/sys/crud.sys.php" />
+	<input type="hidden" name="retorno" value="<?= $retorno;?>" />
 	</form>
 	
 </div>

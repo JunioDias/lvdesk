@@ -593,9 +593,34 @@ if(!empty($_POST)){
 			include("../../views/historicos-visualizar.php");
 		break;
 		
-		case "testar":
+		case "planosMovimentos":
 			$dados = $_POST;
-			print_r($dados);
+			$valor = NULL;
+			$i = 0;
+			//salvar em planos_movimentos	
+			foreach($dados as $key=>$value){
+				if(is_array($value)){
+					foreach($value as $vlr){
+					  $array['id_planos'] = $vlr;
+					  echo '<br>'; print_r ($array);
+					 /*  if(is_null($dados['id'])){
+						$a->add('planos_movimentos', $array);  
+					  }else{
+						echo "editar";
+					  } */
+					}
+				}else{							
+					if(strpos($key, "id_") === 0){
+						if(isset($array[$key])){
+							$array[$key] .= $value;
+						} else{
+							$array[$key] = $value;
+						}
+					}					
+				}
+			} 
+			
+			
 		break;
 	}
   }	
