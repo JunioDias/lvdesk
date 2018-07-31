@@ -109,9 +109,11 @@ if(isset($_POST['id'])){
 								  <div class='checkbox checkbox-success'>
 								  <input type='checkbox' name='id_planos_mov[]' id='check".$linhas['id']."' value='".$linhas['id']."' ";
 								  
-								  foreach($id_planos_mov as $value){
-									  if($linhas['id'] == $value)
-										  echo "checked";
+								  if(isset($_POST['id'])){
+									  foreach($id_planos_mov as $value){
+										  if($linhas['id'] == $value)
+											  echo "checked";
+									  }	
 								  }								  
 								  
 								  echo " /><label for='check".$linhas['id']."'> ".$linhas['nome']."</label></div>

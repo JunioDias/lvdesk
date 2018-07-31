@@ -11,6 +11,7 @@ if(isset($_POST['id'])){
 	$id		   		= $edicao['id'];
 	$nome			= $edicao['nome'];
 	$usuario 	 	= $edicao['usuario'];
+	$senha 	 		= $edicao['senha'];
 	$data_contrato 	= $edicao['data_contrato'];	
 	$cpf_cnpj		= $edicao['cpf_cnpj'];
 	$contato		= $edicao['contato'];
@@ -33,6 +34,7 @@ if(isset($_POST['id'])){
 	$id		   		= NULL;
 	$nome			= NULL;
 	$usuario 	 	= NULL;
+	$senha			= NULL;
 	$data_contrato 	= NULL;	
 	$cpf_cnpj		= NULL;
 	$contato		= NULL;
@@ -75,18 +77,22 @@ if(isset($_POST['id'])){
 				<label for="usuario">Nome de usuário (e-mail)</label>
 				<input type="text" class="form-control" name="usuario" value="<?= $usuario;?>"/>
 			</div>
+			<div class="form-group">
+				<label for="senha">Senha</label>
+				<input type="password" class="form-control" name="senha" value="<?= $senha;?>"/>
+			</div>
 		</div>
 	</div>
 </div>
 <div class="panel panel-color panel-warning">
 	<div class="panel-heading">
-		<h3 class="panel-title">Detalhes Contratuais</h3>
+		<h3 class="panel-title">Detalhes Cadastrais</h3>
 	</div>
 	<div class="panel-body">			
 		<div class="row">	
 			<div class="form-group col-sm-6">
 				<div class="form-group">
-					<label for="data_contrato">Início do Contrato</label>
+					<label for="data_contrato">Data de Cadastro</label>
 					<input type="date" class="form-control" name="data_contrato" value="<?= $data_contrato;?>"/>
 				</div>
 			</div>
@@ -105,7 +111,7 @@ if(isset($_POST['id'])){
 			<div class="form-group col-sm-6">
 				<div class="form-group">
 					<label for="provedor">Software de Gestão</label>
-					<select class="form-control" name="provedor" id="addSoftware">							
+					<select class="form-control" name="id_provedor" id="addSoftware">							
 					<?php	
 					$query = "SELECT * FROM pav WHERE lixo = 0";
 					$resultado = $a->queryFree($query);
@@ -126,21 +132,25 @@ if(isset($_POST['id'])){
 				<input class="form-control btn-success" data-toggle='modal' data-target='#modalAddSoftware' value='Adicionar'  type="button"/>
 				</div>
 			</div>
-			<div class="form-group col-sm-6">
+			<div class="form-group col-sm-2">
 				<div class="form-group">
 					<label for="codareatelefone">Cód. Área</label>
 					<input type="text" class="form-control" name="codareatelefone" value="<?= $codarea;?>"/>
 				</div>
+			</div>
+			<div class="form-group col-sm-4">
 				<div class="form-group">
 					<label for="telefones">Telefone</label>
 					<input type="text" class="form-control" name="telefones" value="<?= $telefones;?>"/>
 				</div>
 			</div>
-			<div class="form-group col-sm-6">
+			<div class="form-group col-sm-2">
 				<div class="form-group">
 					<label for="codareacelular">Cód. Área</label>
 					<input type="text" class="form-control" name="codareacelular" value="<?= $codareacel;?>"/>
 				</div>
+			</div>	
+			<div class="form-group col-sm-4">	
 				<div class="form-group">
 					<label for="celular">Celular</label>
 					<input type="text" class="form-control" name="celular" value="<?= $celular;?>"/>
@@ -190,41 +200,11 @@ if(isset($_POST['id'])){
 		</div>
 	</div>
 </div>
-<div class="panel panel-color panel-warning">
-	<div class="panel-heading">
-		<h3 class="panel-title">Detalhes Técnicos</h3>
-	</div>
-	<div class="panel-body">
-		<div class="row">
-			<div class="form-group">
-				<label for="tipo_perfil">Tipo de Plano</label>
-				<select class="form-control" name="tipo_perfil">							
-					<?php	
-					$query = "SELECT * FROM planos WHERE lixo = 0";
-					$resultado = $a->queryFree($query);
-					if(isset($resultado)){
-						while($linhas = $resultado->fetch_assoc()){					
-							echo "<option value='".$linhas['id']."' ".($linhas['id'] == $tipo_perfil ? "selected" : '').">".$linhas['titulo']."</option>";						
-						}
-					}else{
-						echo "<option>Cadastre um plano antes de usar</option>";
-					}							
-					?>
-				</select>	
-			</div>
-		</div>
-		
-		<?php 
-		if(isset($id)){
-			echo "<input type='hidden' name='id' value='$id'/>";
-		}
-		?>
-		<input type="hidden" name="retorno" value="<?= $retorno;?>" />
-		<input type="hidden" name="flag" value="<?= $flag;?>" />
-		<input type="hidden" name="tbl" value="clientes" />
-		<input type="hidden" name="caminho" value="controllers/sys/crud.sys.php" />
-	</div>
-</div>
+<?= ((isset($id)) ? "<input type='hidden' name='id' value='$id'/>" : '');?>
+<input type="hidden" name="retorno" value="<?= $retorno;?>" />
+	<input type="hidden" name="flag" value="<?= $flag;?>" />
+	<input type="hidden" name="tbl" value="clientes" />
+	<input type="hidden" name="caminho" value="controllers/sys/crud.sys.php" />
 <div class="form-group">
 	<input class="btn btn-success rtrn-conteudo" value="Salvar" type="button" objeto="form-dados-clientes">
 </div>

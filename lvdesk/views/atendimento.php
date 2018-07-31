@@ -200,7 +200,7 @@ if($id_provedor){//Existe um provedor
 								</div>
 								<div id="collapseOne-2" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
 									<div class="panel-body">
-									<textarea class="wysihtml5-textarea form-control" rows="9" id="script" ><?= $script;?></textarea>
+									<textarea class="wysihtml5-textarea form-control" id="script" rows="9" ><?= $script;?></textarea>
 									</div>
 								</div>
 							</div>
@@ -250,6 +250,7 @@ if($id_provedor){//Existe um provedor
 	<hr><label for="resumo">Resumo</label><br>
 	<input class="btn btn-success rtrn-conteudo" id="solucionado" value="Solucionado" type="button" objeto="form-dados">
 	<input class="btn btn-warning rtrn-conteudo" value="CGR" type="button" objeto="form-dados">
+	<input class="btn btn-info" id="atrbuir" value="Atribuir" type="button" objeto="form-dados">
 	</div>
 	<section class="input_hidden">
 		<?php 

@@ -1501,7 +1501,7 @@ File: Components
   margin-bottom: 20px;
 }
 .panel-atendimento:hover{
-	background-color: yellow;
+	background-color: #32CD32;
 	-moz-box-shadow: 0px 1px 2px 0px rgba(100, 0, 0, 0.1);
 	-webkit-box-shadow: 0px 1px 2px 0px rgba(100, 0, 0, 0.1);
 	box-shadow: 0px 1px 2px 0px rgba(100, 0, 0, 0.1);

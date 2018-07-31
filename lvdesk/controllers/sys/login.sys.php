@@ -5,16 +5,19 @@ include("../parametros.inc.php");
 if(!empty($_POST)){
 	switch($_POST['flag']){
 		case "login":
-			unset($_POST["flag"],$_POST["caminho"]);
+			unset($_POST["flag"], $_POST["caminho"]);
 			$dados = $_POST;
 			$a = new Model();
-			/*Teste para identificar o ambiente de clientes*/
-			$query = "SELECT * FROM clientes WHERE usuario = '".$dados["usuario"]."' AND lixo = 0";
+			/*Teste para identificar o ambiente de clientes para contratos vigentes*/
+			$query = "
+			SELECT cont.id AS id, usuario FROM contratos AS cont
+			INNER JOIN clientes AS cli ON cont.id_cliente = cli.id 
+			WHERE cont.email = '".$dados["usuario"]."' AND cont.lixo = 0";
 			$retorna_query = $a->queryFree($query);
 			$teste = $retorna_query->fetch_assoc();
 			if(empty($teste['id'])){ #caso nada seja encontrado procede o login normalmente
 				$resultado = $a->login($dados["usuario"], md5($dados["senha"]));
-				return $resultado;
+				return $resultado; 
 			}else{
 				$resultado = $a->loginCliente($teste["usuario"], md5($dados["senha"]));
 				return $resultado;

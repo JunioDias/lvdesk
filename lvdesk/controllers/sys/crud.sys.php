@@ -327,7 +327,14 @@ if(!empty($_POST)){
 			$a = $b = new Model();
 			if(isset($dados["senha"])){
 				if($dados["senha"]!=""){
-					$dados['senha'] = md5($dados['senha']);	
+					$query_teste = "SELECT senha FROM $tabela WHERE id = '".$dados['id']."'";
+					$foo = $a->queryFree($query_teste);
+					$testa_senha = $foo->fetch_assoc();
+					if($testa_senha['senha'] == $dados['senha']){
+						unset($dados["senha"]);
+					}else{
+						$dados['senha'] = md5($dados['senha']);	
+					}
 				}else{
 					unset($dados["senha"]);
 				}

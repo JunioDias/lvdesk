@@ -29,8 +29,14 @@ class Model{
 		$mysql_result = $mysqli->query($query);
 		$result = $mysql_result->fetch_assoc();
 		if($result){
-			$_SESSION["datalogin"] = $result;
-			return header("Location: ../../index.php");
+			if($result['id_contrato']==0){
+				$_SESSION["datalogin"] = $result;
+				return header("Location: ../../index.php");
+			}else{
+				/* $_SESSION["datalogin"] = $result;
+				return header("Location: ../../index-cliente.php"); */
+				echo "Ambiente de usuário de cliente";
+			}
 		}else{
 			$_SESSION['returnLogin'] = 'denied';
 			return header('Location: ../../pages-login.php');
@@ -43,13 +49,12 @@ class Model{
 		global $result;
 		$query = "SELECT c.*, p.nome AS 'nomep' FROM clientes AS c 
 		INNER JOIN privilegios AS p ON id_privilegio = p.id 
-		WHERE usuario = '$user' AND senha = '$senha' AND c.lixo = 0 ";
+		WHERE usuario = '$user' AND senha = '$senha' AND c.lixo = 0";
 		$mysql_result = $mysqli->query($query);
 		$result = $mysql_result->fetch_assoc();
-		if($result){
-			/* $_SESSION["datalogin"] = $result;
-			return header("Location: ../../index-cliente.php"); */
-			echo "Ambiente de Cliente";
+		if(!empty($result['id'])){
+			$_SESSION["datalogin"] = $result;
+			return header("Location: ../../index-cliente.php");			
 		}else{
 			$_SESSION['returnLogin'] = 'denied';
 			return header('Location: ../../pages-login.php');
