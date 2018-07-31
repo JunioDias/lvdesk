@@ -1501,11 +1501,15 @@ File: Components
   margin-bottom: 20px;
 }
 .panel-atendimento:hover{
-	background-color: #32CD32;
+	background-color: #32eF32;
 	-moz-box-shadow: 0px 1px 2px 0px rgba(100, 0, 0, 0.1);
 	-webkit-box-shadow: 0px 1px 2px 0px rgba(100, 0, 0, 0.1);
-	box-shadow: 0px 1px 2px 0px rgba(100, 0, 0, 0.1);
+	box-shadow: 0px 5px 5px 0px rgba(100, 100, 100, 0.5);
 	margin-bottom: 20px;
+}
+.panel-atendimento:hover p, .panel-atendimento:hover h4{
+	color: #ffffff;
+	font-weight:bold;
 }
 .panel .panel-body {
   padding: 20px;

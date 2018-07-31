@@ -4,12 +4,18 @@
 </div>
 <div class="content-sized"> 
 <?php
+$a 		= new Model;
+$log 	= new Logs;
 if(!empty($_SESSION["datalogin"])){
 	$datalogin 					= $_SESSION["datalogin"];
 	$atendente_responsavel		= $datalogin['id'];
+	if($datalogin['id_contrato'] != 0){ #zero representa nenhum contrato, isso é um erro
+		$query_contrato = "SELECT * FROM contratos WHERE id = '".$datalogin['id_contrato']."' AND lixo = 0";
+		$resultado = $a->queryFree($query_contrato);
+		$permissao = $resultado->fetch_assoc();
+	}
 }
-$a 		= new Model;
-$log 	= new Logs;
+
 if($id_provedor){//Existe um provedor
 		
 	$query = "SELECT * FROM pav WHERE id = '".$id_provedor."' AND lixo = 0";
@@ -249,7 +255,7 @@ if($id_provedor){//Existe um provedor
 	<div class="form-group">
 	<hr><label for="resumo">Resumo</label><br>
 	<input class="btn btn-success rtrn-conteudo" id="solucionado" value="Solucionado" type="button" objeto="form-dados">
-	<input class="btn btn-warning rtrn-conteudo" value="CGR" type="button" objeto="form-dados">
+	<?= ($permissao['id_produtos'] == 2 || $permissao['id_produtos'] == 3 ? '<input class="btn btn-warning rtrn-conteudo" value="CGR" type="button" objeto="form-dados">' : '' ); ?>		
 	<input class="btn btn-info" id="atrbuir" value="Atribuir" type="button" objeto="form-dados">
 	</div>
 	<section class="input_hidden">

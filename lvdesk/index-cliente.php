@@ -186,6 +186,14 @@ if(!empty($_SESSION["datalogin"])){
                     <div class="">
                         <div class="page-header-title">
                             <h4 class="page-title">Dashboard Cliente</h4>
+							<?php
+							if(isset($dadoslogin['ambiente_privilegio'])){
+								echo "
+								<p>Produto:</p>
+								<p>Franquia:</p>
+								";
+							}
+							?>
                         </div>
                     </div>
 
@@ -196,10 +204,10 @@ if(!empty($_SESSION["datalogin"])){
                         <?php
                         include("controllers/logs.inc.php");
 						$foo = new Logs;
-						if($dadoslogin['id_privilegio']==1){
-							$foo->dashboard();
+						if(isset($dadoslogin['ambiente_privilegio'])){
+							$foo->dashboard_cliente();
 						}else{
-							$foo->dashboard('on');
+							$foo->dashboard_cliente('on');
 						}
 						?>
                         </div><!-- container -->

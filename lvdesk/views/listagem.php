@@ -28,7 +28,8 @@ include("../controllers/actions.inc.php");
 $i = 0;
 $botoes = new Acoes();
 $a = new Model();
-$query 	= "SELECT * FROM pav WHERE lixo = 0";
+//$query 	= "SELECT * FROM pav WHERE lixo = 0";
+$query 	= "SELECT pav.id, pav.tipo_bd, clientes.nome, contratos.id AS contrato_id FROM `contratos` INNER JOIN clientes INNER JOIN pav ON id_cliente = clientes.id AND clientes.id_provedor = pav.id WHERE contratos.lixo = 0";
 $result = $a->queryFree($query);
 if(isset($result)){
 	$connect = $result->fetch_assoc();
@@ -60,7 +61,7 @@ $flag		= "entrada";
 			$resultB = $a->queryFree($query);
 			if(isset($resultB)){				
 				while($linhas = $resultB->fetch_assoc()){
-					echo "<option value='".$linhas['id']."' tipo='".$linhas['tipo_bd']."' >".$linhas['nome']."</option>";
+					echo "<option contrato='".$linhas['contrato_id']."' value='".$linhas['id']."' tipo='".$linhas['tipo_bd']."' >".$linhas['nome']."</option>";
 				}		
 			}		  
 			?>
@@ -71,6 +72,7 @@ $flag		= "entrada";
 			<input type="hidden" name="flag"  /> 
 			<input type="hidden" name="caminho" value="controllers/sys/pav.sys.php" />
 			<input type="hidden" name="listagem" value="on" />
+			<input type="hidden" name="contrato" />
 		</section>
 	</form>	  
 	</div>

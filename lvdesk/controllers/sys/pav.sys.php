@@ -22,6 +22,7 @@ if(!empty($_POST)){
 					if($connect){
 						if(isset($dados['listagem'])){
 							unset($dados['listagem']);
+							$_SESSION["datalogin"]["id_contrato"] = $dados['contrato'];	
 						}else{
 							echo "<td><a data-toggle='modal' data-target='#myModal' >Pesquisar</a></td>";
 						}
@@ -44,7 +45,7 @@ if(!empty($_POST)){
 						</div>';
 					}else{
 						if(isset($dados['id_provedor'])){
-							$info['id'] = $dados['id_provedor'];
+							$info['id'] = $dados['id_provedor'];							
 						}
 						$_SESSION['resultado_pesquisa']	= $info;
 						//print_r($_SESSION['resultado_pesquisa']);

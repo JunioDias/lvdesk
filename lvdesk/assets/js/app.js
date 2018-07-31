@@ -358,6 +358,7 @@ $(document).ready(function(){
 	.on("change", "#select_provedor", function (event){ 
 		$("input[name='flag']").val($("select option:selected").attr('tipo'));
 		$("input[name='id_provedor']").val($("select option:selected").attr('value'));
+		$("input[name='contrato']").val($("select option:selected").attr('contrato'));
 	});
 	
 	$("body")

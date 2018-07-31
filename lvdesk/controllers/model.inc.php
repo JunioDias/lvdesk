@@ -33,9 +33,8 @@ class Model{
 				$_SESSION["datalogin"] = $result;
 				return header("Location: ../../index.php");
 			}else{
-				/* $_SESSION["datalogin"] = $result;
-				return header("Location: ../../index-cliente.php"); */
-				echo "Ambiente de usuário de cliente";
+				$_SESSION["datalogin"] = $result;
+				return header("Location: ../../index-cliente.php"); 
 			}
 		}else{
 			$_SESSION['returnLogin'] = 'denied';
@@ -53,6 +52,7 @@ class Model{
 		$mysql_result = $mysqli->query($query);
 		$result = $mysql_result->fetch_assoc();
 		if(!empty($result['id'])){
+			$result['ambiente_privilegio'] = 'on';
 			$_SESSION["datalogin"] = $result;
 			return header("Location: ../../index-cliente.php");			
 		}else{
