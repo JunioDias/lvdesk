@@ -50,13 +50,13 @@ if(isset($_POST['id'])){
 				<div class="form-group col-sm-12">
 					<div class="form-group">
 					<label for="name">Cliente</label>
-						<select class="form-control" name="id_cliente">							
+						<select class="form-control" name="id_cliente" id="id_cliente">							
 						<?php	
 						$query = "SELECT * FROM clientes WHERE lixo = 0";
 						$resultado = $a->queryFree($query);
 						if(isset($resultado)){
 							while($linhas = $resultado->fetch_assoc()){					
-								echo "<option value='".$linhas['id']."' ".($linhas['id'] == $id_cliente ? "selected" : '').">".$linhas['nome']."</option>";						
+								echo "<option email='".$linhas['usuario']."' value='".$linhas['id']."' ".($linhas['id'] == $id_cliente ? "selected" : '').">".$linhas['nome']."</option>";						
 							}
 						}else{
 							echo "<option>Nenhum registro encontrado</option>";					
@@ -116,8 +116,7 @@ if(isset($_POST['id'])){
 									  }	
 								  }								  
 								  
-								  echo " /><label for='check".$linhas['id']."'> ".$linhas['nome']."</label></div>
-								  ";								
+							    echo " /><label for='check".$linhas['id']."'> ".$linhas['nome']."</label></div>";
 							}
 						}else{
 							echo "<option>Nenhum registro encontrado</option>";					
@@ -135,7 +134,9 @@ if(isset($_POST['id'])){
 		<input type="hidden" name="retorno" value="<?= $retorno;?>" />
 		<input type="hidden" name="flag" value="<?= $flag;?>" />
 		<input type="hidden" name="tbl" value="contratos" />
+		<input type="hidden" name="subTabela" value="planos_movimentos" />
 		<input type="hidden" name="chave_cerquilha" value="on" />
+		<input type="hidden" name="email" />
 		<input type="hidden" name="caminho" value="controllers/sys/crud.sys.php" />
 	</section>
 	<div class="form-group">

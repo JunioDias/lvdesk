@@ -19,7 +19,7 @@
 include("../controllers/actions.inc.php"); 
 include("../controllers/model.inc.php");
 	
-$query 			= "SELECT * FROM contratos AS c INNER JOIN clientes AS cli ON id_cliente = cli.id WHERE c.lixo = 0 ";
+$query 			= "SELECT c.*, cli.nome AS nome FROM contratos AS c INNER JOIN clientes AS cli ON id_cliente = cli.id WHERE c.lixo = 0 ";
 
 $nomediv		= ".content-sized";				#nome da div onde o callback vai ocorrer
 $tabela  		= "contratos";					#tabela principal, alvo da rotina

@@ -362,6 +362,11 @@ $(document).ready(function(){
 	});
 	
 	$("body")
+	.on("change", "#id_cliente", function (event){ 
+		$("input[name='email']").val($("select option:selected").attr('email'));
+	});
+	
+	$("body")
 	.on("click", "#solucionado", function (event){ 
 		$(".input_hidden").append("<input type='hidden' name='idd' value='solucionado'>");
 	});

@@ -226,24 +226,34 @@ class Model{
 			return $resultado;
 		}
 	}
-	public function addGallery($tabela, $array){
-		#by Adan, 29 de setembro de 2015.
-		global $mysqli;
-
-		$count 	= 1;
-		$coluna = NULL;
-		$valor 	= NULL;
-		foreach($array as $key=>$value){
-			$coluna .= $key;
-			$valor  .= "'".$value."'";
-			if($count < sizeof($array)){
-				$coluna .= ", ";
-				$valor  .= ", ";
+	public function processaCerquilhas($dados){
+		#by Adan, 01 de agosto de 2018.
+		$i 	= 1; 				
+		$valor = NULL;
+		$array = NULL;
+		foreach($dados as $key=>$value){
+			if(is_array($value)){
+				foreach($value as $vlr){
+				  $valor .= $vlr;
+				  if($i < sizeof($value)){
+					$valor .= "#";
+					$i++;
+				  }
+				}
+				if(isset($array[$key])){
+					$array[$key] .= $valor;
+				} else{
+					$array[$key] = $valor;
+				}
+			}else{							
+				if(isset($array[$key])){
+					$array[$key] .= $value;
+				} else{
+					$array[$key] = $value;
+				}
 			}
-			$count++;
 		}
-		#echo "INSERT INTO $tabela ($coluna) VALUES($valor)<br><hr>";
-		$mysqli->query("INSERT INTO $tabela ($coluna) VALUES($valor)");
+		return $array;
 	}
 
 	#Montagem do filtro composto para rotina de Atendimento do PostgreSQL - Adan 25/06/2018
@@ -312,11 +322,8 @@ class Model{
 
 	public function exc($tabela, $id){
 		global $mysqli;
+		#echo "UPDATE $tabela SET lixo = '1' WHERE id = '$id'";
 		$mysqli->query("UPDATE $tabela SET lixo = '1' WHERE id = '$id'");
-		if($tabela == 'contatos'){
-			$dir = "../media/imagens/galeria/albuns/".$id;
-			$this->delDir($dir);
-		}
 		return true;
 	}
 

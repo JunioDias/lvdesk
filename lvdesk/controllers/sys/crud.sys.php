@@ -72,30 +72,44 @@ if(!empty($_POST)){
 			}	
 			
 			if(isset($dados['subTabela'])){ 
-				if(isset($dados['id'])){ //caso seja uma inserção de logs para o CGR
-					$newlog['protocol'] 		= $dados['protocol'];
-					$newlog['descricao']		= $dados['historico'];
-					$newlog['files']			= NULL;
-					$newlog['id_atendente']		= $dados['atendente_responsavel'];
-					$newlog['id_pav_inscritos']	= $dados['id'];
-					$newlog['data']				= date('Y-m-d H:i:s');
-					
-					$grab = $a->add($dados['subTabela'], $newlog);
-					unset($dados['id_atendente'], $dados['subTabela'], $dados['id']);
-				}else{ //caso seja a primeira inserção de log (nível 1)
-					if(isset($dados["status"])){
-						if($dados["status"]	== '2'){
-							$newlog['solution'] 	= 1;
-						}
+				if($dados['subTabela']=="planos_movimentos"){//cadastro auxiliar dos contratos na tabela planos_movimentos
+					$newlog['tabela'] = $dados['subTabela'];
+					#instancia variável para foreach tratar os planos selecionados
+					$trata_planos = $dados['id_planos_mov'];
+					$id_planos = NULL;
+					if($dados['chave_cerquilha']){
+						$cerq = $dados;
+						unset($cerq['chave_cerquilha']);
+						$id_planos = $a->processaCerquilhas($cerq);						
 					}
-					$newlog['protocol'] 		= $dados['protocol'];
-					$newlog['descricao']		= $dados['historico'];
-					$newlog['files']			= NULL;
-					$newlog['id_atendente']		= $dados['atendente_responsavel'];
-					$newlog['data']				= date('Y-m-d H:i:s');
-					$newlog['tabela']			= $dados['subTabela'];
-					unset($dados['id_atendente'], $dados['subTabela'], $dados['id']);
-				}
+					#previne que o fluxo entre pelo IF errado
+					$dados['id_planos_mov'] = $id_planos['id_planos_mov']; 					
+				}else{			
+					if(isset($dados['id'])){ //caso seja uma inserção de logs para o CGR
+						$newlog['protocol'] 		= $dados['protocol'];
+						$newlog['descricao']		= $dados['historico'];
+						$newlog['files']			= NULL;
+						$newlog['id_atendente']		= $dados['atendente_responsavel'];
+						$newlog['id_pav_inscritos']	= $dados['id'];
+						$newlog['data']				= date('Y-m-d H:i:s');
+						
+						$grab = $a->add($dados['subTabela'], $newlog);
+						
+					}else{ //caso seja a primeira inserção de log (nível 1)
+						if(isset($dados["status"])){
+							if($dados["status"]	== '2'){
+								$newlog['solution'] 	= 1;
+							}
+						}
+						$newlog['protocol'] 		= $dados['protocol'];
+						$newlog['descricao']		= $dados['historico'];
+						$newlog['files']			= NULL;
+						$newlog['id_atendente']		= $dados['atendente_responsavel'];
+						$newlog['data']				= date('Y-m-d H:i:s');
+						$newlog['tabela']			= $dados['subTabela'];						
+					}
+				}	
+				unset($dados['id_atendente'], $dados['subTabela'], $dados['id']);
 			}
 			
 			if($dados["retorno"]==".modal-body-add"){
@@ -108,11 +122,32 @@ if(!empty($_POST)){
 				unset($dados['chave_cerquilha']);
 				$grab = $a->add($tabela, $dados);
 				if($grab == true){
-					if(isset($newlog['tabela'])){
-						$newlog['id_pav_inscritos'] = $_SESSION['ult_id'];
-						$tabela = $newlog['tabela'];
-						unset($newlog['tabela']);
-						$a->add($tabela, $newlog);
+					if(isset($newlog['tabela'])){//tabelas auxiliares de movimentação
+						if($newlog['tabela']=="pav_movimentos"){
+							$newlog['id_pav_inscritos'] = $_SESSION['ult_id'];
+							$tabela = $newlog['tabela'];
+							unset($newlog['tabela']);
+							$a->add($tabela, $newlog);
+							
+						}else if($newlog['tabela']=="planos_movimentos"){
+							$newlog['id_contratos'] = $_SESSION['ult_id'];	
+							#configura novo array para tabela auxiliar
+							$newlog['id_cliente'] 	= $dados['id_cliente'];
+							$newlog['id_planos'] 	= $id_planos['id_planos_mov'];
+							$newlog['data_limite'] 	= $dados['finaliza_em'];							
+							$tabela = $newlog['tabela'];
+							unset($newlog['tabela']);
+							#tratar quantidade e limite dos planos 							
+							foreach($trata_planos as $value){
+								$query_contrato = "SELECT valor_unit, limite FROM planos WHERE id = '".$value."' AND lixo = 0";
+								$foo = $a->queryFree($query_contrato);
+								if($dados_contrato = $foo->fetch_assoc()){							
+									$newlog['qntd_atendimentos'] 	= $dados_contrato['limite'];
+									$newlog['vlr_nominal'] 			= $dados_contrato['valor_unit'];							
+									$a->add($tabela, $newlog);
+								}
+							}
+						}					
 					}
 					if(isset($select_retorno)){
 						$foo = $a->queryFree("SELECT id, nome FROM pav");
@@ -128,34 +163,9 @@ if(!empty($_POST)){
 				}
 			}else{
 				//Para os checkboxes da rotina de módulos etc.
-				$i 	= 1; 				
-				$valor = NULL;
-				$array = NULL;
 				if($dados['chave_cerquilha']){
-					unset($dados['chave_cerquilha']);
-					
-					foreach($dados as $key=>$value){
-						if(is_array($value)){
-							foreach($value as $vlr){
-							  $valor .= $vlr;
-							  if($i < sizeof($value)){
-								$valor .= "#";
-								$i++;
-							  }
-							}
-							if(isset($array[$key])){
-								$array[$key] .= $valor;
-							} else{
-								$array[$key] = $valor;
-							}
-						}else{							
-							if(isset($array[$key])){
-								$array[$key] .= $value;
-							} else{
-								$array[$key] = $value;
-							}
-						}
-					}
+					unset($dados['chave_cerquilha']);					
+					$a->processaCerquilhas($dados);
 					$a->add($tabela, $array);
 				}else{
 					echo "Erro #00034ADD - Falha de função para arrays multifuncionais genérica";
@@ -481,7 +491,7 @@ if(!empty($_POST)){
 			global $array;
 			global $id_provedor;
 			$dados = $_POST; 
-			
+			$a = new Model();
 			if(isset($_SESSION['resultado_pesquisa']['id'])){
 				$id_provedor = $_SESSION['resultado_pesquisa']['id'];
 				unset($_SESSION['resultado_pesquisa']['id']);
@@ -489,12 +499,21 @@ if(!empty($_POST)){
 				echo "ATENÇÃO: ID do resultado da pesquisa retornou vazio!<br>";
 				//print_r($_SESSION['resultado_pesquisa']);
 			}
-			
-			/* echo $id."<br><br>";
-			print_r($dados);
-			echo"<br><br>";
-			print_r($_SESSION['resultado_pesquisa']); 
-			echo"<br><br>"; */
+			$query_entrada = "SELECT qntd_atendimentos FROM planos_movimentos WHERE id_contratos = '".$dados['id_contratos']."' AND data_limite >= now() AND lixo = 0";
+			$woo = $a->queryFree($query_entrada);
+			$entrada = $woo->fetch_assoc();
+			if(empty($entrada['qntd_atendimentos'])){
+				echo ("
+				<script type='text/javascript'>
+				$(document).ready(function () {
+					$('#alerta_cliente_contrato').modal('toggle');	
+				});
+				</script>
+				");
+			}else{//aqui será necessário incrementar o contador de atendimentos do cliente
+				print_r($dados); 
+				#$a->upd("planos_movimentos", $dados);
+			}
 			
 			$indice = $dados["idd"];			
 			foreach($_SESSION['resultado_pesquisa'][$indice] as $key=>$value)
