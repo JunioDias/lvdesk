@@ -133,15 +133,16 @@ if(!empty($_POST)){
 							$newlog['id_contratos'] = $_SESSION['ult_id'];	
 							#configura novo array para tabela auxiliar
 							$newlog['id_cliente'] 	= $dados['id_cliente'];
-							$newlog['id_planos'] 	= $id_planos['id_planos_mov'];
+							#$newlog['id_planos'] 	= $id_planos['id_planos_mov'];
 							$newlog['data_limite'] 	= $dados['finaliza_em'];							
 							$tabela = $newlog['tabela'];
 							unset($newlog['tabela']);
 							#tratar quantidade e limite dos planos 							
 							foreach($trata_planos as $value){
-								$query_contrato = "SELECT valor_unit, limite FROM planos WHERE id = '".$value."' AND lixo = 0";
+								$query_contrato = "SELECT id, valor_unit, limite FROM planos WHERE id = '".$value."' AND lixo = 0";
 								$foo = $a->queryFree($query_contrato);
 								if($dados_contrato = $foo->fetch_assoc()){							
+									$newlog['id_planos'] 			= $dados_contrato['id'];
 									$newlog['qntd_atendimentos'] 	= $dados_contrato['limite'];
 									$newlog['vlr_nominal'] 			= $dados_contrato['valor_unit'];							
 									$a->add($tabela, $newlog);
@@ -511,8 +512,32 @@ if(!empty($_POST)){
 				</script>
 				");
 			}else{//aqui será necessário incrementar o contador de atendimentos do cliente
-				print_r($dados); 
-				#$a->upd("planos_movimentos", $dados);
+				$query_movimentos = "SELECT * FROM planos_movimentos WHERE id_contratos = '".$dados['id_contratos']."' AND data_limite >= now() AND lixo = 0 ORDER BY qntd_atendimentos LIMIT 1"; 
+				$woo = $a->queryFree($query_movimentos);
+				$atend = $woo->fetch_assoc();
+				$atual 	= intval($atend['atendimentos_atuais']); 
+				$limite = intval($atend['qntd_atendimentos']);
+				$valor 	= floatval($atend['vlr_nominal']);
+				if($atual < $limite){
+					$soma['atendimentos_atuais'] = $atual + 1;
+					$a->upd("planos_movimentos", $soma, $atend['id']);
+				}else{
+					$query_movimentos = "SELECT * FROM planos_movimentos WHERE qntd_atendimentos > '".$atend['qntd_atendimentos']."' AND id_contratos = '".$dados['id_contratos']."' AND data_limite >= now() AND lixo = 0 ORDER BY qntd_atendimentos LIMIT 1"; 
+					$woo = $a->queryFree($query_movimentos);
+					$exced = $woo->fetch_assoc();
+					if(empty($exced['id'])){
+						$soma['atendimentos_atuais'] = $atual + 1;
+						$a->upd("planos_movimentos", $soma, $atend['id']);
+					}else{
+						$atual 	= intval($exced['atendimentos_atuais']); 
+						$limite = intval($exced['qntd_atendimentos']);
+						$valor 	= floatval($exced['vlr_nominal']);
+						if($atual < $limite){						
+							$soma['atendimentos_atuais'] = $atual + 1;
+							$a->upd("planos_movimentos", $soma, $exced['id']);
+						}
+					}					
+				}
 			}
 			
 			$indice = $dados["idd"];			

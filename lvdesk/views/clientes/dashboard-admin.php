@@ -1,3 +1,14 @@
+<?php
+$a = new Model;
+$dadoslogin = $_SESSION['datalogin'];
+$query = "SELECT * FROM planos_movimentos WHERE id_cliente = '".$dadoslogin['id']."' AND data_limite >= now() AND lixo = 0 ORDER BY qntd_atendimentos LIMIT 1"; 
+$foo 		= $a->queryFree($query);
+$mov_planos = $foo->fetch_assoc();
+
+$query_plano = "SELECT * FROM planos WHERE id = '".$mov_planos['id_planos']."' AND lixo = 0"; 
+$foo 	= $a->queryFree($query_plano);
+$planos = $foo->fetch_assoc();
+?>
 <div class="container">
 <div class="row">
 	<div class="col-sm-6 col-lg-3">
@@ -7,8 +18,8 @@
 				<h4 class="panel-title text-muted font-light">Atendimentos</h4>
 			</div>
 			<div class="panel-body p-t-10">
-				<h2 class="m-t-0 m-b-15"><i class="mdi mdi-arrow-down-bold-circle-outline text-danger m-r-10"></i><b>8952</b></h2>
-				<p class="text-muted m-b-0 m-t-20"><b>48%</b> Nas últimas 24 horas</p>
+				<h2 class="m-t-0 m-b-15"><i class="mdi mdi-arrow-down-bold-circle-outline text-danger m-r-10"></i><b><?= $mov_planos['atendimentos_atuais'];?></b></h2>
+				<p class="text-muted m-b-0 m-t-20">Plano <?= $planos['nome'];?></p>
 			</div>
 		</div>
 		</a>

@@ -112,6 +112,14 @@ if(!empty($_SESSION["datalogin"])){
                                         <span class="profile-username">
                                             <?= $dadoslogin["nome"]; ?><br/>
                                             <small><?= $dadoslogin['nomep'];?></small>
+											<?php
+											if(isset($dadoslogin['ambiente_privilegio'])){
+												echo "
+												<p>Produto:</p>
+												<p>Franquia:</p>
+												";
+											}
+											?>
                                         </span>
                                     </a>
                                     <ul class="dropdown-menu">
@@ -186,14 +194,6 @@ if(!empty($_SESSION["datalogin"])){
                     <div class="">
                         <div class="page-header-title">
                             <h4 class="page-title">Dashboard Cliente</h4>
-							<?php
-							if(isset($dadoslogin['ambiente_privilegio'])){
-								echo "
-								<p>Produto:</p>
-								<p>Franquia:</p>
-								";
-							}
-							?>
                         </div>
                     </div>
 
