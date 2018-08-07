@@ -8,7 +8,7 @@
 <thead>
   <tr>
 	<th>Id</th>
-	<th>Provedor</th>
+	<th>Sistema</th>
     <th>Nome do banco</th>        
 	<th>Status</th>
 	<th>Ações</th>

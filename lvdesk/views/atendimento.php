@@ -13,6 +13,9 @@ if(!empty($_SESSION["datalogin"])){
 		$query_contrato = "SELECT * FROM contratos WHERE id = '".$datalogin['id_contrato']."' AND lixo = 0";
 		$resultado = $a->queryFree($query_contrato);
 		$permissao = $resultado->fetch_assoc();
+		$query_cliente = "SELECT * FROM clientes WHERE id = '".$permissao['id_cliente']."' AND lixo = 0";
+		$foo = $a->queryFree($query_cliente);
+		$arr_cliente = $foo->fetch_assoc();
 	}
 }
 
@@ -26,7 +29,7 @@ if($id_provedor){//Existe um provedor
 	
 	$nome_cliente	= $array['nome_cliente'];
 	$cpf_cnpj		= $array['cpf_cnpj'];
-	$provedor 	 	= $matriz['nome'];
+	$provedor 	 	= $arr_cliente['nome'];
 	$endereco 		= $array['endereco'];
 	$telefone		= $array['telefone_principal'];
 	$usuario		= $array['usuario_autenticacao'];
@@ -353,27 +356,6 @@ if($id_provedor){//Existe um provedor
 	</div><!-- /.modal.dialog -->
 </form>
 </div><!-- /#modal-log -->
-
-<!--------------------- Modal de alerta para clientes com pendências contratuais -------------------->
-<div id="alerta_cliente_contrato" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalContratoAlerta" aria-hidden="true" style="display: none;">
-<div class="modal-dialog">
-  <div class="modal-content">
-	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-		<h3 class="modal-title" id="modalContratoAlerta">Atenção!</h3>
-	</div>
-	<div class="modal-body">
-		<h4>Possíveis pendências contratuais.</h4>
-		<p>Esta entidade possui uma observação contratual.<br>
-		Confira a validade do contrato ou número de atendimentos máximo.<br>
-		Por favor, encaminhe um aviso para o setor responsável.</p>
-	</div>
-	<div class="modal-footer">
-		<button type="button" class="btn btn-success waves-effect" data-dismiss="modal">OK</button>
-	</div>
-  </div><!-- /.modal-content -->
-</div><!-- /.modal.dialog -->
-
 <!--------------------- Modal de alerta para CGR ativo -------------------->
 <div id="alerta" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
 <div class="modal-dialog">
@@ -391,6 +373,7 @@ if($id_provedor){//Existe um provedor
 	</div>
   </div><!-- /.modal-content -->
 </div><!-- /.modal.dialog -->
+
 <script>
 	jQuery(document).ready(function(){
 		$('#historico').wysihtml5({

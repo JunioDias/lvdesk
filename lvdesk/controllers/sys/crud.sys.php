@@ -400,7 +400,7 @@ if(!empty($_POST)){
 				unset($dados['idd']);
 			}
 			
-			unset($dados["confirmasenha"], $dados["flag"], $dados["tbl"], $dados["caminho"], $dados["retorno"] );
+			unset($dados["confirmasenha"], $dados["flag"], $dados["tbl"], $dados["caminho"], $dados["retorno"], $dados['subTabela'] );
 			
 			if(isset($dados['id'])){
 				if(in_array(true, array_map('is_array', $dados), true) == ''){
@@ -670,8 +670,18 @@ if(!empty($_POST)){
 					}					
 				}
 			} 
-			
-			
+		break;
+		
+		case "teste":
+			$dados = $_POST;
+			$a = new Model;
+			$e = new Acoes;
+			$query	= "SELECT * FROM pav_movimentos WHERE lixo = 0 ";
+			$return	= $a->queryFree($query);
+			while($linhas = $return->fetch_assoc()){
+				print_r($linhas);
+				echo"<br>";
+			}
 		break;
 	}
   }	

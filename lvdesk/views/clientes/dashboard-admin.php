@@ -67,5 +67,23 @@ $planos = $foo->fetch_assoc();
 	</a>
 	</div>
 </div>
-
+<!--------------------- Modal de alerta para clientes com pendências contratuais -------------------->
+<div id="alerta_cliente_contrato" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalContratoAlerta" aria-hidden="true" style="display: none;">
+<div class="modal-dialog">
+  <div class="modal-content">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		<h3 class="modal-title" id="modalContratoAlerta">Atenção!</h3>
+	</div>
+	<div class="modal-body">
+		<h4>Possíveis pendências contratuais.</h4>
+		<p>Esta entidade possui uma observação contratual.<br>
+		Confira a validade do contrato ou número de atendimentos máximo.<br>
+		Por favor, encaminhe um aviso para o setor responsável.</p>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-success waves-effect" data-dismiss="modal">OK</button>
+	</div>
+  </div><!-- /.modal-content -->
+</div><!-- /.modal.dialog -->
 </div><!-- container -->     

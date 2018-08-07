@@ -41,6 +41,7 @@ if(isset($_POST['id'])){
 		echo "<input type='hidden' name='id' value='$id'/>";
 	}
 	?>
+	<input type="hidden" name="retorno" value=".content-sized" />
 	<input type="hidden" name="flag" value="<?= $flag;?>" />
     <input type="hidden" name="tbl" value="privilegios" />
     <input type="hidden" name="caminho" value="controllers/sys/crud.sys.php" />

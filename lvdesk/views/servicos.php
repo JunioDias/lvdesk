@@ -17,7 +17,7 @@
 	<input class="btn btn-warning btn_driver" value="Salvar Filtros" type="button" >
 	</form>
 	<form id="incluirAtendimento">
-	<input class="btn btn-info btn_driver regular-link" value="Incluir" type="button" link="views/atendimento-entrada-nivel-3.html">
+	<input class="btn btn-info btn_driver regular-link" value="Incluir" type="button" link="views/atendimento-entrada-nivel-3.php">
 	</form>
 </section>
 <table class="table table-hover">

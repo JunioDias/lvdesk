@@ -22,11 +22,12 @@ if(!empty($_POST)){
 				$resultado = $a->loginCliente($teste["usuario"], md5($dados["senha"]));
 				return $resultado;
 			}	 	
-			#echo $resultado;
+			#echo $resultado; 
 		break;
 		case "logout":
 			session_destroy();
 			header("Location: ../../pages-login.php");
+			exit();
 		break;
 		case "recupera":
 			$dados = $_POST;

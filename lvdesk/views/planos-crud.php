@@ -15,7 +15,7 @@ if(isset($_POST['id'])){
 	$valor_total	= $edicao['valor_total'];
 	$criado_em		= $edicao['criado_em'];
 	$atualizado_em	= $edicao['atualizado_em'];
-	$aberta			= $edicao['aberta'];	
+	$ativo			= $edicao['ativo'];	
 	$flag	 		= "update";
 }else{
 	$id		   		= NULL;
@@ -25,7 +25,7 @@ if(isset($_POST['id'])){
 	$valor_total	= NULL;
 	$criado_em		= NULL;
 	$atualizado_em	= NULL;
-	$aberta			= NULL;
+	$ativo			= NULL;
 	$flag	 		= "add";
 	
 	echo $head = '

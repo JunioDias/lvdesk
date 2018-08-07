@@ -38,9 +38,9 @@ if(!empty($_POST)){
 					if($info === false){
 						echo '<div class="alert alert-warning fade in">
 						<h4>Nenhum registro encontrado.</h4>
-						<p>'.$info.'</p><p>'.$query.'</p>
+						<p>Clique no botão abaixo para retornar.</p>
 						<p class="m-t-10">
-						  <button type="button" class="btn btn-default waves-effect regular-link" link="views/driver-conexoes.php">Fechar</button>
+						  <button type="button" class="btn btn-default waves-effect regular-link" link="views/listagem.php">Fechar</button>
 						</p>
 						</div>';
 					}else{

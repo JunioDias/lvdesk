@@ -54,8 +54,8 @@ if(isset($_POST['id'])){
 	
 	echo $head = '
 	<div class="page-header-title">
-	  <h4 class="page-title">Usuários</h4>
-	  <p>Gerenciador dos usuários do sistema</p>
+	  <h4 class="page-title">Atendentes</h4>
+	  <p>Gerenciador dos atendentes do sistema</p>
 	</div>
 	<div class="content-sized">';
 }
@@ -63,26 +63,28 @@ if(isset($_POST['id'])){
 	<form id="form-modulo">
 		<div class="form-group">
 			<label for="nome">Usuário</label>
-			<select class="form-control" name="nome">
+			<select class="form-control" name="nome" id="atendentes-select-user">
+			<option user=''>Selecione um usuário...</option>
 			<?php
-			$query 	= "SELECT id, nome FROM usuarios WHERE lixo = 0";
+			$query 	= "SELECT id, nome, usuario FROM usuarios WHERE lixo = 0";
 			if(is_null($id)){
 				$result = $e->queryFree($query);
 				while($linhas = $result->fetch_assoc()){
-					echo "<option value='".$linhas['id']."'>".$linhas['nome']."</option>";
+					echo "<option value='".$linhas['id']."' user='".$linhas['usuario']."'>".$linhas['nome']."</option>";
 				}		
 			}else{	
 				$result = $e->queryFree($query);
 				while($linhas = $result->fetch_assoc()){
-					echo "<option value='".$linhas['id']."' ".($linhas['id']==$id ? 'selected' : '').">".$linhas['nome']."</option>";
-				} 
-			}			  
+					echo "<option value='".$linhas['id']."' user='".$linhas['usuario']."' ".($linhas['id']==$id ? 'selected' : '').">".$linhas['nome']."</option>";
+				}
+			}		
+				
 			?>
 			</select>
 		</div>
 		<div class="form-group">
 			<label for="usuario">Nome de usuário (e-mail)</label>
-			<input type="text" class="form-control" name="usuario" value="<?= $usuario;?>"/>
+			<input type="text" class="form-control" name="usuario" />
 		</div>
 		<div class="form-group">
 			<label for="data_nasc">Data de nascimento</label>

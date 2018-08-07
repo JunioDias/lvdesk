@@ -292,11 +292,7 @@ $log = new Logs;
 			
 		<!------------------- Validadores --------------------->
 			<section class="input_hidden">
-				<?php 
-				if(isset($id)){
-					echo "<input type='hidden' name='id' value='$id'/>";
-				}
-				?>
+				<?= (isset($id) ? "<input type='hidden' name='id' value='$id'/>" : "" ) ?>
 				<input type="hidden" name="id_atendente" value="<?= $atendente_responsavel; ?>" />
 				<input type="hidden" name="flag" value="addLog" />
 				<input type="hidden" name="caminho" value="controllers/sys/crud.sys.php" />

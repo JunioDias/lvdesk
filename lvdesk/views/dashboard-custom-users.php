@@ -21,7 +21,7 @@
 						<h4 class="panel-title text-muted font-light">Serviços</h4>
 					</div>
 					<div class="panel-body p-t-10">
-						<h2 class="m-t-0 m-b-15"><i class="mdi mdi-arrow-up-bold-circle-outline text-success m-r-10"></i><b>'.$a->notification(NULL, 'on').'</b></h2>
+						<h2 class="m-t-0 m-b-15"><i class="mdi mdi-arrow-up-bold-circle-outline text-success m-r-10"></i><b><?=$a->notification(NULL, 'on');?></b></h2>
 						<p class="text-muted m-b-0 m-t-20"><b>42%</b> Nos últimos 10 meses</p>
 					</div>
 				</div>

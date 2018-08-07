@@ -336,16 +336,20 @@ $(document).keypress(function(e) {
 $(document).ready(function(){
 	$("body")
 	.on('click', '.regular-link', function(){ //links comuns para navegação casual.
-   		$(".content").load($(this).attr("link"));
+   		NProgress.start();
+		$(".content").load($(this).attr("link"));
+		NProgress.done();
 	});
 	
 	$("body")
 	.on('click', '.envia-listagem-deliberar', function(){
 		
-		var linha = new FormData(document.querySelector("#"+$(this).attr("linha")));			
+		var linha = new FormData(document.querySelector("#"+$(this).attr("linha")));
+		NProgress.start();
 		for(var pair of linha.entries()) {
 			$(".input_hidden").append("<input class='remove-me' type='hidden' name='"+pair[0]+"' value='"+ pair[1]+"' />"); 
 		}
+		NProgress.done();
 	}); 
 	
 	$("body")
@@ -367,6 +371,11 @@ $(document).ready(function(){
 	});
 	
 	$("body")
+	.on("change", "#atendentes-select-user", function (event){ 
+		$("input[name='usuario']").val($("select option:selected").attr('user'));
+	});
+	
+	$("body")
 	.on("click", "#solucionado", function (event){ 
 		$(".input_hidden").append("<input type='hidden' name='idd' value='solucionado'>");
 	});
@@ -380,7 +389,7 @@ $(document).ready(function(){
 		$("input[name='id']").attr("value", b);
 		var objeto = new FormData(document.querySelector("#"+$(this).attr("objeto")));
 		objeto.append('id', b);
-		
+		NProgress.start();
 		$.ajax({
 			url: "controllers/sys/crud.sys.php", 
 			data: objeto,
@@ -389,10 +398,11 @@ $(document).ready(function(){
   			contentType: false,
 			success: function(retornoDados){
 				if(objeto.get("retorno")){
-					//$(".modal-backdrop").hide();
+					NProgress.done();
 					var retorno = objeto.get("retorno");
 					$(retorno).html(retornoDados);
 				}else{
+					NProgress.done();
 					$("body").html(retornoDados);
 				}								
 			}
@@ -445,7 +455,7 @@ $(document).ready(function(){
 			}
 		}
 		var objeto = new FormData(document.querySelector("#"+$(this).attr("objeto")));	
-		
+		NProgress.start();
 		$.ajax({
 			url: objeto.get("caminho"), 
 			data: objeto,
@@ -460,6 +470,7 @@ $(document).ready(function(){
 						} 
 					}else{
 						$(".modal-backdrop").hide();
+						NProgress.done();
 						var retorno = objeto.get("retorno");
 						$(retorno).html(retornoDados);
 					}
@@ -492,6 +503,7 @@ $(document).ready(function(){
 			if($(this).attr("idd")){
 				objeto.append("idd", $(this).attr("idd"));			
 			}
+			NProgress.start();
 			$.ajax({
 				url: objeto.get("caminho"), 
 				data: objeto,
@@ -502,8 +514,10 @@ $(document).ready(function(){
 					if(objeto.get("retorno")){
 						var retorno = objeto.get("retorno");
 						$(retorno).html(retornoDados);
+						NProgress.done();
 					}else{
 						$(".content-sized").html(retornoDados);	
+						NProgress.done();
 					}							
 				}
 			}); 
@@ -532,7 +546,7 @@ $(document).ready(function(){
 			  elem.style.width = width + '%'; 
 			}
 		}		
-		
+		NProgress.start();
 		$.ajax({
 			
 			url: objeto.get("caminho"), 
@@ -541,7 +555,8 @@ $(document).ready(function(){
 			processData: false,  
   			contentType: false,
 			success: function(retornoDados){
-				$("#target-status"+id_div).html(retornoDados);				
+				$("#target-status"+id_div).html(retornoDados);	
+				NProgress.done();				
 			}
 		});
 	});
@@ -561,6 +576,7 @@ $(document).ready(function(){
 		for (var valor of objeto.values()) {
 		   console.log(valor); 
 		} 
+		NProgress.start();
 		$.ajax({
 			url: objeto.get("caminho"), 
 			data: objeto,
@@ -568,7 +584,8 @@ $(document).ready(function(){
 			processData: false,  
   			contentType: false,
 			success: function(retornoDados){
-				$(".content-sized").html(retornoDados);				
+				$(".content-sized").html(retornoDados);	
+				NProgress.done();
 			}
 		});
 	});

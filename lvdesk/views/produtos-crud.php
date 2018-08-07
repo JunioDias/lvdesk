@@ -11,11 +11,13 @@ if(isset($_POST['id'])){
 	$id		   		= $edicao['id'];
 	$titulo			= $edicao['titulo'];
 	$id_auditoria	= $edicao['id_auditoria'];	
+	$valor_fixo		= $edicao['valor_fixo'];
 	$flag	 		= "update";
 }else{
 	$id		   		= NULL;
 	$titulo			= NULL;
 	$id_auditoria	= NULL;
+	$valor_fixo		= NULL;
 	$flag	 		= "add";
 	
 	echo $head = '
@@ -33,7 +35,7 @@ if(isset($_POST['id'])){
 	</div>
 	<div class="panel-body">			
 		<div class="row">
-			<div class="form-group">
+			<div class="form-group col-sm-12">
 			<label for="titulo">Título</label>
 				<input type="text" class="form-control" name="titulo" value="<?= $titulo;?>"/>
 			</div>
@@ -41,10 +43,17 @@ if(isset($_POST['id'])){
 		
 		<div class="row">
 			<div class="form-group col-sm-6">
-					<label for="id_auditoria">Auditoria</label>
+				<label for="id_auditoria">Auditoria</label>
 				<select class="form-control" name="id_auditoria">							
 					<option value='1' <?=($id_auditoria == 1 ? "selected" : '')?>>Sim</option>
 					<option value='0' <?=($id_auditoria == 0 ? "selected" : '')?>>Não</option>					
+				</select>
+			</div>
+			<div class="form-group col-sm-6">
+				<label for="valor_fixo">Produto de valor fixo</label>
+				<select class="form-control" name="valor_fixo">							
+					<option value='1' <?=($valor_fixo == 1 ? "selected" : '')?>>Sim</option>
+					<option value='0' <?=($valor_fixo == 0 ? "selected" : '')?>>Não</option>					
 				</select>
 			</div>
 		</div>
