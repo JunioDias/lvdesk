@@ -140,6 +140,9 @@ a:focus {
   text-align: center;
   width: 30px;
 }
+a['href_link']{
+	cursor: pointer;
+}
 /* ==============
   Bootstrap-custom
 ===================*/

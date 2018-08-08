@@ -19,6 +19,8 @@ if(!empty($_SESSION["datalogin"])){
         <link rel="stylesheet" href="assets/plugins/morris/morris.css">
 		<!--bootstrap-wysihtml5-->
 		<link rel="stylesheet" type="text/css" href="assets/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.css">
+		<!--nprogress-->
+		<link rel='stylesheet' href='assets/plugins/nprogress/nprogress.css'/>
 		
         <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
         <link href="assets/css/icons.css" rel="stylesheet" type="text/css">
@@ -236,6 +238,7 @@ if(!empty($_SESSION["datalogin"])){
         <script src="assets/plugins/raphael/raphael-min.js"></script>
         <script src="assets/pages/dashborad.js"></script>
 		<script src="assets/js/validator.min.js"></script>
+		<script src='assets/plugins/nprogress/nprogress.js'></script>
 		<script src="assets/js/app.js"></script>
 		
     </body>

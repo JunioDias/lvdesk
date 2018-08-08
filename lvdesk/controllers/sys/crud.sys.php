@@ -69,6 +69,7 @@ if(!empty($_POST)){
 					$dados["status"]	= '2';
 				}
 				unset($dados['idd']);
+				#$a->gravaAtendimento($dados);
 			}	
 			
 			if(isset($dados['subTabela'])){ 
@@ -395,7 +396,7 @@ if(!empty($_POST)){
 				if($dados["idd"] == "solucionado")	{			
 					$dados["id_pav"] 	= '0';
 					$dados["validado"] 	= '1';
-					$dados["status"]	= '2';
+					$dados["status"]	= '2';					
 				}
 				unset($dados['idd']);
 			}
@@ -407,14 +408,16 @@ if(!empty($_POST)){
 					unset($dados['chave_cerquilha']);
 					$a->upd($tabela, $dados, $dados['id']);
 				}else{
-					$i 	= 1; 				
-					$valor = NULL;
+					/* $i 	= 1; 				
+					$valor = NULL; */
 					$array = NULL;
 					if($dados['chave_cerquilha']){
 						unset($dados['chave_cerquilha']);
 						
 						foreach($dados as $key=>$value){
 							if(is_array($value)){
+								$valor = NULL;
+								$i = 1;
 								foreach($value as $vlr){
 								  $valor .= $vlr;
 								  if($i < sizeof($value)){
@@ -500,7 +503,7 @@ if(!empty($_POST)){
 				echo "ATENÇÃO: ID do resultado da pesquisa retornou vazio!<br>";
 				//print_r($_SESSION['resultado_pesquisa']);
 			}
-			$query_entrada = "SELECT qntd_atendimentos FROM planos_movimentos WHERE id_contratos = '".$dados['id_contratos']."' AND data_limite >= now() AND lixo = 0";
+			/* $query_entrada = "SELECT qntd_atendimentos FROM planos_movimentos WHERE id_contratos = '".$dados['id_contratos']."' AND data_limite >= now() AND lixo = 0";
 			$woo = $a->queryFree($query_entrada);
 			$entrada = $woo->fetch_assoc();
 			if(empty($entrada['qntd_atendimentos'])){
@@ -538,7 +541,7 @@ if(!empty($_POST)){
 						}
 					}					
 				}
-			}
+			} */
 			
 			$indice = $dados["idd"];			
 			foreach($_SESSION['resultado_pesquisa'][$indice] as $key=>$value)
@@ -674,14 +677,7 @@ if(!empty($_POST)){
 		
 		case "teste":
 			$dados = $_POST;
-			$a = new Model;
-			$e = new Acoes;
-			$query	= "SELECT * FROM pav_movimentos WHERE lixo = 0 ";
-			$return	= $a->queryFree($query);
-			while($linhas = $return->fetch_assoc()){
-				print_r($linhas);
-				echo"<br>";
-			}
+			print_r($dados);				
 		break;
 	}
   }	

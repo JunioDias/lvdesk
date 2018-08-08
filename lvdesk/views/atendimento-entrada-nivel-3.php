@@ -58,7 +58,8 @@ if(!empty($_SESSION["datalogin"])){
 							<label for="autor">Autor</label>
 							<input type="text" class="form-control"  
 							<?php 
-							while($linhas = $autory->fetch_assoc()){
+							$result = $a->queryFree($queryAtend);
+							while($linhas = $result->fetch_assoc()){
 								if($atendente_responsavel == $linhas['id']){
 									echo "value='".$linhas['nome']."'";
 								}								

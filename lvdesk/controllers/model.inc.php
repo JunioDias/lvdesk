@@ -345,55 +345,47 @@ class Model{
 
 	# Funções para gerenciamento de privilégios e acessos no sistema - by Adan 07/06/2018
 	public function libPriv($id){
-	  $query = "SELECT acessos FROM privilegios WHERE lixo = 0 AND id = $id ";
+	  $query = "SELECT acessos, acessos_menus FROM privilegios WHERE lixo = 0 AND id = $id ";
 	  $foo = $this->queryFree($query);
 	  $val = $foo->fetch_assoc();
-	  $retorno = explode("#", $val['acessos']);
-	  $this->libMenuAdmin($retorno);
+	  $modulos = explode("#", $val['acessos']);
+	  $menus = explode("#", $val['acessos_menus']);
+	  $this->libMenuAdmin($modulos, $menus);
 	}
 
-	public function libMenuAdmin($arrayAcessos, $idSubMenu = NULL){
+	public function libMenuAdmin($arrayAcessos, $idSubMenu){
 		foreach($arrayAcessos as $value){
-		  $woo = $this->queryFree("SELECT * FROM modulos WHERE lixo = 0 AND id = $value");
-		  $row = $woo->fetch_assoc();
-		  if($row['id_pai']==1){
-			$woo = $this->queryFree("SELECT * FROM menus WHERE lixo = 0 AND id_pai = $value");
-
-		    if($row['id']!= 0){
+			$woo = $this->queryFree("SELECT * FROM modulos WHERE lixo = 0 AND id = $value");
+			$row = $woo->fetch_assoc();
+		  
+			if($row['id']!= 0){
 				echo "
 				  <li class='has_sub'>
-				  <a title='".$row["descricao"]."' class='waves-effect' href='#' link='views/".$row["value"]."'>
+				  <a title='".$row["descricao"]."' class='waves-effect' href_link link='views/".$row["value"]."'>
 				  <i class='".$row["media"]."'></i><span>".$row["nome"]."</span>
 				  <span class='pull-right'><i class='mdi mdi-plus'></i></span>
 				  </a>
 				  <ul class='list-unstyled'>
 				";
-				while($subMenu = $woo->fetch_assoc()){
-					echo "<li><a class='regular-link' link='".$subMenu['valor']."' lv>";
-					if($subMenu['nome'] == 'Serviços'){
-						$this->notification();
-					}else if($subMenu['nome'] == 'Leitura de e-mails'){
-						$this->notification('1');
+					
+				foreach($idSubMenu as $value){					
+					$woo = $this->queryFree("SELECT * FROM menus WHERE lixo = 0 AND id = $value AND id_pai = '".$row['id']."'");
+					$subMenu = $woo->fetch_assoc();	
+					if($subMenu['id']){
+						echo "<li><a class='regular-link' link='".$subMenu['valor']."' lv>";
+						if($subMenu['nome'] == 'Serviços'){
+							$this->notification();
+						}else if($subMenu['nome'] == 'Leitura de e-mails'){
+							$this->notification('1');
+						}
+						echo $subMenu['nome']."</a></li>";
 					}
-					echo $subMenu['nome']."</a></li>";
-				}
+				}				
 				echo "
 				  </ul>
 				  </li>
 				";
 			}
-		  }else{
-			if($row['id']!= 0){
-				echo "
-				  <li class='has_sub'>
-				  <a title='".$row["descricao"]."' class='waves-effect' href='#' link='views/".$row["value"]."'>
-				  <i class='".$row["media"]."'></i><span>".$row["nome"]."</span>
-				  <span class='pull-right'><i class='mdi mdi-plus'></i></span>
-				  </a>
-				  </li>
-				";
-			}
-		  }
 		}
 	}
 
@@ -622,5 +614,47 @@ class Model{
 		$numero = "R$ ";
 		$numero .= number_format($valor, 2 , ',' , '.' );	
 		return $numero;
+	}
+	
+	public function gravaAtendimento($dados){
+		$query_entrada = "SELECT qntd_atendimentos FROM planos_movimentos WHERE id_contratos = '".$dados['id_contratos']."' AND data_limite >= now() AND lixo = 0";
+		$woo = $this->queryFree($query_entrada);
+		$entrada = $woo->fetch_assoc();
+		if(empty($entrada['qntd_atendimentos'])){
+			echo ("
+			<script type='text/javascript'>
+			$(document).ready(function () {
+				$('#alerta_cliente_contrato').modal('toggle');	
+			});
+			</script>
+			");
+		}else{//aqui será necessário incrementar o contador de atendimentos do cliente
+			$query_movimentos = "SELECT * FROM planos_movimentos WHERE id_contratos = '".$dados['id_contratos']."' AND data_limite >= now() AND lixo = 0 ORDER BY qntd_atendimentos LIMIT 1"; 
+			$woo = $this->queryFree($query_movimentos);
+			$atend = $woo->fetch_assoc();
+			$atual 	= intval($atend['atendimentos_atuais']); 
+			$limite = intval($atend['qntd_atendimentos']);
+			$valor 	= floatval($atend['vlr_nominal']);
+			if($atual < $limite){
+				$soma['atendimentos_atuais'] = $atual + 1;
+				$this->upd("planos_movimentos", $soma, $atend['id']);
+			}else{
+				$query_movimentos = "SELECT * FROM planos_movimentos WHERE qntd_atendimentos > '".$atend['qntd_atendimentos']."' AND id_contratos = '".$dados['id_contratos']."' AND data_limite >= now() AND lixo = 0 ORDER BY qntd_atendimentos LIMIT 1"; 
+				$woo = $this->queryFree($query_movimentos);
+				$exced = $woo->fetch_assoc();
+				if(empty($exced['id'])){
+					$soma['atendimentos_atuais'] = $atual + 1;
+					$a->upd("planos_movimentos", $soma, $atend['id']);
+				}else{
+					$atual 	= intval($exced['atendimentos_atuais']); 
+					$limite = intval($exced['qntd_atendimentos']);
+					$valor 	= floatval($exced['vlr_nominal']);
+					if($atual < $limite){						
+						$soma['atendimentos_atuais'] = $atual + 1;
+						$this->upd("planos_movimentos", $soma, $exced['id']);
+					}
+				}					
+			}
+		}		
 	}
 }
