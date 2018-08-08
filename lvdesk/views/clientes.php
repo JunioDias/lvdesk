@@ -4,15 +4,22 @@
 </div>
 <div class="content-sized">
 <input class="btn btn-success btn_driver regular-link" value="Incluir" type="button" link="views/clientes-crud.php">
-<table class="table table-hover">
+<table class="table table-hover" id="tabela">
 <thead>
-  <tr>
-	<th>Id</th>
-	<th>Nome</th>        
-	<th>E-mail</th>
-	<th>Telefones</th>
+  <tr class="filtro">
+	<th>Id <a><i class="mdi mdi-filter-variant icone-filtro"></i></a></th>
+	<th>Nome <a><i class="mdi mdi-filter-variant icone-filtro"></i></a></th>        
+	<th>E-mail <a><i class="mdi mdi-filter-variant icone-filtro"></i></a></th>
+	<th>Telefones <a><i class="mdi mdi-filter-variant icone-filtro"></i></a></th>
 	<th>Ações</th>
   </tr>
+  <tr class="input-filtro" style="display:none;">
+	<th><input type="text" class="form-control" id="txtColuna1"/></th>
+	<th><input type="text" class="form-control" id="txtColuna2"/></th>
+	<th><input type="text" class="form-control" id="txtColuna3"/></th>
+	<th><input type="text" class="form-control" id="txtColuna4"/></th>
+	<th></th>
+  </tr> 
 </thead>
 <tbody>
 <?php

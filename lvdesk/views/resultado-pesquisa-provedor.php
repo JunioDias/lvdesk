@@ -4,15 +4,22 @@
 </div>-->
 <div class="content-sized">
 
-<table class="table table-hover">
+<table class="table table-hover" id="tabela">
 <thead>
-  <tr>
-	<th>CPF/CNPJ</th>
-	<th>Nome</th>        
-	<th>Endereço</th>
-	<th>Telefone</th>
+  <tr class="filtro">
+	<th>CPF/CNPJ <a><i class="mdi mdi-filter-variant icone-filtro"></i></a></th>
+	<th>Nome <a><i class="mdi mdi-filter-variant icone-filtro"></i></a></th>        
+	<th>Endereço <a><i class="mdi mdi-filter-variant icone-filtro"></i></a></th>
+	<th>Telefone <a><i class="mdi mdi-filter-variant icone-filtro"></i></a></th>
 	<th>Ações</th>
   </tr>
+  <tr class="input-filtro" style="display:none;">
+	<th><input type="text" class="form-control" id="txtColuna1"/></th>
+	<th><input type="text" class="form-control" id="txtColuna2"/></th>
+	<th><input type="text" class="form-control" id="txtColuna3"/></th>
+	<th><input type="text" class="form-control" id="txtColuna4"/></th>
+	<th></th>
+  </tr> 
 </thead>
 <tbody>
 <?php

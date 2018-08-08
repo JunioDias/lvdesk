@@ -31,7 +31,7 @@ if(isset($_POST['id'])){
 	<div class="content-sized">';
 }
 ?>
-	<form id="form-modulo" data-toggle="validator">
+	<form id="form-modulo" data-toggle="validator" enctype="multipart/form-data">
 		<div class="form-group">
 			<label for="nome">Nome completo do usuário</label>
 			<input type="text" class="form-control" name="nome" value="<?= $nome;?>"/>
@@ -54,7 +54,7 @@ if(isset($_POST['id'])){
 			<div class="col-sm-6">
 			  <div class="form-group">
 				<label for="foto">Imagem</label>
-				<input type="text" class="form-control" name="foto" value="<?= $foto;?>"/>
+				<input type="text" class="form-control" value="<?= $foto;?>"/>
 			  </div>
 			</div>
 			<div class="col-sm-6">

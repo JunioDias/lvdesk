@@ -259,14 +259,10 @@ if($id_provedor){//Existe um provedor
 	<hr><label for="resumo">Resumo</label><br>
 	<input class="btn btn-success rtrn-conteudo" id="solucionado" value="Solucionado" type="button" objeto="form-dados">
 	<?= ($permissao['id_produtos'] == 2 || $permissao['id_produtos'] == 3 ? '<input class="btn btn-warning rtrn-conteudo" value="CGR" type="button" objeto="form-dados">' : '' ); ?>		
-	<input class="btn btn-info" id="atrbuir" value="Atribuir" type="button" objeto="form-dados">
+	<input class="btn btn-info" id="atribuir" value="Atribuir" type="button" objeto="form-dados">
 	</div>
 	<section class="input_hidden">
-		<?php 
-		if(isset($id_provedor)){
-			echo "<input type='hidden' name='id_pav' value='$id_provedor'/>";
-		}
-		?>
+		<?= ((isset($id_provedor)) ? "<input type='hidden' name='id_pav' value='$id_provedor'/>" : "" ); ?>
 		<input type="hidden" name="flag" value="<?= $flag;?>" />
 		<input type="hidden" name="tbl" value="pav_inscritos" />
 		<input type="hidden" name="caminho" value="controllers/sys/crud.sys.php" />
@@ -274,6 +270,7 @@ if($id_provedor){//Existe um provedor
 		<input type="hidden" name="hora_add" value="on" />
 		<input type="hidden" name="subTabela" value="pav_movimentos" />
 		<input type="hidden" name="atendente_responsavel" value="<?= $atendente_responsavel;?>" />
+		<input type="hidden" name="id_contratos" value="<?= $datalogin['id_contrato']; ?>" />
 	</section>
 	</form>	
 </div>
@@ -345,7 +342,7 @@ if($id_provedor){//Existe um provedor
 				<input type="hidden" name="id_atendente" value="<?= $atendente_responsavel; ?>" />
 				<input type="hidden" name="flag" value="addLog" />
 				<input type="hidden" name="caminho" value="controllers/sys/crud.sys.php" />
-				<input type="hidden" name="retorno" value=".section_historico" />				
+				<input type="hidden" name="retorno" value=".section_historico" />	
 			</section>
 		<!------------------- Validadores --------------------->
 		<button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Fechar</button>

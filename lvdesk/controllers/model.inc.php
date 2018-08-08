@@ -22,7 +22,7 @@ class Model{
 	}
 
 	function login($user, $senha){
-		#by Adan, 24 de junho de 2015. Atualizado em 19 de julho de 2017 para acesso a ambiente de cliente.
+		#by Adan, 24 de junho de 2015. Atualizado em 19 de julho de 2018 para acesso a ambiente de cliente.
 		global $mysqli;
 		global $result;
 		$query = "SELECT u.*, p.nome AS 'nomep' FROM usuarios AS u INNER JOIN privilegios AS p ON id_privilegio = p.id WHERE usuario = '$user' AND senha = '$senha' AND u.lixo = 0";
@@ -32,7 +32,7 @@ class Model{
 			if($result['id_contrato']==0){
 				$_SESSION["datalogin"] = $result;
 				return header("Location: ../../index.php");
-			}else{
+			}else{ //caso haja usuários cadastrados pelo cliente
 				$_SESSION["datalogin"] = $result;
 				return header("Location: ../../index-cliente.php"); 
 			}

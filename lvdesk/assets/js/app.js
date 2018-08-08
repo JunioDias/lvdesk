@@ -356,6 +356,11 @@ $(document).ready(function(){
 	.on("click", ".remove-inputs", function (event){ 
 		$(".remove-me").remove();
 	});
+	
+	$("body")
+	.on("click", ".icone-filtro", function (){ 
+		$(".input-filtro").slideToggle('900');
+	});
 	 
 	//Captura o valor do option selecionado para conexão com provedores
 	$("body")
@@ -590,7 +595,22 @@ $(document).ready(function(){
 		});
 	});
 	
-	
+	$("body")
+	.on("keyup", "#tabela input", function(){		        
+		var index = $(this).parent().index();
+		var nth = "#tabela td:nth-child("+(index+1).toString()+")";
+		var valor = $(this).val().toUpperCase();
+		$("#tabela tbody tr").show();
+		$(nth).each(function(){
+			if($(this).text().toUpperCase().indexOf(valor) < 0){
+				$(this).parent().hide();
+			}
+		});		
+	 
+		$("#tabela input").blur(function(){
+			$(this).val("");
+		}); 
+	});
 
 });
 // para execução de funções retardatárias

@@ -70,15 +70,14 @@ if(isset($_POST['id'])){
 			if(is_null($id)){
 				$result = $e->queryFree($query);
 				while($linhas = $result->fetch_assoc()){
-					echo "<option value='".$linhas['id']."' user='".$linhas['usuario']."'>".$linhas['nome']."</option>";
+					echo "<option value='".$linhas['nome']."' user='".$linhas['usuario']."'>".$linhas['nome']."</option>";
 				}		
 			}else{	
 				$result = $e->queryFree($query);
 				while($linhas = $result->fetch_assoc()){
-					echo "<option value='".$linhas['id']."' user='".$linhas['usuario']."' ".($linhas['id']==$id ? 'selected' : '').">".$linhas['nome']."</option>";
+					echo "<option value='".$linhas['nome']."' user='".$linhas['usuario']."' ".($linhas['id']==$id ? 'selected' : '').">".$linhas['nome']."</option>";
 				}
-			}		
-				
+			}						
 			?>
 			</select>
 		</div>

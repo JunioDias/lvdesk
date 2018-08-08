@@ -41,10 +41,15 @@ if(!empty($_POST)){
 					$nomeFile = $pic['imagem']["name"];
 					$vetor = "imagem";
 				}
-				if(isset($nomeFile)){
-					$media = $a->addFoto($nomeFile, $vetor, $tabela);
-					if(isset($media)){
-						$dados[$vetor] = $media['name'];
+				
+				if($_FILES[$vetor]['error']!=0){
+					unset($_FILES);
+				}else{				
+					if(isset($nomeFile)){
+						$media = $a->addFoto($nomeFile, $vetor, $tabela);
+						if(isset($media)){
+							$dados[$vetor] = $media['name'];
+						}
 					}
 				}
 			}			
@@ -63,14 +68,20 @@ if(!empty($_POST)){
 				unset($dados["_wysihtml5_mode"]);
 			}
 			
-			if(isset($dados["idd"])){
-				if($dados["idd"] == "solucionado")	{
-					$dados["validado"] 	= '1';
-					$dados["status"]	= '2';
+			if(isset($dados['id_contratos'])){
+				if(isset($dados["idd"])){
+					if($dados["idd"] == "solucionado")	{
+						$dados["validado"] 	= '1';
+						$dados["status"]	= '2';
+					}
+					unset($dados['idd']);
+					$a->gravaAtendimento($dados);
+					unset($dados['id_contratos']);
+				}else{
+					$a->gravaAtendimento($dados);
+					unset($dados['id_contratos']);
 				}
-				unset($dados['idd']);
-				#$a->gravaAtendimento($dados);
-			}	
+			}
 			
 			if(isset($dados['subTabela'])){ 
 				if($dados['subTabela']=="planos_movimentos"){//cadastro auxiliar dos contratos na tabela planos_movimentos
@@ -117,7 +128,14 @@ if(!empty($_POST)){
 				$select_retorno = $dados["retorno"];
 			}
 			
-			unset($dados["confirmasenha"], $dados["flag"], $dados["tbl"], $dados["file"], $dados["caminho"], $dados["retorno"] );
+			unset(
+			$dados["confirmasenha"], 
+			$dados["flag"], 
+			$dados["tbl"], 
+			$dados["file"], 
+			$dados["caminho"], 
+			$dados["retorno"]
+			);
 			
 			if(in_array(true, array_map('is_array', $dados), true) == ''){
 				unset($dados['chave_cerquilha']);
@@ -353,6 +371,7 @@ if(!empty($_POST)){
 			}
 			if(isset($_FILES)){			
 				$pic = $_FILES;
+				
 				if(!empty($pic["file"])){
 					$nomeFile = $pic["file"]["name"];
 					$vetor = "file";
@@ -369,7 +388,17 @@ if(!empty($_POST)){
 					$nomeFile = $pic['imagem']["name"];
 					$vetor = "imagem";
 				}
-					
+				
+				if($_FILES[$vetor]['error']!=0){
+					unset($_FILES);
+				}else{				
+					if(isset($nomeFile)){
+						$media = $a->addFoto($nomeFile, $vetor, $tabela);
+						if(isset($media)){
+							$dados[$vetor] = $media['name'];
+						}
+					}
+				}				
 			}
 			# Tratamento para campos tipo DATE no perfil do usuário
 			if(isset($dados["data_nascimento"])){
@@ -553,7 +582,7 @@ if(!empty($_POST)){
 		case "entrada2Nivel": // Entrada de dados selecionados para atendimento 2º nível			
 			global $id;
 			$dados = $_POST;			
-			$id = $dados["idd"];			
+			$id = $dados["idd"];
 			include("../../views/atendimento-entrada-nivel-2.php");	 
 		break;
 		
@@ -677,7 +706,9 @@ if(!empty($_POST)){
 		
 		case "teste":
 			$dados = $_POST;
-			print_r($dados);				
+			print_r($dados);	
+				echo"<br>";
+			print_r($dadoslogin);
 		break;
 	}
   }	

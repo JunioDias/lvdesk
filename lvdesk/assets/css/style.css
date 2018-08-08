@@ -76,7 +76,8 @@ h5 small {
 * {
   outline: none !important;
 }
-a{
+a, 
+.icone-filtro {
   cursor: pointer;
 }
 a:hover {
@@ -139,9 +140,6 @@ a:focus {
   line-height: 30px;
   text-align: center;
   width: 30px;
-}
-a['href_link']{
-	cursor: pointer;
 }
 /* ==============
   Bootstrap-custom

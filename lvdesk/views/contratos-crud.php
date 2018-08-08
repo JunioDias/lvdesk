@@ -50,7 +50,8 @@ if(isset($_POST['id'])){
 				<div class="form-group col-sm-12">
 					<div class="form-group">
 					<label for="name">Cliente</label>
-						<select class="form-control" name="id_cliente" id="id_cliente">							
+						<select class="form-control" name="id_cliente" id="id_cliente">		
+						<option>Selecione um cliente...</option>
 						<?php	
 						$query = "SELECT * FROM clientes WHERE lixo = 0";
 						$resultado = $a->queryFree($query);
