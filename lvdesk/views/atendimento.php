@@ -372,17 +372,18 @@ if($id_provedor){//Existe um provedor
 </div><!-- /.modal.dialog -->
 
 <script>
-	jQuery(document).ready(function(){
-		$('#historico').wysihtml5({
-		    locale: 'pt-BR'
-		});
-		$('#script').wysihtml5({
-		  locale: 'pt-BR'
-		});
-		$('#log').wysihtml5({
-		  locale: 'pt-BR'
-		});
+jQuery(document).ready(function(){
+	$('#historico').wysihtml5({
+		locale: 'pt-BR'
 	});
+	$('#script').wysihtml5({
+	  locale: 'pt-BR'
+	});
+	$('#log').wysihtml5({
+	  locale: 'pt-BR'
+	});
+});
+NProgress.done();
 </script>
 <?php
 #Teste de CGR ativo

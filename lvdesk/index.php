@@ -247,7 +247,6 @@ if(!empty($_SESSION["datalogin"])){
 		<script src='assets/plugins/nprogress/nprogress.js'></script>
 		<script src="assets/js/app.js"></script>
 		
-
     </body>
 </html>
 <?php

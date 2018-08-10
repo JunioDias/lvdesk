@@ -1,3 +1,9 @@
+<?php
+include('../controllers/model.inc.php');
+$a = new Model;
+$acesso = ($_SESSION['datalogin']);
+
+?>
 <div class="page-header-title">
   <h4 class="page-title">Permissões</h4>
   <p>Gerenciador do módulo de acessos e papéis do sistema</p>
@@ -7,6 +13,7 @@
 
 	<div class="container">
 	  <div class="row">
+	  <?php if(isset($acesso['id_ambiente'])){ ?>
 		<div class="col-sm-6 col-lg-3">
 			<a class="regular-link" link="views/modulos.php">
 			<div class="panel text-center panel-atendimento">
@@ -20,6 +27,7 @@
 			</div>
 			</a>
 		</div>
+	  <?php } ?>
 
 		<div class="col-sm-6 col-lg-3">
 			<a class="regular-link" link="views/papeis.php">
@@ -133,3 +141,6 @@
 	</div>	
 </div>
 </div>
+<script>
+NProgress.done();
+</script>

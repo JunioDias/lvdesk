@@ -25,6 +25,7 @@ if(!empty($_POST)){
 			}
 			if(isset($_FILES)){
 				$pic = $_FILES;
+				$vetor = NULL;
 				if(!empty($pic["file"])){
 					$nomeFile = $pic["file"]["name"];
 					$vetor = "file";
@@ -41,17 +42,18 @@ if(!empty($_POST)){
 					$nomeFile = $pic['imagem']["name"];
 					$vetor = "imagem";
 				}
-				
-				if($_FILES[$vetor]['error']!=0){
-					unset($_FILES);
-				}else{				
-					if(isset($nomeFile)){
-						$media = $a->addFoto($nomeFile, $vetor, $tabela);
-						if(isset($media)){
-							$dados[$vetor] = $media['name'];
+				if(isset($_FILES[$vetor])){
+					if($_FILES[$vetor]['error']!=0){
+						unset($_FILES);
+					}else{				
+						if(isset($nomeFile)){
+							$media = $a->addFoto($nomeFile, $vetor, $tabela);
+							if(isset($media)){
+								$dados[$vetor] = $media['name'];
+							}
 						}
-					}
-				}
+					}	
+				}	
 			}			
 			if(isset($dados["valor_unit"])){
 				$dados["valor_unit"] = str_replace(',','.',str_replace('.','',$dados["valor_unit"]));
@@ -708,8 +710,7 @@ if(!empty($_POST)){
 		case "teste":
 			$dados = $_POST;
 			print_r($dados);	
-				echo"<br>";
-			print_r($dadoslogin);
+				
 		break;
 	}
   }	

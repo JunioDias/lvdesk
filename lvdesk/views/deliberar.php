@@ -85,3 +85,6 @@ if($resultado){
 	</section>
 </form>
 </div>
+<script>
+NProgress.done();
+</script>

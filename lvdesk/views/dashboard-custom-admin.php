@@ -1,3 +1,18 @@
+<?php
+$a = new Model;
+$dadoslogin = $_SESSION['datalogin'];
+$query = "SELECT * FROM planos_movimentos WHERE id_cliente = '".$dadoslogin['id']."' AND data_limite >= now() AND lixo = 0 ORDER BY qntd_atendimentos LIMIT 1"; 
+$foo 		= $a->queryFree($query);
+$mov_planos = $foo->fetch_assoc();
+
+$query_plano = "SELECT * FROM planos WHERE id = '".$mov_planos['id_planos']."' AND lixo = 0"; 
+$foo 	= $a->queryFree($query_plano);
+$planos = $foo->fetch_assoc();
+
+$query_retorno = "SELECT COUNT(id) AS id FROM pav_inscritos WHERE id_contratos = '".$mov_planos['id_contratos']."' AND finalizado = '1' AND lixo = 0"; 
+$foo 	 = $a->queryFree($query_plano);
+$retorno = $foo->fetch_assoc();
+?>
 <div class="container">
 <div class="row">
 	<div class="col-sm-6 col-lg-3">

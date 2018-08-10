@@ -61,3 +61,6 @@ else{
   <input type='hidden' name='id_contratos' value='<?= $_SESSION['datalogin']['id_contrato'];?>' />
 </form>
 </div>
+<script>
+NProgress.done();
+</script>

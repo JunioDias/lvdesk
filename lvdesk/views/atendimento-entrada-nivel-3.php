@@ -24,7 +24,8 @@ if(!empty($_SESSION["datalogin"])){
 					<div class="row">
 						<div class="form-group col-sm-6">
 							<label for="data_abertura">Data de abertura</label>
-							<input type="text" class="form-control" value="<?= date("d/m/Y");?>">
+							<input type="text" class="form-control" value="<?= date("d/m/Y");?>"/>
+							<input type="hidden" name="data_abertura" value="<?= date("Y-m-d");?>" />
 						</div>
 						<div class="form-group col-sm-6">
 							<label for="grupo_responsavel">Grupo responsável</label>
@@ -36,7 +37,7 @@ if(!empty($_SESSION["datalogin"])){
 							<label for="status">Status</label>
 							<select class="form-control" name="status" >		
 								<option value='0' >Novo</option>
-								<option value='1' ></option>>Em atendimento</option>
+								<option value='1' >Em atendimento</option>
 								<option value='2' >Solucionado</option>
 							</select>			
 						</div>
@@ -61,10 +62,10 @@ if(!empty($_SESSION["datalogin"])){
 							$result = $a->queryFree($queryAtend);
 							while($linhas = $result->fetch_assoc()){
 								if($atendente_responsavel == $linhas['id']){
-									echo "value='".$linhas['nome']."'";
+									echo "value='".$linhas['nome']."' /> <input type='hidden' name='autor' value='".$linhas['id']."'/>";
 								}								
 							}							
-							?> name="autor" />
+							?> 
 						</div>	
 						
 						<div class="form-group col-sm-6">
@@ -180,4 +181,5 @@ jQuery(document).ready(function(){
 		locale: 'pt-BR'
 	});
 });
+NProgress.done();
 </script>

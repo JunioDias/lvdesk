@@ -74,3 +74,6 @@ else{
 	<input type='hidden' name='retorno' value='<?=$nomediv;?>' />
 </form>
 </div>
+<script>
+NProgress.done();
+</script>

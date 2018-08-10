@@ -338,7 +338,7 @@ $(document).ready(function(){
 	.on('click', '.regular-link', function(){ //links comuns para navegação casual.
    		NProgress.start();
 		$(".content").load($(this).attr("link"));
-		NProgress.done();
+		
 	});
 	
 	$("body")

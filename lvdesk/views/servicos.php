@@ -100,3 +100,6 @@ $flag		= "entrada2Nivel";
 <form id="form_action">
 	<input type='hidden' name='allow' value='on'/>
 </form>
+<script>
+NProgress.done();
+</script>

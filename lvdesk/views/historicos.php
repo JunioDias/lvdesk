@@ -91,3 +91,6 @@ if(!empty($_SESSION["datalogin"])){
 <input type='hidden' name='flag' value="visualizar" />
 <input type='hidden' name='caminho' value="controllers/sys/crud.sys.php" />
 </form>
+<script>
+NProgress.done();
+</script>
