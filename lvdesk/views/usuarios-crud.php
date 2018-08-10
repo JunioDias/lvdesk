@@ -46,7 +46,7 @@ if(isset($_POST['id'])){
 		</div>
 		<div class="form-group">
 			<label for="c_password" class="control-label">Confirma Password</label>
-			<input type="password" class="form-control" id="inputConfirm" data-match="#inputPassword" data-match-error="Atenção! As senhas não estão iguais." required />
+			<input type="password" class="form-control" id="inputConfirm" required />
 			<div class="help-block with-errors"></div>
 
 		</div>
@@ -75,3 +75,31 @@ if(isset($_POST['id'])){
 	</form>
 	
 </div>
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" style="display: none;">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-header">				
+				<h4 class="modal-title" id="mySmallModalLabel">Validação de Senhas</h4>
+			</div>
+			<div class="modal-body">
+				Atenção! As senhas não estão iguais.
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-success waves-effect" data-dismiss="modal">OK</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div>
+
+<script>
+$(document).ready(function(){
+	$("body")
+	.on('blur', '#inputConfirm', function () {
+		var e = $("#inputConfirm").val();
+		var f = $('#inputPassword').val();		
+		if(e != f){				
+			$(".bs-example-modal-sm").modal('toggle');
+		}					
+	});
+}); 
+</script>

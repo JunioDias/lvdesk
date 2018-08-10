@@ -8,6 +8,10 @@ $mov_planos = $foo->fetch_assoc();
 $query_plano = "SELECT * FROM planos WHERE id = '".$mov_planos['id_planos']."' AND lixo = 0"; 
 $foo 	= $a->queryFree($query_plano);
 $planos = $foo->fetch_assoc();
+
+$query_retorno = "SELECT COUNT(id) AS id FROM pav_inscritos WHERE id_contratos = '".$mov_planos['id_contratos']."' AND finalizado = '1' AND lixo = 0"; 
+$foo 	 = $a->queryFree($query_plano);
+$retorno = $foo->fetch_assoc();
 ?>
 <div class="container">
 <div class="row">
@@ -32,8 +36,8 @@ $planos = $foo->fetch_assoc();
 				<h4 class="panel-title text-muted font-light">Retornos</h4>
 			</div>
 			<div class="panel-body p-t-10">
-				<h2 class="m-t-0 m-b-15"><i class="mdi mdi-arrow-up-bold-circle-outline text-success m-r-10"></i><b>6521</b></h2>
-				<p class="text-muted m-b-0 m-t-20"><b>42%</b> Nos últimos 10 meses</p>
+				<h2 class="m-t-0 m-b-15"><i class="mdi mdi-arrow-up-bold-circle-outline text-success m-r-10"></i><b><?= $retorno['id'];?></b></h2>
+				<p class="text-muted m-b-0 m-t-20"><b>Finalizados</b></p>
 			</div>
 		</div>
 	</a>

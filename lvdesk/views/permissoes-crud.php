@@ -102,11 +102,7 @@ if(isset($_POST['id'])){
 			</div>  
 		</div>
 		<input class="btn btn-default rtrn-conteudo" doZero='1' value="Salvar" type="button" objeto="form-modulo">
-	<?php 
-	if(isset($id)){
-		echo "<input type='hidden' name='id' value='$id'/>";
-	}
-	?>
+	<?=(isset($id) ? "<input type='hidden' name='id' value='$id'/>" : ""); ?>
 	<input type="hidden" name="chave_cerquilha" value="on" />
 	<input type="hidden" name="flag" value="<?= $flag;?>" />
     <input type="hidden" name="tbl" value="privilegios" />

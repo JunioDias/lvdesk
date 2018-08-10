@@ -30,7 +30,7 @@ $a = new Model();
         <!-- Begin page -->
         <div <!-- class="accountbg" -->>
 		<video autoplay muted loop class="bg">
-		  <source src="media/videos/horizon.mp4" type="video/mp4">
+		  <source src="assets/media/videos/horizon.mp4" type="video/mp4">
 		</video>
 		</div>
         <div class="wrapper-page">

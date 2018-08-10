@@ -38,8 +38,6 @@ if(!empty($_SESSION["datalogin"])){
                     <div class="text-center">
                         <a href="index.html" class="logo"><img src="assets/images/logo_white_2.png" alt="logo"/></a>
                         <a href="index.html" class="logo-sm"><img src="assets/images/logo_sm.png" alt="logo"/></a>
-                        <!--<a href="index.html" class="logo"><img src="assets/images/logo_white_2.png" height="28"></a>-->
-                        <!--<a href="index.html" class="logo-sm"><img src="assets/images/logo_sm.png" height="36"></a>-->
                     </div>
                 </div>
                 <!-- Aparência botão mobile para menu sidebar colapsado -->

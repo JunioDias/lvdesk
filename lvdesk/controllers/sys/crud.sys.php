@@ -76,10 +76,10 @@ if(!empty($_POST)){
 					}
 					unset($dados['idd']);
 					$a->gravaAtendimento($dados);
-					unset($dados['id_contratos']);
+					#unset($dados['id_contratos']);
 				}else{
 					$a->gravaAtendimento($dados);
-					unset($dados['id_contratos']);
+					#unset($dados['id_contratos']);
 				}
 			}
 			
@@ -371,7 +371,7 @@ if(!empty($_POST)){
 			}
 			if(isset($_FILES)){			
 				$pic = $_FILES;
-				
+				$vetor = NULL;
 				if(!empty($pic["file"])){
 					$nomeFile = $pic["file"]["name"];
 					$vetor = "file";
@@ -388,17 +388,18 @@ if(!empty($_POST)){
 					$nomeFile = $pic['imagem']["name"];
 					$vetor = "imagem";
 				}
-				
-				if($_FILES[$vetor]['error']!=0){
-					unset($_FILES);
-				}else{				
-					if(isset($nomeFile)){
-						$media = $a->addFoto($nomeFile, $vetor, $tabela);
-						if(isset($media)){
-							$dados[$vetor] = $media['name'];
+				if(isset($_FILES[$vetor])){
+					if($_FILES[$vetor]['error']!=0){
+						unset($_FILES);
+					}else{				
+						if(isset($nomeFile)){
+							$media = $a->addFoto($nomeFile, $vetor, $tabela);
+							if(isset($media)){
+								$dados[$vetor] = $media['name'];
+							}
 						}
-					}
-				}				
+					}	
+				}					
 			}
 			# Tratamento para campos tipo DATE no perfil do usuário
 			if(isset($dados["data_nascimento"])){
