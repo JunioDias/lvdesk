@@ -371,6 +371,11 @@ $(document).ready(function(){
 	});
 	
 	$("body")
+	.on("change", "#select_id_contratos", function (event){ 
+		$("input[name='nome_provedor']").val($("select option:selected").attr('nome'));
+	});
+	
+	$("body")
 	.on("change", "#id_cliente", function (event){ 
 		$("input[name='email']").val($("select option:selected").attr('email'));
 	});
@@ -565,6 +570,60 @@ $(document).ready(function(){
 			}
 		});
 	});
+	
+	$("body")
+	.on("change", ".atribuiGrupo", function (){ 
+		NProgress.start();	
+		var objeto = new FormData(document.querySelector("#form-atribui"));	
+		if(objeto.get("id_grupo") == '1'){
+			$("#tbl").attr("value", "comunicacao_interna");	
+			$("#atribui_envio").attr("commit", "1");
+		}else{
+			$("#tbl").attr("value", "pav_inscritos");
+			$("#atribui_envio").removeAttr("commit");
+		}
+		$.ajax({			
+			url: "controllers/sys/crud.sys.php", 
+			data: objeto,
+			type: 'post',
+			processData: false,  
+  			contentType: false,
+			success: function(retornoDados){
+				$("#callback-atribuiGrupo").html(retornoDados);	
+				NProgress.done();				
+			}
+		}); 		 
+	});
+	
+	$("body")
+	.on("click", "#atribui_envio", function (event){ 
+		if($(this).attr("commit")){
+			NProgress.start();
+			$("#flag-dimiss").removeAttr("name");
+			var contatos = new FormData(document.querySelector("#form-atribui"));
+			var objeto   = new FormData(document.querySelector("#"+$(this).attr("objeto")));	
+			for(var pair of contatos.entries()) {
+				objeto.append(pair[0], pair[1]); 
+			} 
+			 
+			$.ajax({
+				url: objeto.get("caminho"), 
+				data: objeto,
+				type: 'post',
+				processData: false,  
+				contentType: false,
+				success: function(retornoDados){
+					if(objeto.get("retorno")){						
+						var retorno = objeto.get("retorno");
+						$(retorno).html(retornoDados);
+					}else{
+						$("body").html(retornoDados);
+					}		
+					NProgress.done();
+				}
+			}); 
+		}
+	}); 
 	
 	//Ação para processamento das conexões com proveodores externos
 	

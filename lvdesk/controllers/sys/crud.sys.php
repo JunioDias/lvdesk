@@ -187,7 +187,7 @@ if(!empty($_POST)){
 				//Para os checkboxes da rotina de módulos etc.
 				if($dados['chave_cerquilha']){
 					unset($dados['chave_cerquilha']);					
-					$a->processaCerquilhas($dados);
+					$array = $a->processaCerquilhas($dados);
 					$a->add($tabela, $array);
 				}else{
 					echo "Erro #00034ADD - Falha de função para arrays multifuncionais genérica";
@@ -535,46 +535,7 @@ if(!empty($_POST)){
 				echo "ATENÇÃO: ID do resultado da pesquisa retornou vazio!<br>";
 				//print_r($_SESSION['resultado_pesquisa']);
 			}
-			/* $query_entrada = "SELECT qntd_atendimentos FROM planos_movimentos WHERE id_contratos = '".$dados['id_contratos']."' AND data_limite >= now() AND lixo = 0";
-			$woo = $a->queryFree($query_entrada);
-			$entrada = $woo->fetch_assoc();
-			if(empty($entrada['qntd_atendimentos'])){
-				echo ("
-				<script type='text/javascript'>
-				$(document).ready(function () {
-					$('#alerta_cliente_contrato').modal('toggle');	
-				});
-				</script>
-				");
-			}else{//aqui será necessário incrementar o contador de atendimentos do cliente
-				$query_movimentos = "SELECT * FROM planos_movimentos WHERE id_contratos = '".$dados['id_contratos']."' AND data_limite >= now() AND lixo = 0 ORDER BY qntd_atendimentos LIMIT 1"; 
-				$woo = $a->queryFree($query_movimentos);
-				$atend = $woo->fetch_assoc();
-				$atual 	= intval($atend['atendimentos_atuais']); 
-				$limite = intval($atend['qntd_atendimentos']);
-				$valor 	= floatval($atend['vlr_nominal']);
-				if($atual < $limite){
-					$soma['atendimentos_atuais'] = $atual + 1;
-					$a->upd("planos_movimentos", $soma, $atend['id']);
-				}else{
-					$query_movimentos = "SELECT * FROM planos_movimentos WHERE qntd_atendimentos > '".$atend['qntd_atendimentos']."' AND id_contratos = '".$dados['id_contratos']."' AND data_limite >= now() AND lixo = 0 ORDER BY qntd_atendimentos LIMIT 1"; 
-					$woo = $a->queryFree($query_movimentos);
-					$exced = $woo->fetch_assoc();
-					if(empty($exced['id'])){
-						$soma['atendimentos_atuais'] = $atual + 1;
-						$a->upd("planos_movimentos", $soma, $atend['id']);
-					}else{
-						$atual 	= intval($exced['atendimentos_atuais']); 
-						$limite = intval($exced['qntd_atendimentos']);
-						$valor 	= floatval($exced['vlr_nominal']);
-						if($atual < $limite){						
-							$soma['atendimentos_atuais'] = $atual + 1;
-							$a->upd("planos_movimentos", $soma, $exced['id']);
-						}
-					}					
-				}
-			} */
-			
+						
 			$indice = $dados["idd"];			
 			foreach($_SESSION['resultado_pesquisa'][$indice] as $key=>$value)
 				$array[$key] = $value;
@@ -707,11 +668,46 @@ if(!empty($_POST)){
 			} 
 		break;
 		
-		case "teste":
+		case "selecionaGrupoAtribuicao":
+			$act = new Acoes;
 			$dados = $_POST;
-			print_r($dados);	
-				
+			$retorno = $act->atribuiGrupo($dados['id_grupo']);	
+			return $retorno;	
 		break;
+		
+		case "addComunicacao":
+			$a = new Model;
+			$array = $_POST;
+			$tabela = $array['tbl'];
+			unset($array['_wysihtml5_mode'], $array['flag'], $array['tbl'], $array['caminho'], $array['retorno'], $array['chave_cerquilha']);
+			if(isset($array['id_contatos'])){
+				foreach($array['id_contatos'] as $value_id_contato ){
+					$count 	= 1;
+					$coluna = NULL;
+					$valor 	= NULL;
+					foreach($array as $key=>$value){
+						if($key == "id_contatos"){
+							$coluna .= $key;
+							$valor  .= "'".$value_id_contato."'";
+						}else{
+							$coluna .= $key;
+							$valor  .= "'".$value."'";
+							if($count < sizeof($array)){
+								$coluna .= ", ";
+								$valor  .= ", ";
+							}
+						}
+						$count++;
+					}
+					$a->queryFree("INSERT INTO $tabela ($coluna) VALUES($valor)");
+				}
+			}
+			echo '
+				<div class="alert alert-success">
+				<h4>Serviço comunicado!</h4>
+				A operação foi realizada com sucesso. <a href="." class="alert-link">Clique aqui</a> para atualizar os status do sistema.
+				</div>';
+		break;		
 	}
   }	
 else{

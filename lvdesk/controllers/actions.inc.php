@@ -80,5 +80,52 @@ class Acoes{
 	}
 	echo "</td></tr>";
   }
+  
+  public function atribuiGrupo($id_grupo){
+	switch($id_grupo){
+		case "1":
+		//comunicação interna
+			$foo = "<div class='form-group'>
+			  <label>Selecione os contatos</label>
+			 ";
+			$query = "SELECT * FROM `usuarios` WHERE id_contrato = 0 AND lixo = 0 ORDER BY nome ASC";
+			$a = new Model;
+			$resultado = $a->queryFree($query);
+			if(isset($resultado)){
+				while($linhas = $resultado->fetch_assoc()){					
+					$foo .=  "
+					  <div class='checkbox checkbox-success'>
+					  <input type='checkbox' name='id_contatos[]' id='contato".$linhas['id']."' value='".$linhas['id']."'/><label for='contato".$linhas['id']."'> ".$linhas['nome']."</label></div>
+					  ";
+				}
+			}
+			$foo .= "
+			</div>
+			";
+			echo $foo;
+		break;
+		case "2":
+		//auditoria
+		echo $id_grupo;
+		break;
+		case "3":
+		//despachar a cliente
+		echo $id_grupo;
+		break;
+	}
+  }
+  
+  public function notifyComm($array){
+	echo "
+	<a href='javascript:void(0);' class='list-group-item'>
+	  <div class='media'>
+		 <div class='media-heading'>".$array['nome_autor']."</div>
+		 <p class='m-0'>
+		   <small>".$array['historico']."</small>
+		 </p>
+	  </div>
+	</a>
+	";
+  }
 }
 ?>

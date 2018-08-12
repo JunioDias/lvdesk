@@ -1,8 +1,17 @@
 <!DOCTYPE html>
 <?php
-include ("controllers/model.inc.php");
+include("controllers/model.inc.php");
+include("controllers/logs.inc.php");
+include("controllers/actions.inc.php");
+$a 		= new Model;
+$foo 	= new Logs;
+$act	= new Acoes;
 if(!empty($_SESSION["datalogin"])){
 	$dadoslogin = $_SESSION["datalogin"];
+
+$query_notif = "SELECT c.*, u.nome AS nome_autor FROM comunicacao_interna AS c INNER JOIN usuarios AS u ON autor = u.id WHERE c.id_contatos = '".$dadoslogin['id']."' AND c.lixo = 0 ORDER BY c.data_abertura ASC LIMIT 3";
+$bind = $a->queryFree($query_notif);
+$notify = $bind->fetch_assoc();
 ?>
 <html>
     <head>
@@ -27,8 +36,6 @@ if(!empty($_SESSION["datalogin"])){
         <link href="assets/css/style.css" rel="stylesheet" type="text/css">
 		
     </head>
-
-
     <body class="fixed-left">
 
         <!-- Início da página -->
@@ -63,42 +70,27 @@ if(!empty($_SESSION["datalogin"])){
                             <ul class="nav navbar-nav navbar-right pull-right">
                                 <li class="dropdown hidden-xs">
                                     <a href="#" data-target="#" class="dropdown-toggle waves-effect waves-light notification-icon-box" data-toggle="dropdown" aria-expanded="true">
-                                        <i class="fa fa-bell"></i> <span class="badge badge-xs badge-danger"></span>
+                                        <i class="fa fa-bell"></i> 
+			<?php	
+				if($notify){
+					$query_contador = "SELECT COUNT(id) AS nmsg FROM comunicacao_interna WHERE id_contatos = '".$dadoslogin['id']."' AND lida = 0 AND lixo = 0";
+					$bind = $a->queryFree($query_contador);
+					$lida = $bind->fetch_assoc();
+					if($lida['nmsg']>0){
+						echo '<span class="badge badge-xs badge-danger"></span>';
+					}
+				}			
+			?>
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-lg">
-                                        <li class="text-center notifi-title">Notificação <span class="badge badge-xs badge-success">3</span></li>
+                                        <li class="text-center notifi-title">Mensagens novas <span class="badge badge-xs badge-success"><?= $lida['nmsg']; ?></span></li>
                                         <li class="list-group">
                                            <!-- list item-->
-                                           <a href="javascript:void(0);" class="list-group-item">
-                                              <div class="media">
-                                                 <div class="media-heading">Atendimento em curso</div>
-                                                 <p class="m-0">
-                                                   <small>Texto genérico...</small>
-                                                 </p>
-                                              </div>
-                                           </a>
-                                           <!-- list item-->
-                                            <a href="javascript:void(0);" class="list-group-item">
-                                              <div class="media">
-                                                 <div class="media-body clearfix">
-                                                    <div class="media-heading">Nova mensagem recebida</div>
-                                                    <p class="m-0">
-                                                       <small>Mensagens não lidas</small>
-                                                    </p>
-                                                 </div>
-                                              </div>
-                                            </a>
-                                            <!-- list item-->
-                                            <a href="javascript:void(0);" class="list-group-item">
-                                              <div class="media">
-                                                 <div class="media-body clearfix">
-                                                    <div class="media-heading">Seu atendimento foi finalizado.</div>
-                                                    <p class="m-0">
-                                                       <small>Texto genérico...</small>
-                                                    </p>
-                                                 </div>
-                                              </div>
-                                            </a>
+                                           <?php
+										   
+											  $act->notifyComm($notify); 
+										  
+										   ?>
                                            <!-- last list item -->
                                             <a href="javascript:void(0);" class="list-group-item">
                                               <small class="text-primary">Ver todas notificações</small>
@@ -170,8 +162,8 @@ if(!empty($_SESSION["datalogin"])){
                                 <a href="index.php" class="waves-effect"><i class="mdi mdi-home"></i><span> Dashboard </span></a>
                             </li>							
 							<?php
-							$acesso = new Model();
-							$priv = $acesso->libPriv($dadoslogin['id_privilegio']);
+							
+							$priv = $a->libPriv($dadoslogin['id_privilegio']);
 							?>
                         </ul>
                     </div>
@@ -197,8 +189,6 @@ if(!empty($_SESSION["datalogin"])){
                         <div class="container">
 
                         <?php
-                        include("controllers/logs.inc.php");
-						$foo = new Logs;
 						if($dadoslogin['id_privilegio']==1){
 							$foo->dashboard();
 						}else{

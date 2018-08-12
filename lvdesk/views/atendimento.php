@@ -259,7 +259,7 @@ if($id_provedor){//Existe um provedor
 	<hr><label for="resumo">Resumo</label><br>
 	<input class="btn btn-success rtrn-conteudo" id="solucionado" value="Solucionado" type="button" objeto="form-dados">
 	<?= ($permissao['id_produtos'] == 2 || $permissao['id_produtos'] == 3 ? '<input class="btn btn-warning rtrn-conteudo" value="CGR" type="button" objeto="form-dados">' : '' ); ?>		
-	<input class="btn btn-info" id="atribuir" value="Atribuir" type="button" objeto="form-dados">
+	<input class="btn btn-info" id="" value="Atribuir" type="button" data-toggle='modal' data-target='#modal-atribui' />
 	</div>
 	<section class="input_hidden">
 		<?= ((isset($id_provedor)) ? "<input type='hidden' name='id_pav' value='$id_provedor'/>" : "" ); ?>
@@ -352,7 +352,7 @@ if($id_provedor){//Existe um provedor
 	</button>
 	</div><!-- /.modal.dialog -->
 </form>
-</div><!-- /#modal-log -->
+</div><!-- /#modal-addlog -->
 <!--------------------- Modal de alerta para CGR ativo -------------------->
 <div id="alerta" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
 <div class="modal-dialog">
@@ -370,6 +370,41 @@ if($id_provedor){//Existe um provedor
 	</div>
   </div><!-- /.modal-content -->
 </div><!-- /.modal.dialog -->
+</div>
+<!--------------------- Modal de Atribuição -------------------->
+<div id="modal-atribui" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+	<form id="form-atribui">
+		<div class="modal-dialog">
+		  <div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h3 class="modal-title" id="myModalLabel">Atribuir serviço</h3>
+			</div>
+			<div class="modal-body">
+				<p>Qual o destino deste serviço?</p>
+				<div class="form-group">
+					<select class="form-control atribuiGrupo" name='id_grupo'>	
+						<option>Selecione uma opção...</option>
+						<option value='1'>Comunicação interna</option>
+						<option value='2'>Auditoria</option>
+						<option value='3'>Despachar a cliente</option>
+					</select>	
+				</div>
+				<div id="callback-atribuiGrupo">
+				
+				</div>
+			</div>
+			<div class="modal-footer">					  				
+				<div class="form-group col-sm-12">
+					<button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Fechar</button>
+					<button type="button" class="btn btn-success waves-effect rtrn-conteudo" id="atribui_envio" data-dismiss="modal" objeto="form-dados">Enviar</button>
+				</div>					
+				<input type="hidden" name="flag" value="selecionaGrupoAtribuicao" />
+			</div>
+		  </div><!-- /.modal-content -->
+		</div><!-- /.modal.dialog -->
+	</form>
+</div><!-- /#modal-atribuição -->
 
 <script>
 jQuery(document).ready(function(){
