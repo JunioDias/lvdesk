@@ -9,7 +9,7 @@ $act	= new Acoes;
 if(!empty($_SESSION["datalogin"])){
 	$dadoslogin = $_SESSION["datalogin"];
 
-$query_notif = "SELECT c.*, u.nome AS nome_autor FROM comunicacao_interna AS c INNER JOIN usuarios AS u ON autor = u.id WHERE c.id_contatos = '".$dadoslogin['id']."' AND c.lixo = 0 ORDER BY c.data_abertura ASC LIMIT 3";
+$query_notif = "SELECT c.*, u.nome AS nome_autor FROM comunicacao_interna AS c INNER JOIN usuarios AS u ON autor = u.id WHERE c.id_contatos = '".$dadoslogin['id']."' AND c.lida = 0 AND c.lixo = 0 ORDER BY c.data_abertura ASC LIMIT 3";
 $bind = $a->queryFree($query_notif);
 $bind2 = $a->queryFree($query_notif);
 $notify = $bind2->fetch_assoc();

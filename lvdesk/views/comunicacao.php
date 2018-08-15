@@ -37,7 +37,7 @@
 	
 	$query 	= "SELECT c.*, u.nome AS nome_user FROM comunicacao_interna AS c
 	INNER JOIN usuarios AS u ON c.autor = u.id 
-	WHERE c.lixo = 0 AND c.id_contatos = '".$dadoslogin['id']."'";
+	WHERE c.lixo = 0 AND c.id_contatos = '".$dadoslogin['id']."' ORDER BY data_abertura DESC";
 	$result = $a->queryFree($query);
 	if(!$result){
 		echo"<tr><td>Nenhum registro foi encontrado.</td></tr>";
@@ -45,7 +45,7 @@
 	else{
 		while($linhas = $result->fetch_assoc()){
 			echo("
-			<tr>
+			<tr ".($linhas['lida']==0 ? 'class=text-info' : '').">
 			<td>".date("d/m/Y", strtotime($linhas['data_abertura']))."</td>
 			<td>".$linhas['nome_user']."</td>
 			<td>".substr($linhas['historico'], 0, 30)."[...]</td>

@@ -344,8 +344,7 @@ $(document).ready(function(){
 	$("body")
 	.on('click', '.regular-link-msg', function(){ //links navegação em mensagens.
    		NProgress.start();
-		/* $("#input_id_"+$(this).attr("item")).val($(this).attr("item"));	
-		$("#input_flag_"+$(this).attr("item")).val("mensagens");	 */		
+		//$("#input_lida_"+$(this).attr("item")).val('1');				
 		var objeto = new FormData(document.querySelector("#"+$(this).attr("objeto")));				
 		$.ajax({
 			url: objeto.get("caminho"), 
