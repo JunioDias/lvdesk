@@ -4,12 +4,14 @@ include("../controllers/actions.inc.php");
 $a 		= new Model;
 $act 	= new Acoes;
 $queryAtend	= "SELECT id, nome FROM atendentes WHERE tipo_atendente = '1' AND lixo = 0 ORDER BY nome ASC";		
-$result = $a->queryFree($queryAtend);
 
 if(!empty($_SESSION["datalogin"])){
 	$datalogin 					= $_SESSION["datalogin"];
 	$atendente_responsavel		= $datalogin['id'];
 }
+$queryAutor	= "SELECT id, nome FROM usuarios WHERE id = $atendente_responsavel AND lixo = 0";		
+$busca_autor = $a->queryFree($queryAutor);
+$row = $busca_autor->fetch_assoc();
 ?>
 <div class="page-header-title">
 	<h4 class="page-title">Atendimento</h4>
@@ -47,7 +49,8 @@ if(!empty($_SESSION["datalogin"])){
 							<label for="atendente_responsavel">Atendente responsável</label>
 							<select class="form-control" name="atendente_responsavel" >			
 							<?php
-							if(isset($atendente_responsavel)){								
+							if(isset($atendente_responsavel)){	
+								$result = $a->queryFree($queryAtend);
 								while($linhas = $result->fetch_assoc()){
 									echo "<option value='".$linhas['id']."' ".($atendente_responsavel == $linhas['id'] ? 'selected' : '' )." >".$linhas['nome']."</option>";
 								}
@@ -59,15 +62,8 @@ if(!empty($_SESSION["datalogin"])){
 					<div class="row">
 						<div class="form-group col-sm-6">
 							<label for="autor">Autor</label>
-							<input type="text" class="form-control"  
-							<?php 
-							$result = $a->queryFree($queryAtend);
-							while($linhas = $result->fetch_assoc()){
-								if($atendente_responsavel == $linhas['id']){
-									echo "value='".$linhas['nome']."' /> <input type='hidden' name='autor' value='".$linhas['id']."'/>";
-								}								
-							}							
-							?> 
+							<input type='text' class='form-control' value='<?=$row['nome']; ?>'/>
+							<input type='hidden' name='autor' value='<?= $row['id']; ?>' />
 						</div>							
 						<div class="form-group col-sm-6">
 							<label for="protocolo">Protocolo</label>
@@ -191,7 +187,7 @@ if(!empty($_SESSION["datalogin"])){
 		<!------------------- Validadores --------------------->
 	</form>
 </div>
-<!--------------------- Modal de Inserção de Logs -------------------->
+<!--------------------- Modal de Atribuição de Serviços -------------------->
 <div id="modal-atribui" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
 	<form id="form-atribui">
 		<div class="modal-dialog">

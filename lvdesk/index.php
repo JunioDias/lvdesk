@@ -11,7 +11,8 @@ if(!empty($_SESSION["datalogin"])){
 
 $query_notif = "SELECT c.*, u.nome AS nome_autor FROM comunicacao_interna AS c INNER JOIN usuarios AS u ON autor = u.id WHERE c.id_contatos = '".$dadoslogin['id']."' AND c.lixo = 0 ORDER BY c.data_abertura ASC LIMIT 3";
 $bind = $a->queryFree($query_notif);
-$notify = $bind->fetch_assoc();
+$bind2 = $a->queryFree($query_notif);
+$notify = $bind2->fetch_assoc();
 ?>
 <html>
     <head>
@@ -74,8 +75,8 @@ $notify = $bind->fetch_assoc();
 			<?php	
 				if($notify){
 					$query_contador = "SELECT COUNT(id) AS nmsg FROM comunicacao_interna WHERE id_contatos = '".$dadoslogin['id']."' AND lida = 0 AND lixo = 0";
-					$bind = $a->queryFree($query_contador);
-					$lida = $bind->fetch_assoc();
+					$bind2 = $a->queryFree($query_contador);
+					$lida = $bind2->fetch_assoc();
 					if($lida['nmsg']>0){
 						echo '<span class="badge badge-xs badge-danger"></span>';
 					}
@@ -86,13 +87,11 @@ $notify = $bind->fetch_assoc();
                                         <li class="text-center notifi-title">Mensagens novas <span class="badge badge-xs badge-success"><?= $lida['nmsg']; ?></span></li>
                                         <li class="list-group">
                                            <!-- list item-->
-                                           <?php
-										   
-											  $act->notifyComm($notify); 
-										  
+                                           <?php										   
+											  $act->notifyComm($bind); 										  
 										   ?>
                                            <!-- last list item -->
-                                            <a href="javascript:void(0);" class="list-group-item">
+                                            <a link="views/comunicacao.php" class="list-group-item regular-link">
                                               <small class="text-primary">Ver todas notificações</small>
                                             </a>
                                         </li>

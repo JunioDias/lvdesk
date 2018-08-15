@@ -106,26 +106,34 @@ class Acoes{
 		break;
 		case "2":
 		//auditoria
-		echo $id_grupo;
+		echo "<h4>Em desenvolvimento</h4>";
 		break;
 		case "3":
 		//despachar a cliente
-		echo $id_grupo;
+		echo "<h4>Em desenvolvimento</h4>";
 		break;
 	}
   }
   
-  public function notifyComm($array){
-	echo "
-	<a href='javascript:void(0);' class='list-group-item'>
-	  <div class='media'>
-		 <div class='media-heading'>".$array['nome_autor']."</div>
-		 <p class='m-0'>
-		   <small>".$array['historico']."</small>
-		 </p>
-	  </div>
-	</a>
-	";
+  public function notifyComm($bind){
+	
+	while($array = $bind->fetch_assoc()){
+		echo "
+		<form id='form_link_".$array['id']."'>
+		<a class='list-group-item regular-link-msg' item=".$array['id']."  title='Ver mensagem' objeto='form_link_".$array['id']."'>	
+		  <div class='media'>
+			 <div class='media-heading'>".$array['nome_autor']."</div>
+			 <p class='m-0'>
+			   <small>".$array['historico']."</small>
+			 </p>
+		  </div>
+		</a>
+		<input id='input_flag_".$array['id']."' type='hidden' name='retorno' value='.content-sized'>
+		<input id='input_id_".$array['id']."' type='hidden' name='id' value='".$array['id']."'>
+		<input id='input_link_".$array['id']."' type='hidden' name='caminho' value='views/comunicacao-crud.php' >
+		</form>
+		";
+	}
   }
 }
 ?>

@@ -342,6 +342,32 @@ $(document).ready(function(){
 	});
 	
 	$("body")
+	.on('click', '.regular-link-msg', function(){ //links navegação em mensagens.
+   		NProgress.start();
+		/* $("#input_id_"+$(this).attr("item")).val($(this).attr("item"));	
+		$("#input_flag_"+$(this).attr("item")).val("mensagens");	 */		
+		var objeto = new FormData(document.querySelector("#"+$(this).attr("objeto")));				
+		$.ajax({
+			url: objeto.get("caminho"), 
+			data: objeto,
+			type: 'post',
+			processData: false,  
+			contentType: false,
+			success: function(retornoDados){
+				if(objeto.get("retorno")){
+					var retorno = objeto.get("retorno");
+					$(retorno).html(retornoDados);
+					NProgress.done();
+				}else{
+					$(".content-sized").html(retornoDados);	
+					NProgress.done();
+				}							
+			}
+		}); 
+		NProgress.done();		
+	});
+	
+	$("body")
 	.on('click', '.envia-listagem-deliberar', function(){
 		
 		var linha = new FormData(document.querySelector("#"+$(this).attr("linha")));
@@ -372,7 +398,7 @@ $(document).ready(function(){
 	
 	$("body")
 	.on("change", "#select_id_contratos", function (event){ 
-		$("input[name='nome_provedor']").val($("select option:selected").attr('nome'));
+		$("input[name='nome_provedor']").val($("#select_id_contratos option:selected").attr('nome'));
 	});
 	
 	$("body")

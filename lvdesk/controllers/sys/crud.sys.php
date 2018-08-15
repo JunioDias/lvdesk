@@ -342,7 +342,7 @@ if(!empty($_POST)){
 		break;
 		case "edt":		#Código de Edição
 			$dados = $_POST;
-			$tabela = $dados["tbl"];
+			/* $tabela = $dados["tbl"];
 			$path = "'Location: ".$dados['callback']."'";
 			$filtro = "id = '".$dados['id']."'";
 			unset($dados["flag"], $dados["tbl"]);
@@ -350,7 +350,12 @@ if(!empty($_POST)){
 			$a -> busca("*", $tabela, $filtro);
 			$resultado = $result->fetch_assoc();
 			echo json_encode($resultado);
-			//header($path);
+			#*/
+			print_r($dados); 
+		break;
+		case "mensagens":
+			$dados = $_POST;
+			include("../../views/comunicacao-crud.php");
 		break;
 		
 		case "update":		#Código de Atualização da Edição			
