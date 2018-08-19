@@ -56,7 +56,7 @@ else{
 		");
 		
 		echo"<td>";	$botoes->crudButtons($linhas['id'], $cbkdel, $cbkedit, $link); echo("
-		<a class='btn btn-success rtrn-conteudo-listagem2' objeto='form_action' flag='". $linhas['tipo_bd'] ."' item='". $linhas['id'] ."' caminho='controllers/sys/pav.sys.php'>Conectar</a>
+		<a class='btn btn-success rtrn-conteudo-listagem2' data-objeto='form_action' flag='". $linhas['tipo_bd'] ."' item='". $linhas['id'] ."' caminho='controllers/sys/pav.sys.php'>Conectar</a>
 		</td>
 		</tr>
 		");	
@@ -98,7 +98,7 @@ if(isset($search['id'])){
 	</div>
 	<div class="modal-footer">
 	  <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Fechar</button>
-	  <a id="primario" class='btn btn-success rtrn-conteudo-listagem' item='on' objeto='form_search' flag='<?= $search['tipo_bd']; ?>' caminho='controllers/sys/pav.sys.php' data-dismiss="modal">Pesquisar</a>
+	  <a id="primario" class='btn btn-success rtrn-conteudo-listagem' item='on' data-objeto='form_search' flag='<?= $search['tipo_bd']; ?>' caminho='controllers/sys/pav.sys.php' data-dismiss="modal">Pesquisar</a>
 	</div>
   </div><!-- /.modal-content -->
 </div><!-- /.modal-dialog -->
@@ -117,7 +117,7 @@ if(isset($search['id'])){
 		  </div>
 		  <div class="modal-footer">
 			<input class='btn btn-success waves-effect' data-dismiss="modal" value='Não'/>
-			<input objeto='form_action' class='btn btn-danger botao rtrn-conteudo' value='Sim'/>
+			<input data-objeto='form_action' class='btn btn-danger botao rtrn-conteudo' value='Sim'/>
 		  </div>
 		</div>
 	  </div>

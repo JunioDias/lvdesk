@@ -73,7 +73,7 @@ if(isset($search['id'])){
 	</div>
 	<div class="modal-footer">
 	  <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Fechar</button>
-	  <a class='btn btn-success rtrn-conteudo-listagem' objeto='form_search' flag='pesquisaHistoricos' caminho='controllers/sys/crud.sys.php' data-dismiss="modal">Pesquisar</a>
+	  <a class='btn btn-success rtrn-conteudo-listagem' data-objeto='form_search' flag='pesquisaHistoricos' caminho='controllers/sys/crud.sys.php' data-dismiss="modal">Pesquisar</a>
 	</div>
   </div><!-- /.modal-content -->
 </div><!-- /.m

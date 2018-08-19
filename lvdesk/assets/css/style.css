@@ -141,6 +141,28 @@ a:focus {
   text-align: center;
   width: 30px;
 }
+.com-padding{
+	margin-right: 3px;
+}
+.list-container{
+	clear: both;
+}
+.list-group{
+	float: left;
+}
+.list-search{
+	float: left;
+	margin-left: 3px;
+}
+.x{
+	float:none !important;
+	font-size: 14px;
+	vertical-align: -2px;
+	color:#000000;
+}
+.x:hover{
+	color:#ffffff;
+}
 /* ==============
   Bootstrap-custom
 ===================*/
@@ -316,7 +338,8 @@ a:focus {
   background-color: #f7b543;
 }
 .label-danger {
-  background-color: #3292e0;
+  /*background-color: #3292e0;*/
+  background-color: #ff0000;
 }
 .label-dark {
   background-color: #FF8C00;

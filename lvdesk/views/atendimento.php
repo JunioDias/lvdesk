@@ -257,8 +257,8 @@ if($id_provedor){//Existe um provedor
 	</div>
 	<div class="form-group">
 	<hr><label for="resumo">Resumo</label><br>
-	<input class="btn btn-success rtrn-conteudo" id="solucionado" value="Solucionado" type="button" objeto="form-dados">
-	<?= ($permissao['id_produtos'] == 2 || $permissao['id_produtos'] == 3 ? '<input class="btn btn-warning rtrn-conteudo" value="CGR" type="button" objeto="form-dados">' : '' ); ?>		
+	<input class="btn btn-success rtrn-conteudo" id="solucionado" value="Solucionado" type="button" data-objeto="form-dados">
+	<?= ($permissao['id_produtos'] == 2 || $permissao['id_produtos'] == 3 ? '<input class="btn btn-warning rtrn-conteudo" value="CGR" type="button" data-objeto="form-dados">' : '' ); ?>		
 	<input class="btn btn-info" id="" value="Atribuir" type="button" data-toggle='modal' data-target='#modal-atribui' />
 	</div>
 	<section class="input_hidden">
@@ -346,7 +346,7 @@ if($id_provedor){//Existe um provedor
 			</section>
 		<!------------------- Validadores --------------------->
 		<button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Fechar</button>
-		<button type="button" class="btn btn-success waves-effect rtrn-conteudo" data-dismiss="modal" objeto="form-add-log">Salvar
+		<button type="button" class="btn btn-success waves-effect rtrn-conteudo" data-dismiss="modal" data-objeto="form-add-log">Salvar
 		</div>
 	  </div><!-- /.modal-content -->
 	</button>
@@ -397,7 +397,7 @@ if($id_provedor){//Existe um provedor
 			<div class="modal-footer">					  				
 				<div class="form-group col-sm-12">
 					<button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Fechar</button>
-					<button type="button" class="btn btn-success waves-effect rtrn-conteudo" id="atribui_envio" data-dismiss="modal" objeto="form-dados">Enviar</button>
+					<button type="button" class="btn btn-success waves-effect rtrn-conteudo" id="atribui_envio" data-dismiss="modal" data-objeto="form-dados">Enviar</button>
 				</div>					
 				<input type="hidden" name="flag" value="selecionaGrupoAtribuicao" />
 			</div>

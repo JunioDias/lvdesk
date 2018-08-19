@@ -67,7 +67,7 @@ else{
 		  </div>
 		  <div class="modal-footer">
 			<input class='btn btn-success waves-effect' data-dismiss="modal" value='Não'/>
-			<input objeto='form_action' class='btn btn-danger botao rtrn-conteudo' value='Sim'/>
+			<input data-objeto='form_action' class='btn btn-danger botao rtrn-conteudo' value='Sim'/>
 		  </div>
 		</div>
 	  </div>

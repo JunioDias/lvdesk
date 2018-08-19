@@ -75,7 +75,7 @@ if(isset($_POST['id'])){
 			<label for="admin">Ambiente</label>
 			<input type="text" class="form-control" class="admin" name="admin" value="<?= $admin;?>"/>
 		</div>
-		<input class="btn btn-default rtrn-conteudo" value="Salvar" type="button" objeto="form-modulo">
+		<input class="btn btn-default rtrn-conteudo" value="Salvar" type="button" data-objeto="form-modulo">
 	<?php 
 	if(isset($id)){
 		echo "<input type='hidden' name='id' value='$id'/>";

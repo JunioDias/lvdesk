@@ -231,7 +231,7 @@ $log = new Logs;
 		<input type="hidden" name="atendente_responsavel" value="<?= $atendente_responsavel;?>" />
 	</section>
 	<!-- Fim dos Validadores -->	
-	<input class="btn btn-success rtrn-conteudo" id="solucionado" value="Solucionado" type="button" objeto="form-dados">
+	<input class="btn btn-success rtrn-conteudo" id="solucionado" value="Solucionado" type="button" data-objeto="form-dados">
 	<input class="btn btn-info" id="" value="Atribuir" type="button" data-toggle='modal' data-target='#modal-atribui' />
 </form>
 
@@ -270,7 +270,7 @@ $log = new Logs;
 				  </div>				
 				  <div class="form-group col-sm-6">
 					<button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Fechar</button>
-					<button type="button" class="btn btn-success waves-effect rtrn-conteudo" data-dismiss="modal" objeto="form-log">Salvar</button>
+					<button type="button" class="btn btn-success waves-effect rtrn-conteudo" data-dismiss="modal" data-objeto="form-log">Salvar</button>
 				  </div>
 				</div>
 			</section>
@@ -303,7 +303,7 @@ $log = new Logs;
 			<div class="modal-footer">					  				
 				<div class="form-group col-sm-12">
 					<button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Fechar</button>
-					<button type="button" class="btn btn-success waves-effect" id="atribui_envio" data-dismiss="modal" objeto="form-dados">Enviar</button>
+					<button type="button" class="btn btn-success waves-effect" id="atribui_envio" data-dismiss="modal" data-objeto="form-dados">Enviar</button>
 				</div>					
 				<input type="hidden" name="flag" id="flag-dimiss" value="selecionaGrupoAtribuicao" />
 			</div>

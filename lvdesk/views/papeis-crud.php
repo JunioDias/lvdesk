@@ -34,7 +34,7 @@ if(isset($_POST['id'])){
 			<input type="text" class="form-control" class="nome" name="nome" value="<?= $nome;?>"/>
 		</div>
 		<div class="form-group">		
-		<input class="btn btn-default rtrn-conteudo" value="Salvar" type="button" objeto="form-modulo">
+		<input class="btn btn-default rtrn-conteudo" value="Salvar" type="button" data-objeto="form-modulo">
 		</div>
 	<?php 
 	if(isset($id)){

@@ -72,7 +72,7 @@ if(isset($_POST['id'])){
 		<input type="text" class="form-control" name="admin" value="<?= $admin;?>">
 	</div>
 	
-	<input class="btn btn-default rtrn-conteudo" value="Salvar" type="button" objeto="form-dados">
+	<input class="btn btn-default rtrn-conteudo" value="Salvar" type="button" data-objeto="form-dados">
 	<?php 
 	if(isset($id)){
 		echo "<input type='hidden' name='id' value='$id'/>";

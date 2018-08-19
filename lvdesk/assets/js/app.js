@@ -345,7 +345,7 @@ $(document).ready(function(){
 	.on('click', '.regular-link-msg', function(){ //links navegação em mensagens.
    		NProgress.start();
 		//$("#input_lida_"+$(this).attr("item")).val('1');				
-		var objeto = new FormData(document.querySelector("#"+$(this).attr("objeto")));				
+		var objeto = new FormData(document.querySelector("#"+$(this).attr("data-objeto")));				
 		$.ajax({
 			url: objeto.get("caminho"), 
 			data: objeto,
@@ -397,7 +397,7 @@ $(document).ready(function(){
 	
 	$("body")
 	.on("change", "#select_id_contratos", function (event){ 
-		$("input[name='nome_provedor']").val($("#select_id_contratos option:selected").attr('nome'));
+		$("input[name='nome_provedor']").val($("#select_id_contratos option:selected").attr('data-nome'));
 	});
 	
 	$("body")
@@ -422,7 +422,7 @@ $(document).ready(function(){
 		var b = $(this).attr("cliente_id");		
 		$("#protocol").attr("value", a);
 		$("input[name='id']").attr("value", b);
-		var objeto = new FormData(document.querySelector("#"+$(this).attr("objeto")));
+		var objeto = new FormData(document.querySelector("#"+$(this).attr("data-objeto")));
 		objeto.append('id', b);
 		NProgress.start();
 		$.ajax({
@@ -479,7 +479,7 @@ $(document).ready(function(){
 	.on("click", ".rtrn-conteudo", function (event){ 
 		
 		if($(this).attr("doZero")){
-			var meucheckbox = $("#"+$(this).attr("objeto")).find("input[type=checkbox]");
+			var meucheckbox = $("#"+$(this).attr("data-objeto")).find("input[type=checkbox]");
 			if(meucheckbox){
 				$.each(meucheckbox, function(key, val){
 					if(!$(this).is(":checked")){
@@ -489,7 +489,7 @@ $(document).ready(function(){
 				});
 			}
 		}
-		var objeto = new FormData(document.querySelector("#"+$(this).attr("objeto")));	
+		var objeto = new FormData(document.querySelector("#"+$(this).attr("data-objeto")));	
 		NProgress.start();
 		$.ajax({
 			url: objeto.get("caminho"), 
@@ -525,7 +525,7 @@ $(document).ready(function(){
 			$(".modal-footer").append("<input type='hidden' name='caminho' value='"+$(this).attr("caminho")+"'>");
 			$(".modal-footer").append("<input type='hidden' name='flag' value='"+$(this).attr("flag")+"'>");
 		}else{
-			var objeto  = new FormData(document.querySelector("#"+$(this).attr("objeto")));
+			var objeto  = new FormData(document.querySelector("#"+$(this).attr("data-objeto")));
 			if($(this).attr("flag")){
 				objeto.append("flag", $(this).attr("flag"));
 			}
@@ -565,7 +565,7 @@ $(document).ready(function(){
 		
 		var id_div = $(this).attr("item");
 		$('#rotulo'+id_div).hide();
-		var objeto = new FormData(document.querySelector("#"+$(this).attr("objeto")));
+		var objeto = new FormData(document.querySelector("#"+$(this).attr("data-objeto")));
 		objeto.append("flag", $(this).attr("flag"));
 		objeto.append("id", $(this).attr("item"));
 		objeto.append("caminho", $(this).attr("caminho"));
@@ -626,7 +626,7 @@ $(document).ready(function(){
 			NProgress.start();
 			$("#flag-dimiss").removeAttr("name");
 			var contatos = new FormData(document.querySelector("#form-atribui"));
-			var objeto   = new FormData(document.querySelector("#"+$(this).attr("objeto")));	
+			var objeto   = new FormData(document.querySelector("#"+$(this).attr("data-objeto")));	
 			for(var pair of contatos.entries()) {
 				objeto.append(pair[0], pair[1]); 
 			} 
@@ -655,7 +655,7 @@ $(document).ready(function(){
 	$("body")
 	.on("click", ".rtrn-conteudo-conexao", function (event){ 
 		
-		var objeto = new FormData(document.querySelector("#"+$(this).attr("objeto")));
+		var objeto = new FormData(document.querySelector("#"+$(this).attr("data-objeto")));
 		var objLnk = new FormData(document.querySelector("."+$(this).attr("objLnk")));
 		
 		for (var value of objLnk.values()) {
@@ -696,6 +696,36 @@ $(document).ready(function(){
 		}); 
 	});
 
+	//Busca destinatário dinamicamente
+	$("body")
+	.on("keyup", '#buscaDestinatario', function(event) {
+		var keycode = (event.keyCode ? event.keyCode : event.which);
+		if(keycode == '13'){
+			var $this = $(this); 
+			var valor = $this.next(".list-container").find(".list-search").find("input").val(); //definir valor 
+			var nome = $("#span_nome_"+valor).text();
+			$(".list-group").append("<span class='label label-success com-padding'><input type='hidden' id='input_responsavel_"+valor+"' name='atendente_responsavel[]' value='"+valor+"' />"+nome+"<a class='close x'> ×</a></span>");
+			$("#buscaDestinatario").val("");
+			$this.next(".list-container").find(".list-search").find("span").remove();
+		}else{
+			var pesquisa = $(this).val();			
+			$.ajax({
+				url: "controllers/sys/crud.sys.php", 
+				data: {nome: pesquisa, flag: "pesquisaDestinatario" },
+				type: 'post',
+				processData: true,  
+				success: function(retornoDados){
+					$(".list-search").html(retornoDados);	
+					NProgress.done();
+				}
+			});
+		}
+	});		
+	
+	$("body")
+	.on("click", '.x', function() {
+		$(this).parent("span").remove();
+	});
 });
 // para execução de funções retardatárias
 var Menufunction = [];

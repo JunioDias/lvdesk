@@ -16,20 +16,20 @@ class Acoes{
 */
   public function crudButtons($id, $callbackdelete, $callbackedit, $link){
 	echo "	
-	<a class='btn btn-warning rtrn-conteudo-listagem' item=".$id." flag='edt' objeto='form_action' caminho=".$callbackedit." title='Editar registro'>Editar</a>
-	<a class='btn btn-danger rtrn-conteudo-listagem botao' item=".$id." flag='exc' objeto='form_action' caminho=".$link." title='Excluir registro' data-toggle='modal' data-target='#confirma'>Excluir</a>	
+	<a class='btn btn-warning rtrn-conteudo-listagem' item=".$id." flag='edt' data-objeto='form_action' caminho=".$callbackedit." title='Editar registro'>Editar</a>
+	<a class='btn btn-danger rtrn-conteudo-listagem botao' item=".$id." flag='exc' data-objeto='form_action' caminho=".$link." title='Excluir registro' data-toggle='modal' data-target='#confirma'>Excluir</a>	
 	";
   }
 
   public function darEntrada($id, $cpf, $link, $flag){
 	echo '
-	<input objeto="form_action" class="btn btn-success btn_driver rtrn-conteudo-listagem" value="Dar entrada" type="button" flag="'.$flag.'" caminho="'.$link.'" item="'.$cpf.'" idd="'.$id.'">	
+	<input data-objeto="form_action" class="btn btn-success btn_driver rtrn-conteudo-listagem" value="Dar entrada" type="button" flag="'.$flag.'" caminho="'.$link.'" item="'.$cpf.'" idd="'.$id.'">	
 	';
   }
   
   public function visualizar($id){
 	echo '
-	<input objeto="form_view" class="btn btn-success btn_driver rtrn-conteudo-listagem" value="Visualizar" type="button" idd="'.$id.'">	
+	<input data-objeto="form_view" class="btn btn-success btn_driver rtrn-conteudo-listagem" value="Visualizar" type="button" idd="'.$id.'">	
 	';
   }
 
@@ -120,7 +120,7 @@ class Acoes{
 	while($array = $bind->fetch_assoc()){
 		echo "
 		<form id='form_link_".$array['id']."'>
-		<a class='list-group-item regular-link-msg' item=".$array['id']."  title='Ver mensagem' objeto='form_link_".$array['id']."'>	
+		<a class='list-group-item regular-link-msg' item=".$array['id']."  title='Ver mensagem' data-objeto='form_link_".$array['id']."'>	
 		  <div class='media'>
 			 <div class='media-heading'>".$array['nome_autor']."</div>
 			 <p class='m-0'>

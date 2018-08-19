@@ -3,7 +3,7 @@ include("../controllers/model.inc.php");
 include("../controllers/actions.inc.php");
 $a 		= new Model;
 $act 	= new Acoes;
-$queryAtend	= "SELECT id, nome FROM atendentes WHERE tipo_atendente = '1' AND lixo = 0 ORDER BY nome ASC";		
+$queryAtend	= "SELECT id, nome FROM usuarios WHERE lixo = 0 AND id_contrato = 0 ORDER BY nome ASC";		
 
 if(!empty($_SESSION["datalogin"])){
 	$datalogin 					= $_SESSION["datalogin"];
@@ -21,10 +21,10 @@ $row = $busca_autor->fetch_assoc();
 	<form id="form-dados">
 		<div class="form-group">
 			<div class="panel panel-color panel-warning">
-					<div class="panel-heading">
-						<h3 class="panel-title">Detalhes do Chamado</h3>
-					</div>
-					<div class="panel-body">
+				<div class="panel-heading">
+					<h3 class="panel-title">Detalhes do Chamado</h3>
+				</div>
+				<div class="panel-body">
 					<div class="row">
 						<div class="form-group col-sm-6">
 							<label for="data_abertura">Data de abertura</label>
@@ -32,8 +32,20 @@ $row = $busca_autor->fetch_assoc();
 							<input type="hidden" name="data_abertura" value="<?= date("Y-m-d");?>" />
 						</div>
 						<div class="form-group col-sm-6">
-							<label for="grupo_responsavel">Grupo responsável</label>
-							<input type="text" class="form-control" name="grupo_responsavel" value="">
+							<label for="autor">Autor</label>
+							<input type='text' class='form-control' value='<?=$row['nome']; ?>'/>
+							<input type='hidden' name='autor' value='<?= $row['id']; ?>' />
+						</div>	
+						
+					</div>
+					<div class="row">						
+						<div class="form-group col-md-12" id="dynamicDiv1" >
+							<label for="atendente_responsavel">Responsáveis</label>
+							<input type="text" autocomplete="off" class="form-control col-sm-12" id="buscaDestinatario" placeholder="Digite o nome de usuário">
+							<div class="list-container">
+								<div class="list-group"></div>
+								<div class="list-search"></div>
+							</div>
 						</div>
 					</div>
 					<div class="row">
@@ -44,27 +56,7 @@ $row = $busca_autor->fetch_assoc();
 								<option value='1' >Em atendimento</option>
 								<option value='2' >Solucionado</option>
 							</select>			
-						</div>
-						<div class="form-group col-sm-6">
-							<label for="atendente_responsavel">Atendente responsável</label>
-							<select class="form-control" name="atendente_responsavel" >			
-							<?php
-							if(isset($atendente_responsavel)){	
-								$result = $a->queryFree($queryAtend);
-								while($linhas = $result->fetch_assoc()){
-									echo "<option value='".$linhas['id']."' ".($atendente_responsavel == $linhas['id'] ? 'selected' : '' )." >".$linhas['nome']."</option>";
-								}
-							}						
-							?>
-							</select>	
-						</div>
-					</div>
-					<div class="row">
-						<div class="form-group col-sm-6">
-							<label for="autor">Autor</label>
-							<input type='text' class='form-control' value='<?=$row['nome']; ?>'/>
-							<input type='hidden' name='autor' value='<?= $row['id']; ?>' />
-						</div>							
+						</div>						
 						<div class="form-group col-sm-6">
 							<label for="protocolo">Protocolo</label>
 							<input type="text" class="form-control" name="protocol" value="<?= $a->protocolo();?>" >
@@ -87,7 +79,7 @@ $row = $busca_autor->fetch_assoc();
 				$query_provedor	= "SELECT clientes.nome, contratos.id FROM clientes INNER JOIN contratos ON clientes.id = id_cliente WHERE clientes.lixo = 0 AND finaliza_em >= now() ORDER BY nome ASC";	
 				$result = $a->queryFree($query_provedor);
 				while($linhas = $result->fetch_assoc()){
-					echo "<option value='".$linhas['id']."' nome='".$linhas['nome']."'>".$linhas['nome']."</option>";
+					echo "<option value='".$linhas['id']."' data-nome='".$linhas['nome']."'>".$linhas['nome']."</option>";
 				}
 				?>
 							</select>
@@ -175,50 +167,18 @@ $row = $busca_autor->fetch_assoc();
 				</div>
 			</div>	
 		</div>		
-		<input class="btn btn-info" id="" value="Atribuir" type="button" data-toggle='modal' data-target='#modal-atribui' />
+		<input class="btn btn-info rtrn-conteudo" id="" value="Atribuir" type="button" data-toggle='modal' data-target='#modal-atribui' data-objeto="form-dados"/>
 		<!------------------- Validadores --------------------->
 		<section class="input_hidden" id="atribui_hidden_validadores">
-			<input type="hidden" name="flag" value="addComunicacao" />
-			<input type="hidden" name="tbl" id="tbl" value="" />
+			<input type="hidden" name="flag" value="teste" />
+			<input type="hidden" name="tbl" value="pav_inscritos" />
+			<input type="hidden" name="subTabela" value="pav_movimentos" />
+			<input type="hidden" name="retorno" value=".content-sized" />
 			<input type="hidden" name="caminho" value="controllers/sys/crud.sys.php" />
-			<input type="hidden" name="retorno" value=".content-sized" />	
-			<input type="hidden" name="chave_cerquilha" value="on" />			
 		</section>
 		<!------------------- Validadores --------------------->
 	</form>
 </div>
-<!--------------------- Modal de Atribuição de Serviços -------------------->
-<div id="modal-atribui" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-	<form id="form-atribui">
-		<div class="modal-dialog">
-		  <div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-				<h3 class="modal-title" id="myModalLabel">Atribuir serviço</h3>
-			</div>
-			<div class="modal-body">
-				<p>Qual o destino deste serviço?</p>
-				<div class="form-group">
-					<select class="form-control atribuiGrupo" name='id_grupo'>	
-						<option>Selecione uma opção...</option>
-						<option value='1'>Comunicação interna</option>
-						<option value='2'>Auditoria</option>
-						<option value='3'>Despachar a cliente</option>
-					</select>	
-				</div>
-				<div id="callback-atribuiGrupo"></div>
-			</div>
-			<div class="modal-footer">					  				
-				<div class="form-group col-sm-12">
-					<button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Fechar</button>
-					<button type="button" class="btn btn-success waves-effect" id="atribui_envio" data-dismiss="modal" objeto="form-dados">Enviar</button>
-				</div>					
-				<input type="hidden" name="flag" id="flag-dimiss" value="selecionaGrupoAtribuicao" />
-			</div>
-		  </div><!-- /.modal-content -->
-		</div><!-- /.modal.dialog -->
-	</form>
-</div><!-- /#modal-atribui -->
 <script>
 jQuery(document).ready(function(){
 	$('#historico').wysihtml5({

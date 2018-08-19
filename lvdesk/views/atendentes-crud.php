@@ -164,7 +164,7 @@ if(isset($_POST['id'])){
 			?>
 			</select>
 		</div>
-		<input class="btn btn-default rtrn-conteudo" value="Salvar" type="button" objeto="form-modulo">
+		<input class="btn btn-default rtrn-conteudo" value="Salvar" type="button" data-objeto="form-modulo">
 	<?php 
 	if(isset($id)){
 		echo "<input type='hidden' name='id' value='$id'/>";

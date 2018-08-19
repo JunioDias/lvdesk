@@ -8,7 +8,7 @@
 		<input type="hidden" name="flag" value="emabertos" />
 		<input type="hidden" name="caminho" value="controllers/sys/crud.sys.php" />
 		<input type="hidden" name="retorno" value="#table_servicos_cgr" />
-		<input class="btn btn-danger btn_driver rtrn-conteudo" value="Em abertos" objeto='emAbertos' type="button" >
+		<input class="btn btn-danger btn_driver rtrn-conteudo" value="Em abertos" data-objeto='emAbertos' type="button" >
 	</form>
 	<form id="pesquisar">
 	<input class="btn btn-success btn_driver" value="Pesquisar" type="button" data-toggle='modal' data-target='#pesquisa'>

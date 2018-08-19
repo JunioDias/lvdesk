@@ -75,7 +75,7 @@ if(isset($_POST['id'])){
 		<label for="script">Script</label>
 		<textarea class="wysihtml5-textarea form-control" rows="9" id="script" name="script"><?= $script;?></textarea>
 	</div>
-	<input class="btn btn-default rtrn-conteudo" value="Salvar" type="button" objeto="form-dados">
+	<input class="btn btn-default rtrn-conteudo" value="Salvar" type="button" data-objeto="form-dados">
 	<?php 
 	if(isset($id)){
 		echo "<input type='hidden' name='id' value='$id'/>";

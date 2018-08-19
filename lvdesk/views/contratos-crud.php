@@ -141,6 +141,6 @@ if(isset($_POST['id'])){
 		<input type="hidden" name="caminho" value="controllers/sys/crud.sys.php" />
 	</section>
 	<div class="form-group">
-		<input class="btn btn-success rtrn-conteudo" value="Salvar" type="button" objeto="form-dados-perfil">
+		<input class="btn btn-success rtrn-conteudo" value="Salvar" type="button" data-objeto="form-dados-perfil">
 	</div>
 </form>

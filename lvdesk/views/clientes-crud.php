@@ -206,7 +206,7 @@ if(isset($_POST['id'])){
 	<input type="hidden" name="tbl" value="clientes" />
 	<input type="hidden" name="caminho" value="controllers/sys/crud.sys.php" />
 <div class="form-group">
-	<input class="btn btn-success rtrn-conteudo" value="Salvar" type="button" objeto="form-dados-clientes">
+	<input class="btn btn-success rtrn-conteudo" value="Salvar" type="button" data-objeto="form-dados-clientes">
 </div>
 </form>
 <!--------------------- Modal de Inserção de Logs -------------------->
@@ -289,7 +289,7 @@ if(isset($_POST['id'])){
 		</div>
 		<div class="modal-footer">		
 			<button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Fechar</button>
-			<button type="button" class="btn btn-success waves-effect rtrn-conteudo" objeto="form-dados">Incluir</button>
+			<button type="button" class="btn btn-success waves-effect rtrn-conteudo" data-objeto="form-dados">Incluir</button>
 		</div>
 	  </div><!-- /.modal-content -->
 	</div><!-- /.modal.dialog -->

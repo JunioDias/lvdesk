@@ -261,7 +261,7 @@ $log = new Logs;
 		<input type="hidden" name="atendente_responsavel" value="<?= $atendente_responsavel;?>" />
 	</section>
 	<!-- Fim dos Validadores -->	
-	<input class="btn btn-success rtrn-conteudo" id="solucionado" value="Solucionado" type="button" objeto="form-dados">
+	<input class="btn btn-success rtrn-conteudo" id="solucionado" value="Solucionado" type="button" data-objeto="form-dados">
 </form>
 
 <!--------------------- Modal de Inserção de Logs -------------------->
@@ -299,7 +299,7 @@ $log = new Logs;
 				  </div>				
 				  <div class="form-group col-sm-6">
 					<button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Fechar</button>
-					<button type="button" class="btn btn-success waves-effect rtrn-conteudo" data-dismiss="modal" objeto="form-log">Salvar</button>
+					<button type="button" class="btn btn-success waves-effect rtrn-conteudo" data-dismiss="modal" data-objeto="form-log">Salvar</button>
 				  </div>
 				</div>
 			</section>

@@ -47,7 +47,7 @@ if($resultado){
 			<input type='hidden' name='id' value='".$linhas_priv['id']."'/>
 		</form>
 		</td>
-		<td><input class='btn btn-success envia-listagem-deliberar' data-toggle='modal' data-target='#confirma' value='Salvar'  objeto='form_action' linha='privilegio".$i."'/></td>
+		<td><input class='btn btn-success envia-listagem-deliberar' data-toggle='modal' data-target='#confirma' value='Salvar'  data-objeto='form_action' linha='privilegio".$i."'/></td>
 		</tr>
 		");	
 		$i++;
@@ -72,7 +72,7 @@ if($resultado){
 		  </div>
 		  <div class="modal-footer">
 			<input class='btn btn-danger waves-effect remove-inputs' data-dismiss="modal" value='Não'/>
-			<input objeto='form_action' class='btn btn-success rtrn-conteudo' value='Sim'/>			
+			<input data-objeto='form_action' class='btn btn-success rtrn-conteudo' value='Sim'/>			
 		  </div>
 		</div>
 	  </div>

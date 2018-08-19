@@ -71,17 +71,21 @@ if(!empty($_POST)){
 			}
 			
 			if(isset($dados['id_contratos'])){
-				if(isset($dados["idd"])){
-					if($dados["idd"] == "solucionado")	{
-						$dados["validado"] 	= '1';
-						$dados["status"]	= '2';
-					}
-					unset($dados['idd']);
-					$a->gravaAtendimento($dados);
-					#unset($dados['id_contratos']);
+				if($dados['id_contratos']==0){//inclusão de comunicado interno sem atribuição de clientes
+					//nenhum atendimento é computado
 				}else{
-					$a->gravaAtendimento($dados);
-					#unset($dados['id_contratos']);
+					if(isset($dados["idd"])){
+						if($dados["idd"] == "solucionado")	{
+							$dados["validado"] 	= '1';
+							$dados["status"]	= '2';
+						}
+						unset($dados['idd']);
+						$a->gravaAtendimento($dados);
+						#unset($dados['id_contratos']);
+					}else{
+						$a->gravaAtendimento($dados);
+						#unset($dados['id_contratos']);
+					}
 				}
 			}
 			
@@ -712,7 +716,24 @@ if(!empty($_POST)){
 				<h4>Serviço comunicado!</h4>
 				A operação foi realizada com sucesso. <a href="." class="alert-link">Clique aqui</a> para atualizar os status do sistema.
 				</div>';
-		break;		
+		break;
+
+		case "pesquisaDestinatario":
+			$a = new Model;
+			$array = $_POST;
+			$query = "SELECT id, nome FROM usuarios WHERE nome LIKE '".$array['nome']."%'";
+			$select = $a->queryFree($query);
+			$ret = $select->fetch_assoc();
+			if(!is_null($ret['id'])){
+				echo "<span id='span_nome_".$ret['id']."' class='label label-danger'><input type='hidden' id='input_responsavel_".$ret['id']."' value='".$ret['id']."' >".$ret['nome']."</span>";
+			}
+		break;
+		
+		case "teste":
+			$array = $_POST;
+			print_r($array);
+			$foo = $array['atendente_responsavel'];
+		break;
 	}
   }	
 else{
