@@ -344,8 +344,11 @@ $(document).ready(function(){
 	$("body")
 	.on('click', '.regular-link-msg', function(){ //links navegação em mensagens.
    		NProgress.start();
-		//$("#input_lida_"+$(this).attr("item")).val('1');				
+		//$("#input_lida_"+$(this).attr("data-item")).val('1');				
 		var objeto = new FormData(document.querySelector("#"+$(this).attr("data-objeto")));				
+		for(var pair of objeto.values()) {
+			console.log(pair);
+		}
 		$.ajax({
 			url: objeto.get("caminho"), 
 			data: objeto,
@@ -601,11 +604,11 @@ $(document).ready(function(){
 		NProgress.start();	
 		var objeto = new FormData(document.querySelector("#form-atribui"));	
 		if(objeto.get("id_grupo") == '1'){
-			$("#tbl").attr("value", "comunicacao_interna");	
-			$("#atribui_envio").attr("commit", "1");
+			$("#tbl").attr("value", "comunicacao_interna");
+			$("#atribui_envio").attr("data-commit", "1");
 		}else{
 			$("#tbl").attr("value", "pav_inscritos");
-			$("#atribui_envio").removeAttr("commit");
+			$("#atribui_envio").removeAttr("data-commit");
 		}
 		$.ajax({			
 			url: "controllers/sys/crud.sys.php", 
@@ -622,15 +625,14 @@ $(document).ready(function(){
 	
 	$("body")
 	.on("click", "#atribui_envio", function (event){ 
-		if($(this).attr("commit")){
-			NProgress.start();
-			$("#flag-dimiss").removeAttr("name");
+		if($(this).attr("data-commit")){
+			$("#flag").remove(); //evita conflitos no envio do post
 			var contatos = new FormData(document.querySelector("#form-atribui"));
 			var objeto   = new FormData(document.querySelector("#"+$(this).attr("data-objeto")));	
 			for(var pair of contatos.entries()) {
 				objeto.append(pair[0], pair[1]); 
 			} 
-			 
+			
 			$.ajax({
 				url: objeto.get("caminho"), 
 				data: objeto,
@@ -704,18 +706,19 @@ $(document).ready(function(){
 			var $this = $(this); 
 			var valor = $this.next(".list-container").find(".list-search").find("input").val(); //definir valor 
 			var nome = $("#span_nome_"+valor).text();
-			$(".list-group").append("<span class='label label-success com-padding'><input type='hidden' id='input_responsavel_"+valor+"' name='atendente_responsavel[]' value='"+valor+"' />"+nome+"<a class='close x'> ×</a></span>");
-			$("#buscaDestinatario").val("");
+			$(".list-group").append("<span class='label label-success com-padding'><input type='hidden' id='input_responsavel_"+valor+"' name='grupo_responsavel[]' value='"+valor+"' />"+nome+"<a class='close x'> ×</a></span>");
 			$this.next(".list-container").find(".list-search").find("span").remove();
+			$(this).val("");
 		}else{
-			var pesquisa = $(this).val();			
+			var pesquisa = $(this).val();
+			var tecla = keycode;
 			$.ajax({
 				url: "controllers/sys/crud.sys.php", 
-				data: {nome: pesquisa, flag: "pesquisaDestinatario" },
+				data: {nome: pesquisa, flag: "pesquisaDestinatario", teste: tecla },
 				type: 'post',
 				processData: true,  
 				success: function(retornoDados){
-					$(".list-search").html(retornoDados);	
+					$(".list-search").html(retornoDados);
 					NProgress.done();
 				}
 			});

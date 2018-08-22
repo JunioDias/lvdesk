@@ -74,7 +74,7 @@ $notify = $bind2->fetch_assoc();
                                         <i class="fa fa-bell"></i> 
 			<?php	
 				if($notify){
-					$query_contador = "SELECT COUNT(id) AS nmsg FROM comunicacao_interna WHERE id_contatos = '".$dadoslogin['id']."' AND lida = 0 AND lixo = 0";
+					$query_contador = "SELECT COUNT(id) AS nmsg FROM comunicacao_interna_movimentos WHERE id_destinatario = '".$dadoslogin['id']."' AND lida = 0 AND lixo = 0";
 					$bind2 = $a->queryFree($query_contador);
 					$lida = $bind2->fetch_assoc();
 					if($lida['nmsg']>0){
@@ -115,7 +115,7 @@ $notify = $bind2->fetch_assoc();
                                         <li><a href="javascript:void(0)"> Configurações </a></li>
                                         <li><a class="regular-link" link="views/documentacao.html"> Documentação</a></li>
                                         <li class="divider"></li>
-                                        <li><a class="rtrn-conteudo" objeto="form_objeto"> Logout</a></li>
+                                        <li><a class="rtrn-conteudo" data-objeto="form_objeto"> Logout</a></li>
 										<form id="form_objeto">
 										  <input type="hidden" name="flag" value="logout"/>
 										  <input type="hidden" name="caminho" value="controllers/sys/login.sys.php"/>

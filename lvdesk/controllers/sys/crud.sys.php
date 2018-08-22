@@ -89,6 +89,23 @@ if(!empty($_POST)){
 				}
 			}
 			
+			if(isset($dados['id_contatos'])){
+				if(is_array($dados['id_contatos'])){
+					foreach($dados['id_contatos'] as $value_id_contato ){
+						if(isset($dados['grupo_responsavel'])){
+							foreach($dados['grupo_responsavel'] as $id_atendente_responsavel){
+								$query_comunica = "INSERT INTO comunicacao_interna_movimentos (protocol, descricao, id_autor, id_destinatario, nome_provedor, data, id_contratos, atendente_responsavel) VALUES('".$dados['protocol']."', '".$dados['historico']."', '".$dados['autor']."', '".$value_id_contato."', '".$dados['nome_provedor']."', '".$dados['data_abertura']."', '".$dados['id_contratos']."', '".$id_atendente_responsavel."')";
+								$a->queryFree($query_comunica);
+							}
+						}else{
+							$query_comunica = "INSERT INTO comunicacao_interna_movimentos (protocol, descricao, id_autor, id_destinatario, nome_provedor, data, id_contratos, atendente_responsavel) VALUES('".$dados['protocol']."', '".$dados['historico']."', '".$dados['autor']."', '".$value_id_contato."', '".$dados['nome_provedor']."', '".$dados['data_abertura']."', '".$dados['id_contratos']."', '".$dados['atendente_responsavel']."')";
+							$a->queryFree($query_comunica);
+						}
+					}
+				}
+				unset($dados['id_contatos']);
+			}
+			
 			if(isset($dados['subTabela'])){ 
 				if($dados['subTabela']=="planos_movimentos"){//cadastro auxiliar dos contratos na tabela planos_movimentos
 					$newlog['tabela'] = $dados['subTabela'];
@@ -140,7 +157,8 @@ if(!empty($_POST)){
 			$dados["tbl"], 
 			$dados["file"], 
 			$dados["caminho"], 
-			$dados["retorno"]
+			$dados["retorno"],
+			$dados["id_grupo"]
 			);
 			
 			if(in_array(true, array_map('is_array', $dados), true) == ''){
@@ -189,12 +207,12 @@ if(!empty($_POST)){
 				}
 			}else{
 				//Para os checkboxes da rotina de módulos etc.
-				if($dados['chave_cerquilha']){
+				if(isset($dados['chave_cerquilha'])){
 					unset($dados['chave_cerquilha']);					
 					$array = $a->processaCerquilhas($dados);
 					$a->add($tabela, $array);
 				}else{
-					echo "Erro #00034ADD - Falha de função para arrays multifuncionais genérica";
+					echo "Código #18237 - Existe um array não tratado na sessão.";
 				}
 			}				
 		break;
@@ -718,21 +736,23 @@ if(!empty($_POST)){
 				</div>';
 		break;
 
-		case "pesquisaDestinatario":
+		case "pesquisaDestinatario":			
 			$a = new Model;
 			$array = $_POST;
 			$query = "SELECT id, nome FROM usuarios WHERE nome LIKE '".$array['nome']."%'";
 			$select = $a->queryFree($query);
 			$ret = $select->fetch_assoc();
 			if(!is_null($ret['id'])){
-				echo "<span id='span_nome_".$ret['id']."' class='label label-danger'><input type='hidden' id='input_responsavel_".$ret['id']."' value='".$ret['id']."' >".$ret['nome']."</span>";
-			}
+				echo "<span id='span_nome_".$ret['id']."' class='label label-danger'><input type='hidden' id='input_responsavel_".$ret['id']."' value='".$ret['id']."' >".$ret['nome']."</span>
+				<script>NProgress.start();</script>
+				";
+			}			
 		break;
 		
 		case "teste":
 			$array = $_POST;
 			print_r($array);
-			$foo = $array['atendente_responsavel'];
+			
 		break;
 	}
   }	

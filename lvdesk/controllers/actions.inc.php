@@ -120,7 +120,7 @@ class Acoes{
 	while($array = $bind->fetch_assoc()){
 		echo "
 		<form id='form_link_".$array['id']."'>
-		<a class='list-group-item regular-link-msg' item=".$array['id']."  title='Ver mensagem' data-objeto='form_link_".$array['id']."'>	
+		<a class='list-group-item regular-link-msg' data-item=".$array['id']."  title='Ver mensagem' data-objeto='form_link_".$array['id']."'>	
 		  <div class='media'>
 			 <div class='media-heading'>".$array['nome_autor']."</div>
 			 <p class='m-0'>

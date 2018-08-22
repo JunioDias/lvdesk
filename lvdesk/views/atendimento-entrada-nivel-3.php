@@ -39,9 +39,24 @@ $row = $busca_autor->fetch_assoc();
 						
 					</div>
 					<div class="row">						
+						<div class="form-group col-md-12"  >
+							<label for="atendente_responsavel">Responsável</label>
+							<select class="form-control" name="atendente_responsavel" >
+							<option data-nome=''>Selecione um responsável...</option>
+				<?php
+				$query_provedor	= "SELECT nome, id FROM usuarios  WHERE lixo = 0 ORDER BY nome ASC";	
+				$result = $a->queryFree($query_provedor);
+				while($linhas = $result->fetch_assoc()){
+					echo "<option value='".$linhas['id']."' data-nome='".$linhas['nome']."'>".$linhas['nome']."</option>";
+				}
+				?>
+							</select>
+						</div>
+					</div>
+					<div class="row">						
 						<div class="form-group col-md-12" id="dynamicDiv1" >
-							<label for="atendente_responsavel">Responsáveis</label>
-							<input type="text" autocomplete="off" class="form-control col-sm-12" id="buscaDestinatario" placeholder="Digite o nome de usuário">
+							<label for="grupo_responsavel">Grupo Responsável (opcional)</label>
+							<input type="text" autocomplete="off" class="form-control col-sm-12" id="buscaDestinatario"placeholder="Digite o nome dos usuários co-responsáveis" > 
 							<div class="list-container">
 								<div class="list-group"></div>
 								<div class="list-search"></div>
@@ -74,7 +89,7 @@ $row = $busca_autor->fetch_assoc();
 					<div class="row">
 						<div class="form-group col-sm-12">
 							<select class="form-control" name="id_contratos" id="select_id_contratos">
-							<option nome=''>Selecione um provedor ativo...</option>
+							<option data-nome=''>Selecione um provedor ativo...</option>
 				<?php
 				$query_provedor	= "SELECT clientes.nome, contratos.id FROM clientes INNER JOIN contratos ON clientes.id = id_cliente WHERE clientes.lixo = 0 AND finaliza_em >= now() ORDER BY nome ASC";	
 				$result = $a->queryFree($query_provedor);
@@ -167,10 +182,10 @@ $row = $busca_autor->fetch_assoc();
 				</div>
 			</div>	
 		</div>		
-		<input class="btn btn-info rtrn-conteudo" id="" value="Atribuir" type="button" data-toggle='modal' data-target='#modal-atribui' data-objeto="form-dados"/>
+		<input class="btn btn-info " id="" value="Atribuir" type="button" data-toggle='modal' data-target='#modal-atribui' data-objeto="form-dados"/>
 		<!------------------- Validadores --------------------->
 		<section class="input_hidden" id="atribui_hidden_validadores">
-			<input type="hidden" name="flag" value="teste" />
+			<input type="hidden" name="flag" value="add" />
 			<input type="hidden" name="tbl" value="pav_inscritos" />
 			<input type="hidden" name="subTabela" value="pav_movimentos" />
 			<input type="hidden" name="retorno" value=".content-sized" />
@@ -179,6 +194,38 @@ $row = $busca_autor->fetch_assoc();
 		<!------------------- Validadores --------------------->
 	</form>
 </div>
+<!--------------------- Modal de Atribuição -------------------->
+<div id="modal-atribui" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+	<form id="form-atribui">
+		<div class="modal-dialog">
+		  <div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h3 class="modal-title" id="myModalLabel">Atribuir serviço</h3>
+			</div>
+			<div class="modal-body">
+				<p>Qual o destino deste serviço?</p>
+				<div class="form-group">
+					<select class="form-control atribuiGrupo" name='id_grupo'>	
+						<option>Selecione uma opção...</option>
+						<option value='1'>Comunicação interna</option>
+						<option value='2'>Auditoria</option>
+						<option value='3'>Despachar a cliente</option>
+					</select>	
+				</div>
+				<div id="callback-atribuiGrupo"></div>
+			</div>
+			<div class="modal-footer">					  				
+				<div class="form-group col-sm-12">
+					<button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Fechar</button>
+					<button type="button" class="btn btn-success waves-effect" id="atribui_envio" data-dismiss="modal" data-objeto="form-dados">Enviar</button>
+				</div>					
+				<input type="hidden" name="flag" id="flag" value="selecionaGrupoAtribuicao" />
+			</div>
+		  </div><!-- /.modal-content -->
+		</div><!-- /.modal.dialog -->
+	</form>
+</div><!-- /#modal-atribuição -->
 <script>
 jQuery(document).ready(function(){
 	$('#historico').wysihtml5({

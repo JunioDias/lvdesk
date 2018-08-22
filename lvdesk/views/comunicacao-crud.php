@@ -1,12 +1,12 @@
 <?php
 include("../controllers/model.inc.php");
-include("../controllers/logs.inc.php");
+include("../controllers/logs.inc.php"); 
 if(isset($_POST['id'])){//Campo id em comunicacao_interna definido em comunicacao.php ou actions.inc.php
 	$dados = $_POST;	
 	$id = $dados['id'];
-	$query_lidas = "UPDATE comunicacao_interna SET lida = 1 WHERE id = $id";	
+	$query_lidas = "UPDATE comunicacao_interna_movimentos SET lida = 1 WHERE id = $id";	
 	$query = "
-	SELECT c.*, u.nome AS nome_user FROM comunicacao_interna AS c
+	SELECT c.*, u.nome AS nome_user FROM pav_inscritos AS c
 	INNER JOIN usuarios AS u ON c.autor = u.id 
 	WHERE c.lixo = 0 AND c.id = '$id'";
 	$a = new Model;
@@ -16,6 +16,7 @@ if(isset($_POST['id'])){//Campo id em comunicacao_interna definido em comunicaca
 		$matriz = $result->fetch_assoc(); 
 	}
 }
+
 $data_abertura	= $matriz['data_abertura'];
 $grupo		 	= $matriz['grupo_responsavel'];
 $nome_cliente	= $matriz['nome_cliente'];
@@ -40,7 +41,9 @@ if(!empty($_SESSION["datalogin"])){
 	$datalogin 					= $_SESSION["datalogin"];
 	$atendente_responsavel		= $datalogin['id'];
 }
+
 $log = new Logs;
+
 ?>
 
 <form id="form-dados">
@@ -66,7 +69,7 @@ $log = new Logs;
 					<select class="form-control" name="status" >			
 					<?php					
 					if(isset($id)){
-						$queryStatus	= "SELECT status FROM comunicacao_interna WHERE id = $id";
+						$queryStatus	= "SELECT status FROM pav_inscritos WHERE id = $id";
 						$result = $a->queryFree($queryStatus);
 						while($linhas = $result->fetch_assoc()){
 							echo "
