@@ -8,7 +8,7 @@
 	<thead>
 	  <tr class="filtro">
 		<th>Data <a><i class="mdi mdi-filter-variant icone-filtro"></i></a></th>
-		<th>Autor <a><i class="mdi mdi-filter-variant icone-filtro"></i></a></th>        
+		<th>Para <a><i class="mdi mdi-filter-variant icone-filtro"></i></a></th>        
 		<th>Resumo <a><i class="mdi mdi-filter-variant icone-filtro"></i></a></th>
 		<th>Ações</th>
 	  </tr>
@@ -36,7 +36,7 @@
 	$flag		= "visualizar";
 	
 	$query 	= "SELECT c.*, u.nome AS nome_user FROM comunicacao_interna_movimentos AS c
-	INNER JOIN usuarios AS u ON c.id_autor = u.id 
+	INNER JOIN usuarios AS u ON c.id_destinatario = u.id 
 	WHERE c.lixo = 0 AND c.id_autor = '".$dadoslogin['id']."' ORDER BY data DESC";
 	$result = $a->queryFree($query);
 	if(!$result){

@@ -41,9 +41,7 @@ if(!empty($_SESSION["datalogin"])){
 	$datalogin 					= $_SESSION["datalogin"];
 	$atendente_responsavel		= $datalogin['id'];
 }
-
 $log = new Logs;
-
 ?>
 
 <form id="form-dados">

@@ -9,9 +9,9 @@ $act	= new Acoes;
 if(!empty($_SESSION["datalogin"])){
 	$dadoslogin = $_SESSION["datalogin"];
 
-$query_notif = "SELECT c.*, u.nome AS nome_autor FROM pav_inscritos AS c INNER JOIN usuarios AS u ON autor = u.id WHERE c.lixo = 0 ORDER BY c.data_abertura ASC LIMIT 3";
-$bind = $a->queryFree($query_notif);
-$bind2 = $a->queryFree($query_notif);
+$query_notif = "SELECT c.*, u.nome AS nome_autor FROM comunicacao_interna_movimentos AS c INNER JOIN usuarios AS u ON id_autor = u.id WHERE c.lixo = 0 AND c.lida = 0 ORDER BY c.data ASC LIMIT 3 ";
+$bind   = $a->queryFree($query_notif);
+$bind2  = $a->queryFree($query_notif);
 $notify = $bind2->fetch_assoc();
 ?>
 <html>
@@ -87,7 +87,7 @@ $notify = $bind2->fetch_assoc();
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-lg">
                                         <li class="text-center notifi-title">Mensagens novas <span class="badge badge-xs badge-success"><?= $lida['nmsg']; ?></span></li>
-                                        <li class="list-group">
+                                        <li class="list-group col-sm-12">
                                            <!-- list item-->
                                            <?php										   
 											  $act->notifyComm($bind); 										  
@@ -186,19 +186,18 @@ $notify = $bind2->fetch_assoc();
                     </div>
 
                     <div class="page-content-wrapper ">
+						<div class="content-sized">
+							<div class="container">
 
-                        <div class="container">
-
-                        <?php
-						if($dadoslogin['id_privilegio']==1){
-							$foo->dashboard();
-						}else{
-							$foo->dashboard('on');
-						}
-						?>
-                        </div><!-- container -->
-
-
+							<?php
+							if($dadoslogin['id_privilegio']==1){
+								$foo->dashboard();
+							}else{
+								$foo->dashboard('on');
+							}
+							?>
+							</div><!-- container -->
+						</div>
                     </div> <!-- Conteúdo do Page Wrapper -->
 
                 </div> <!-- fim do conteúdo -->

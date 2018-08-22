@@ -124,7 +124,7 @@ class Acoes{
 		  <div class='media'>
 			 <div class='media-heading'>".$array['nome_autor']."</div>
 			 <p class='m-0'>
-			   <small>".$array['historico']."</small>
+			   <small>".$array['descricao']."</small>
 			 </p>
 		  </div>
 		</a>

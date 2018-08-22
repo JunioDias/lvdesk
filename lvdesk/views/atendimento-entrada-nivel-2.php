@@ -76,16 +76,15 @@ $log = new Logs;
 				</div>
 				<div class="form-group col-sm-6">
 					<label for="atendente_responsavel">Atendente responsável</label>
-					<select class="form-control" name="atendente_responsavel" >			
-					<?php
-					$queryAtend	= "SELECT id, nome FROM atendentes WHERE tipo_atendente = '1' AND lixo = 0";
-					if(isset($id)){
-						$result = $a->queryFree($queryAtend);
-						while($linhas = $result->fetch_assoc()){
-							echo "<option value='".$linhas['id']."' ".($linhas['id']==$id ? 'selected' : '').">".$linhas['nome']."</option>";
-						}	
-					}				
-					?>
+					<select class="form-control" name="atendente_responsavel" >						
+						<option data-nome=''>Selecione um responsável...</option>
+				<?php
+				$query_provedor	= "SELECT nome, id FROM usuarios  WHERE lixo = 0 ORDER BY nome ASC";	
+				$result = $a->queryFree($query_provedor);
+				while($linhas = $result->fetch_assoc()){
+					echo "<option value='".$linhas['id']."' data-nome='".$linhas['nome']."' ".($linhas['id']== $atendente_responsavel  ? 'selected' : '').">".$linhas['nome']."</option>";
+				}
+				?>
 					</select>	
 				</div>
 			</div>
