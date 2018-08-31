@@ -123,8 +123,7 @@ $flag		= "entrada";
 			  <input type="text" class="form-control" name="endereco" />
 			</div>
 			<section class="input_hidden">
-				<input type="hidden" name='id_provedor' />
-				
+				<input type="hidden" name='id_provedor' />				
 			</section>
 		</form>	  
 		</div>

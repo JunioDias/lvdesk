@@ -338,7 +338,7 @@ $(document).ready(function(){
 	.on('click', '.regular-link', function(){ //links comuns para navegação casual.
    		NProgress.start();
 		$(".content").load($(this).attr("link"));
-		
+		NProgress.done();
 	});
 	
 	$("body")
@@ -729,6 +729,24 @@ $(document).ready(function(){
 	.on("click", '.x', function() {
 		$(this).parent("span").remove();
 	});
+	
+	$("body")
+	.on("click", '.conecta-hubsoft', function() {
+		NProgress.start();
+		$.ajax({
+			url: "controllers/sys/crud.sys.php",
+			data: {
+				flag: "teste",
+			},
+			type: 'post',
+			processData: true,  
+			success: function(x){
+				$(".content-sized").html(x);	
+			}
+		});
+		NProgress.done();
+	});
+	
 });
 // para execução de funções retardatárias
 var Menufunction = [];

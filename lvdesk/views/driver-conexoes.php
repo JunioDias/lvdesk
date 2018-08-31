@@ -4,20 +4,19 @@
 </div>
 <div class="content-sized">
 <input class="btn btn-success btn_driver regular-link" value="Incluir" type="button" link="views/driver-conexoes-crud.php">
+<input class="btn btn-info btn_driver regular-link" value="Conexões OAuth" type="button" link="views/driver-oauth-conexoes-crud.php">
 <table class="table table-hover" id="tabela">
 <thead>
   <tr class="filtro">
 	<th>Id <a><i class="mdi mdi-filter-variant icone-filtro"></i></a></th>
 	<th>Sistema <a><i class="mdi mdi-filter-variant icone-filtro"></i></a></th>
-    <th>Nome do banco <a><i class="mdi mdi-filter-variant icone-filtro"></i></a></th>        
-	<th>Status <a><i class="mdi mdi-filter-variant icone-filtro"></i></a></th>
+    <th>Status <a><i class="mdi mdi-filter-variant icone-filtro"></i></a></th>
 	<th>Ações</th>
   </tr>
   <tr class="input-filtro" style="display:none;">
 	<th><input type="text" class="form-control" id="txtColuna1"/></th>
 	<th><input type="text" class="form-control" id="txtColuna2"/></th>
 	<th><input type="text" class="form-control" id="txtColuna3"/></th>
-	<th><input type="text" class="form-control" id="txtColuna4"/></th>
 	<th></th>
   </tr> 
 </thead>
@@ -45,7 +44,7 @@ else{
 		<tr>	
 		<td >".$linhas['id']."</td>
 		<td >".$linhas['nome']."</td>
-		<td >".$linhas['nome_bd']."</td>
+		
 		<td class='text-danger' id='target-status".$linhas['id']."'>
 		<div id='progress' style='width: 100%;'>
 			<div id='barra".$linhas['id']."' style='width: 0%; height: 7px; background-color: green;'>

@@ -4,6 +4,71 @@ if(!empty($_POST)){
 	$a = new Model;
 	$dados = $_POST;
 	switch($dados['flag']){
+		case "OAuth":
+			function requisicao($url, $method, $body = [], $token = null){
+				$req = curl_init($url);
+				$header = array();
+				$header[] = 'Accept: application/json';
+				if(!is_null($token)){
+					$header[] = 'Authorization: ' . $token;
+				}
+
+				curl_setopt($req, CURLOPT_HTTPHEADER, $header);
+				curl_setopt($req, CURLOPT_RETURNTRANSFER, true);
+
+				if($method == "POST"){
+					curl_setopt($req, CURLOPT_POST, true );
+					curl_setopt($req, CURLOPT_POSTFIELDS, http_build_query($body));
+				}
+
+				$respCode = curl_getinfo($req, CURLINFO_HTTP_CODE);
+				$resp = json_decode(curl_exec($req), true);
+				curl_close($req);
+
+				return $resp;
+			}
+
+			$clientId = "3";
+			$clientSecret = "ONe7Ns48Y30tBMzneWAwL6hWuh4ze09Jf7qcMsO9";
+			$username = "api@hubsoft.com.br";
+			$password = "api123api";
+			$url = "https://api.dev.hubsoft.com.br";
+			$urlOauth = $url . "/oauth/token";			
+
+			//Body da requisição do oauth
+			$requestBody = [
+				"client_id"=>$clientId,
+				"client_secret"=>$clientSecret,
+				"username"=>$username,
+				"password"=>$password,
+				"grant_type"=>"password"
+			];						
+			if(isset($_POST['nome']) || isset($_POST['cpf'])){
+				$nome 	= htmlentities(urlencode($_POST['nome']));
+				$cpf	= htmlentities(urlencode($_POST['cpf']));
+				$query = $a->termosPesquisa($nome, 'nome_razaosocial', $cpf, 'cpf_cnpj');
+				$authToken = $_SESSION['authorizationToken'];
+				if(isset($query)){
+					$urlCliente = $url . "/api/v1/integracao/cliente?".$query;			
+					//Faz requisição do cliente
+					$reqCliente = requisicao($urlCliente, 'GET', [], $authToken);
+					if(isset($dados['id_provedor'])){ //Código #55
+						$_SESSION['resultado_pesquisa'] = $reqCliente;
+						$_SESSION['resultado_pesquisa']['id'] = $dados['id_provedor'];
+					}else{
+						$_SESSION['resultado_pesquisa'] = $reqCliente;
+					}
+					include("../../views/resultado-pesquisa-provedor.php");
+				}
+			}else{
+				//Faz autorização do oauth
+				$reqOauth = requisicao($urlOauth, 'POST', $requestBody);
+				//Monta o token Authorization 
+				$tokenType = $reqOauth['token_type'];
+				$accessToken = $reqOauth['access_token'];
+				$_SESSION['authorizationToken'] = $tokenType . " " . $accessToken;
+			}			
+		break;
 		case "PostgreSQL":
 			if($dados['id']){
 				$qry = "SELECT * FROM pav WHERE id='".$dados['id']."'";

@@ -559,7 +559,7 @@ if(!empty($_POST)){
 				$id_provedor = $_SESSION['resultado_pesquisa']['id'];
 				unset($_SESSION['resultado_pesquisa']['id']);
 			}else{
-				echo "ATENÇÃO: ID do resultado da pesquisa retornou vazio!<br>";
+				echo "ATENÇÃO: ID do resultado da pesquisa retornou vazio!<br> Consulte pav.sys.php -> Código #55";
 				//print_r($_SESSION['resultado_pesquisa']);
 			}
 						
@@ -750,9 +750,7 @@ if(!empty($_POST)){
 		break;
 		
 		case "teste":
-			$array = $_POST;
-			print_r($array);
-			
+		
 		break;
 	}
   }	

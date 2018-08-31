@@ -293,6 +293,19 @@ class Model{
 		}
 		return $query;
 	}
+	
+	public function termosPesquisa($itemA = NULL, $itemA_campo = NULL, $itemB = NULL, $itemB_campo = NULL){
+		$query = "busca=";
+		if($itemA){
+			$query .= $itemA_campo."&termo_busca=".$itemA;
+		}
+		if($itemA && $itemB){
+			$query .= "&".$itemB_campo."&termo_busca=".$itemB;
+		}else if($itemB){
+			$query .= $itemB_campo."&termo_busca=".$itemB;
+		}
+		return $query;		
+	}
 
 	function upd($tabela, $array, $id = NULL){
 		global $mysqli;

@@ -1,9 +1,4 @@
-<!--<div class="page-header-title">
-  <h4 class="page-title">Resultado da Pesquisa</h4>
-  <p>Listagem de clientes</p>
-</div>-->
 <div class="content-sized">
-
 <table class="table table-hover" id="tabela">
 <thead>
   <tr class="filtro">
@@ -23,36 +18,35 @@
 </thead>
 <tbody>
 <?php
-/* include("../../controllers/model.inc.php"); */
 include("../../controllers/actions.inc.php");
-$flag			= "entrada";
-$linhas 		= $_SESSION['resultado_pesquisa']; unset($linhas['id']);
-$nomediv		= ".content";					#nome da div onde o callback vai ocorrer
-$tabela  		= "usuarios";					#tabela principal, alvo da rotina
-$cbkedit		= "views/atendimento-crud.php";	#callback do botão Editar
-$cbkdel 		= "views/atendimento.php";  	#callback do botão Excluir
-$link			= "controllers/sys/crud.sys.php";
-$i = 0;
-$botoes = new Acoes();
-$a = new Model();
-if(!$linhas){
-	echo"<tr><td>Nenhum registro foi encontrado.</td></tr>";
-}
-else{
-	
-	while($i < count($linhas)){
-		echo("
-		<tr>
-		<td>".$linhas[$i]['cpf_cnpj']."</td>
-		<td>".$linhas[$i]['nome_cliente']."</td>
-		<td>".$linhas[$i]['endereco']."</td>
-		<td>".$linhas[$i]['telefone_principal']."</td>
-		<td>");	$botoes->darEntrada($i, $linhas[$i]['cpf_cnpj'], $link, $flag); echo("</td>
-		</tr>
-		");	
-		$i++;
+if(isset($_SESSION['resultado_pesquisa'])){	
+	$flag			= "entrada";
+	$linhas 		= $_SESSION['resultado_pesquisa']['clientes']; unset($linhas['id']);
+	$nomediv		= ".content";					#nome da div onde o callback vai ocorrer
+	$tabela  		= "usuarios";					#tabela principal, alvo da rotina
+	$cbkedit		= "views/atendimento-crud.php";	#callback do botão Editar
+	$cbkdel 		= "views/atendimento.php";  	#callback do botão Excluir
+	$link			= "controllers/sys/crud.sys.php";
+	$i = 0;
+	$botoes = new Acoes();
+	$a = new Model();
+	if(!$linhas){
+		echo"<tr><td>Nenhum registro foi encontrado.</td></tr>";
 	}
-}
+	else{		
+		while($i < count($linhas)){
+			echo("
+			<tr>
+				<td>".$linhas[$i]['cpf_cnpj']."</td>
+				<td>".$linhas[$i]['nome_razaosocial']."</td>
+				<td>".(isset($linhas[$i]['servicos'][0]['endereco_cobranca']['completo']) ? $linhas[$i]['servicos'][0]['endereco_cobranca']['completo'] : '<span style=color:red;> Não cadastrado</span>')."</td>
+				<td>".$linhas[$i]['telefone_primario']."</td>
+				<td>");	$botoes->darEntrada($i, $linhas[$i]['cpf_cnpj'], $link, $flag); echo("</td>
+			</tr>
+			");	
+			$i++;
+		} 
+	}
 ?>	
 </tbody>
 </table>
@@ -64,3 +58,15 @@ else{
 <script>
 NProgress.done();
 </script>
+<?php 
+} //Fim do if(isset($_SESSION['resultado_pesquisa'])
+else{
+	$flag			= "entrada";
+	$linhas 		= $_SESSION['resultado_pesquisa']; unset($linhas['id']);
+	$nomediv		= ".content";					#nome da div onde o callback vai ocorrer
+	$tabela  		= "usuarios";					#tabela principal, alvo da rotina
+	$cbkedit		= "views/atendimento-crud.php";	#callback do botão Editar
+	$cbkdel 		= "views/atendimento.php";  	#callback do botão Excluir
+	$link			= "controllers/sys/crud.sys.php";
+}
+?>
