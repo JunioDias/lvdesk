@@ -62,7 +62,7 @@ if(isset($_POST['id'])){
 				<input class="filestyle" data-input="false" id="filestyle-1" style="position: absolute; clip: rect(0px, 0px, 0px, 0px);" tabindex="-1" type="file" name="foto" title="Extensões válidas .jpg, .jpeg, .gif e .png"><div class="bootstrap-filestyle input-group"><span class="group-span-filestyle " tabindex="0"><label for="filestyle-1" class="btn btn-default "><span class="icon-span-filestyle glyphicon glyphicon-folder-open"></span> <span class="buttonText">Selecionar</span></label></span></div>
 			</div>
 		</div>
-		<input class="btn btn-default rtrn-conteudo" value="Salvar" type="button" objeto="form-modulo">
+		<input class="btn btn-default rtrn-conteudo" value="Salvar" type="button" data-objeto="form-modulo">
 	<?php 
 	if(isset($id)){
 		echo "<input type='hidden' name='id' value='$id'/>";
@@ -102,4 +102,5 @@ $(document).ready(function(){
 		}					
 	});
 }); 
+NProgress.done();
 </script>

@@ -42,13 +42,19 @@ if(!empty($_POST)){
 				"username"=>$username,
 				"password"=>$password,
 				"grant_type"=>"password"
-			];						
+			];		
+
+			if(isset($dados['listagem'])){//Código #61
+				unset($dados['listagem']);
+				$_SESSION["datalogin"]["id_contrato"] = $dados['contrato'];	
+			}			
 			if(isset($_POST['nome']) || isset($_POST['cpf'])){
 				$nome 	= htmlentities(urlencode($_POST['nome']));
 				$cpf	= htmlentities(urlencode($_POST['cpf']));
 				$query = $a->termosPesquisa($nome, 'nome_razaosocial', $cpf, 'cpf_cnpj');
 				$authToken = $_SESSION['authorizationToken'];
-				if(isset($query)){
+				
+				if(isset($query)){					
 					$urlCliente = $url . "/api/v1/integracao/cliente?".$query;			
 					//Faz requisição do cliente
 					$reqCliente = requisicao($urlCliente, 'GET', [], $authToken);
@@ -57,7 +63,7 @@ if(!empty($_POST)){
 						$_SESSION['resultado_pesquisa']['id'] = $dados['id_provedor'];
 					}else{
 						$_SESSION['resultado_pesquisa'] = $reqCliente;
-					}
+					}		
 					include("../../views/resultado-pesquisa-provedor.php");
 				}
 			}else{

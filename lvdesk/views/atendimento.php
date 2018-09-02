@@ -16,6 +16,9 @@ if(!empty($_SESSION["datalogin"])){
 		$query_cliente = "SELECT * FROM clientes WHERE id = '".$permissao['id_cliente']."' AND lixo = 0";
 		$foo = $a->queryFree($query_cliente);
 		$arr_cliente = $foo->fetch_assoc();
+	}else{
+		echo "Erro código #61 em  pav.sys.php. <br>Entre em contato com o surporte.";
+		die();
 	}
 }
 
@@ -27,18 +30,18 @@ if($id_provedor){//Existe um provedor
 		$matriz = $result->fetch_assoc();
 	}
 	
-	$nome_cliente	= $array['nome_cliente'];
+	$nome_cliente	= $array['nome_razaosocial'];
 	$cpf_cnpj		= $array['cpf_cnpj'];
 	$provedor 	 	= $arr_cliente['nome'];
-	$endereco 		= $array['endereco'];
-	$telefone		= $array['telefone_principal'];
-	$usuario		= $array['usuario_autenticacao'];
-	$senha_pppoe	= $array['senha_autenticacao'];
+	$endereco 		= $array['servicos'][0]['endereco_cobranca']['completo'];
+	$telefone		= $array['telefone_primario'];
+	$usuario		= $array['servicos'][0]['login'];
+	$senha_pppoe	= $array['servicos'][0]['senha'];
 	// $nas			= $array['nas'];
 	// $pppoe		= $array['pppoe'];
-	$ip				= $array['ipv4'];
+	$ip				= $array['servicos'][0]['ipv4'];
 	$script			= $matriz['script'];
-	$status			= $array['status'];
+	$status			= $array['servicos'][0]['status'];
 	$flag	 		= "add";
 	$retorno		= ".content-sized";
 	

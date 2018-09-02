@@ -36,7 +36,7 @@ class Logs {
 				}else{
 					echo "btn-success";
 				}
-				echo " waves-effect waves-light envia-modal' data-toggle='modal' data-target='#modalLastLog' cliente_id=".$linhas['id']." item=".$linhas['protocol']." objeto='form_ultimos_atendimentos'>";
+				echo " waves-effect waves-light envia-modal' data-toggle='modal' data-target='#modalLastLog' cliente_id=".$linhas['id']." item=".$linhas['protocol']." data-objeto='form_ultimos_atendimentos'>";
 				if($linhas['status'] == '0'){
 					echo "Na fila desde "; 
 				}else if($linhas['status'] == '1'){

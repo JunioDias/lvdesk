@@ -560,11 +560,10 @@ if(!empty($_POST)){
 				unset($_SESSION['resultado_pesquisa']['id']);
 			}else{
 				echo "ATENÇÃO: ID do resultado da pesquisa retornou vazio!<br> Consulte pav.sys.php -> Código #55";
-				//print_r($_SESSION['resultado_pesquisa']);
 			}
-						
+			#print_r($_SESSION['resultado_pesquisa']['clientes']);die();
 			$indice = $dados["idd"];			
-			foreach($_SESSION['resultado_pesquisa'][$indice] as $key=>$value)
+			foreach($_SESSION['resultado_pesquisa']['clientes'][$indice] as $key=>$value)
 				$array[$key] = $value;
 				
 			include("../../views/atendimento.php");	
