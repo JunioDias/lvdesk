@@ -27,41 +27,42 @@ $_SESSION['mail_box'] = imap_open("{" . $incoming_server . ":" . $port . "/imap/
 
 if ($_SESSION['mail_box']) {
 	$mail_box = $_SESSION['mail_box'];
-    $total_de_mensagens = imap_num_msg($mail_box);
-	echo "<h4>Total de Mensagens: ".$total_de_mensagens."</h4>";
-	echo "<table class='table table-hover'>
-	<tr>
-	<th style=width:10%;>Remetente</th>
-	<th style=width:30%;>Data</th>
-	<th>Assunto</th>
-	</tr>
-	";
-    if ($total_de_mensagens > 0) {
-        for ($mensagem = 1; $mensagem <= $total_de_mensagens; $mensagem++) {			
-           
-			$header = imap_headerinfo($mail_box, $mensagem);
-			$oldString = $header->subject;
-			$assunto = convert_encoding($oldString, 'UTF-8');
-			echo "<tr><td rowspan='2'>".$header->senderaddress." </td><td rowspan='2'>".date('d-m-Y H:i:s', strtotime($header->date))." </td>
-			<td rowspan='2' colspan='2'> <a href='.'>".$assunto. "</a></td></tr>";
-
-            /*
-             *  o terceiro parametro pode ser
-             *  0=> retorna o body da mensagem com o texto que o servidor recebe
-             *  1=> retorna somente o conteudo da mensagem em plain-text
-             *  2=> retorna o conteudo da mensagem em html
-            
-
-            echo "<hr />";
-            $body_email = (imap_fetchbody($mail_box, $mensagem, 2) );
-            var_dump($body_email);
-
-            echo "<hr />";*/
-                 
-            //imap_delete($mail_box, $mensagem);
-            //imap_expunge($mail_box);
-        }
-    }
+	$numero_mens_nao_lidas = imap_num_recent($mail_box);
+	#if($numero_mens_nao_lidas > 0){
+		$total_de_mensagens = imap_num_msg($mail_box);
+		echo "<h4>Total de Mensagens: ".$total_de_mensagens."</h4>";
+		echo "
+		<table class='table table-hover' id='tabela'>
+		<thead>
+			<tr class='filtro'>
+				<th>Remetente<a><i class='mdi mdi-filter-variant icone-filtro'></i></a></th>
+				<th>Data<a><i class='mdi mdi-filter-variant icone-filtro'></i></a></th>
+				<th>Assunto<a><i class='mdi mdi-filter-variant icone-filtro'></i></a></th>
+			</tr>
+			<tr class='input-filtro' style='display:none;'>
+				<th><input type='text' class='form-control' id='txtColuna1'/></th>
+				<th><input type='text' class='form-control' id='txtColuna2'/></th>
+				<th><input type='text' class='form-control' id='txtColuna3'/></th>
+			</tr>
+		</thead>
+		<tbody>
+		";
+		if ($total_de_mensagens > 0) {
+			for ($mensagem = 1; $mensagem <= $total_de_mensagens; $mensagem++) {
+				$header = imap_headerinfo($mail_box, $mensagem);
+				#var_dump($header);die();
+				$oldString = $header->subject;
+				$assunto = convert_encoding($oldString, 'UTF-8');			
+				echo "
+				<tr>
+					<td rowspan='2'>".$header->senderaddress."</td>			
+					<td rowspan='2'>".date('d-m-Y H:i:s', strtotime($header->date))." </td>
+					<td rowspan='2' colspan='2'><a href='.'>".$assunto."</a></td>
+				</tr>";
+			}
+			echo "</tbody></table>";
+		}
+	#}
     imap_close($mail_box); 
 	echo "<script>NProgress.done();</script>";
 }

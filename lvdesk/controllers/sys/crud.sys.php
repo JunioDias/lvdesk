@@ -70,9 +70,18 @@ if(!empty($_POST)){
 				unset($dados["_wysihtml5_mode"]);
 			}
 			
+			if(isset($dados['contatos'])){//campo de clientes que permite inserção dos contatos de e-mail
+				$contatos = $dados['contatos'];
+				unset($dados['contatos']);
+				
+				$contatos = str_replace(array("\n", "\r", "&nbsp;", "/\r|\n/", "<br>", "<div>", "</div>"), "", $contatos);
+				$contatos = preg_replace( "/\r|\n/", "", $contatos);
+				$array_contatos = explode(",", $contatos);
+			}
+			
 			if(isset($dados['id_contratos'])){
 				if($dados['id_contratos']==0){//inclusão de comunicado interno sem atribuição de clientes
-					//nenhum atendimento é computado
+					//nenhum atendimento é computado: tratar posteriormente com retorno de erro
 				}else{
 					if(isset($dados["idd"])){
 						if($dados["idd"] == "solucionado")	{
@@ -165,7 +174,16 @@ if(!empty($_POST)){
 				unset($dados['chave_cerquilha']);
 				$grab = $a->add($tabela, $dados);
 				if($grab == true){
+					if(isset($array_contatos)){//agenda de contatos válidos para clientes que usam e-mail
+						$ult_id = $_SESSION['ult_id'];
+						foreach($array_contatos as $value){
+							$newcontato['contatos'] 	= $value;
+							$newcontato['id_cliente'] 	= $ult_id;
+							$a->add("agenda_contatos", $newcontato);
+						}
+					}
 					if(isset($newlog['tabela'])){//tabelas auxiliares de movimentação
+						
 						if($newlog['tabela']=="pav_movimentos"){
 							$newlog['id_pav_inscritos'] = $_SESSION['ult_id'];
 							$tabela = $newlog['tabela'];
@@ -191,7 +209,7 @@ if(!empty($_POST)){
 									$a->add($tabela, $newlog);
 								}
 							}
-						}					
+						}			
 					}
 					if(isset($select_retorno)){
 						$foo = $a->queryFree("SELECT id, nome FROM pav");
@@ -460,12 +478,31 @@ if(!empty($_POST)){
 				unset($dados['idd']);
 			}
 			
+			if(isset($dados['contatos'])){//campo de clientes que permite inserção dos contatos de e-mail
+				$contatos = $dados['contatos'];
+				unset($dados['contatos']);
+				
+				$contatos = str_replace(array("\n", "\r", "&nbsp;", "/\r|\n/", "<br>"), "", $contatos);
+				$contatos = preg_replace( "/\r|\n/", "", $contatos);
+				$array_contatos = explode(",", $contatos);
+			}
+			
 			unset($dados["confirmasenha"], $dados["flag"], $dados["tbl"], $dados["caminho"], $dados["retorno"], $dados['subTabela'] );
 			
 			if(isset($dados['id'])){
 				if(in_array(true, array_map('is_array', $dados), true) == ''){
 					unset($dados['chave_cerquilha']);
 					$a->upd($tabela, $dados, $dados['id']);
+					
+					if(isset($array_contatos)){
+						$query_delete = "DELETE FROM agenda_contatos WHERE id_cliente = ".$dados['id'];
+						$a->queryFree($query_delete);
+						$atualiza_contatos['id_cliente'] = $dados['id'];
+						foreach($array_contatos as $value){
+							$atualiza_contatos['contatos'] = $value;
+							$a->add("agenda_contatos", $atualiza_contatos);
+						}
+					}
 				}else{
 					/* $i 	= 1; 				
 					$valor = NULL; */

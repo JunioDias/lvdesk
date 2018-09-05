@@ -63,7 +63,8 @@ if(!empty($_POST)){
 						$_SESSION['resultado_pesquisa']['id'] = $dados['id_provedor'];
 					}else{
 						$_SESSION['resultado_pesquisa'] = $reqCliente;
-					}		
+					}
+					//print_r($_SESSION['resultado_pesquisa']);
 					include("../../views/resultado-pesquisa-provedor.php");
 				}
 			}else{

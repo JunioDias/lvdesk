@@ -37,8 +37,8 @@ if($id_provedor){//Existe um provedor
 	$telefone		= $array['telefone_primario'];
 	$usuario		= $array['servicos'][0]['login'];
 	$senha_pppoe	= $array['servicos'][0]['senha'];
-	// $nas			= $array['nas'];
-	// $pppoe		= $array['pppoe'];
+	$nas			= $array['servicos'][0]['equipamento_conexao']['ipv4'];
+	$pppoe			= $array['servicos'][0]['equipamento_conexao']['nome'];
 	$ip				= $array['servicos'][0]['ipv4'];
 	$script			= $matriz['script'];
 	$status			= $array['servicos'][0]['status'];
@@ -130,11 +130,11 @@ if($id_provedor){//Existe um provedor
 					<div class="form-group col-sm-4">
 					<div class="form-group">
 						<label for="nas">NAS IP</label>
-						<input type="text" class="form-control"  value="">			
+						<input type="text" class="form-control" name='nas'  value="<?= $nas;?>">			
 					</div>
 					<div class="form-group">
 						<label for="pppoe">PPPoE</label>
-						<input type="text" class="form-control"  value="">
+						<input type="text" class="form-control" name='pppoe' value="<?= $pppoe;?>">
 					</div>
 					
 					<div class="form-group">
@@ -155,8 +155,7 @@ if($id_provedor){//Existe um provedor
 						<section class="section_historico_log">						
 							<?php
 							$log->ultimosAtendimentos($array['cpf_cnpj']);	
-							?>						
-							
+							?>	
 						</section>						
 					</div>
 				</div>

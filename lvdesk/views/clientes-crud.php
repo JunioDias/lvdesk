@@ -4,10 +4,22 @@ $retorno	= ".content-sized";
 $a = new Model();
 if(isset($_POST['id'])){
 	$qry = "SELECT * FROM clientes WHERE lixo = 0 AND id='".$_POST['id']."'";	
-	$a->queryFree($qry);	
-	$edicao 	= $_POST;
-	$edicao 	= $result->fetch_assoc();
+	$resultado = $a->queryFree($qry);
+	$edicao 	= $resultado->fetch_assoc();
 	
+	$query_contatos = "SELECT contatos FROM agenda_contatos WHERE lixo = 0 AND id_cliente = ".$_POST['id'];						
+	$foo = $a->queryFree($query_contatos);	
+	$woo = $foo->num_rows;
+	$string_contato = NULL;
+	$i = 1;
+	while($contatos_agenda = $foo->fetch_assoc()){
+		$string_contato .= $contatos_agenda['contatos'];		
+		if($i < $woo){
+			$string_contato .= ', ';
+		}
+		$i++;
+	}
+		
 	$id		   		= $edicao['id'];
 	$nome			= $edicao['nome'];
 	$usuario 	 	= $edicao['usuario'];
@@ -29,6 +41,7 @@ if(isset($_POST['id'])){
 	$uf				= $edicao['uf'];
 	$tipo_perfil	= $edicao['tipo_perfil'];	
 	$foto			= $edicao['foto'];
+	
 	$flag	 		= "update";
 }else{
 	$id		   		= NULL;
@@ -52,6 +65,7 @@ if(isset($_POST['id'])){
 	$uf				= NULL;
 	$tipo_perfil	= NULL;
 	$foto			= NULL;
+	$string_contato = NULL;
 	$flag	 		= "add";
 	
 	echo $head = '
@@ -197,7 +211,28 @@ if(isset($_POST['id'])){
 					<input type="text" class="form-control" name="uf" value="<?= $uf;?>"/>
 				</div>
 			</div>
-		</div>
+		</div>	
+		
+		<div class="col-sm-12">
+			<div class="panel-group" id="accordion-test-2">
+				<div class="panel panel-success panel-color">
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							<a data-toggle="collapse" data-parent="#accordion-test-2" href="#collapseOne-2" aria-expanded="false" class="collapsed">
+								Adicionar e-mails
+							</a>
+						</h4>
+					</div>
+					<div id="collapseOne-2" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+						<div class="panel-body">
+						<p>Separe os itens por vírgula (,)</p>
+						<textarea class="wysihtml5-textarea form-control" name="contatos" id="contatos" rows="9" ><?=$string_contato;?></textarea>
+						</div>
+					</div>
+				</div>
+			</div>	
+		</div>	
+		
 	</div>
 </div>
 <?= ((isset($id)) ? "<input type='hidden' name='id' value='$id'/>" : '');?>
@@ -297,6 +332,9 @@ if(isset($_POST['id'])){
 <script>
 	jQuery(document).ready(function(){
 		$('#script').wysihtml5({
+		  locale: 'pt-BR'
+		}); 
+		$('#contatos').wysihtml5({
 		  locale: 'pt-BR'
 		}); 
 	});
