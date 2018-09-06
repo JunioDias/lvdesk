@@ -6,8 +6,8 @@ $password 			= "lvn37w0rk5";
 $incoming_server 	= "srv214.prodns.com.br";
 $port 				= "993";
 
-$_SESSION['mail_box'] = imap_open("{".$incoming_server.":".$port."/imap/ssl/novalidate-cert}INBOX", $username, $password);
-$total_de_mensagens = imap_num_msg($_SESSION['mail_box']);
+/* $_SESSION['mail_box'] = imap_open("{".$incoming_server.":".$port."/imap/ssl/novalidate-cert}INBOX", $username, $password);
+$total_de_mensagens = imap_num_msg($_SESSION['mail_box']); */
 ?>
 <div class="page-header-title">
   <h4 class="page-title">Leitura de e-mails</h4>
@@ -26,7 +26,7 @@ $total_de_mensagens = imap_num_msg($_SESSION['mail_box']);
 				</div>
 				<div class="panel-body p-t-10">
 					<h2 class="m-t-0 m-b-15"><i class="mdi mdi-email-open text-danger m-r-10"></i></h2>
-					<p class="text-muted m-b-0 m-t-20"> Ver <?=$total_de_mensagens;?> e-mails</p>
+					<p class="text-muted m-b-0 m-t-20"> Ver e-mails</p>
 				</div>
 			</div>
 			</a>

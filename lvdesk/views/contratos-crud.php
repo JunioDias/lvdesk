@@ -102,7 +102,7 @@ if(isset($_POST['id'])){
 					<label for="id_planos_mov">Planos</label>
 						<br>					
 						<?php	
-						$query = "SELECT * FROM planos WHERE lixo = 0 ORDER BY nome ASC";
+						$query = "SELECT * FROM planos WHERE lixo = 0 AND ativo = 0 ORDER BY nome ASC";
 						$resultado = $a->queryFree($query);
 						if(isset($resultado)){
 							while($linhas = $resultado->fetch_assoc()){					

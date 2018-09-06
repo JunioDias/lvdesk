@@ -63,6 +63,25 @@ if(isset($_POST['id'])){
 				</div>
 			</div>
 		</div>	
+		<div class="row">
+			<div class="form-group col-sm-6">
+				<label for="ativo">Ativar plano?</label>
+				<select class="form-control" name="ativo">							
+					<?php					
+					if(isset($id)){
+						$queryAtivo	= "SELECT ativo FROM planos WHERE id = $id";
+						$result = $a->queryFree($queryAtivo);
+						while($linhas = $result->fetch_assoc()){
+							echo "
+							<option value='0' ".($linhas['status']== 0  ? 'selected' : '').">Sim</option>
+							<option value='1' ".($linhas['status']== 1  ? 'selected' : '').">Não</option>
+							";
+						}	
+					}				
+					?>
+				</select>
+			</div>
+		</div>
 	</div>
 </div>
 

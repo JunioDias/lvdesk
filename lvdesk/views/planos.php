@@ -11,6 +11,7 @@
 	<th>Título <a><i class="mdi mdi-filter-variant icone-filtro"></i></a></th>        
 	<th>Limite <a><i class="mdi mdi-filter-variant icone-filtro"></i></a></th>
 	<th>Preço <a><i class="mdi mdi-filter-variant icone-filtro"></i></a></th>
+	<th>Status <a><i class="mdi mdi-filter-variant icone-filtro"></i></a></th>
 	<th>Ações</th>
   </tr>
   <tr class="input-filtro" style="display:none;">
@@ -18,6 +19,7 @@
 	<th><input type="text" class="form-control" id="txtColuna2"/></th>
 	<th><input type="text" class="form-control" id="txtColuna3"/></th>
 	<th><input type="text" class="form-control" id="txtColuna4"/></th>
+	<th><input type="text" class="form-control" id="txtColuna5"/></th>
 	<th></th>
   </tr> 
 </thead>
@@ -45,6 +47,7 @@ if($result){
 		<td>".$linhas['nome']."</td>
 		<td>".$linhas['limite']."</td>
 		<td>".$a->moneyFormatReal($linhas['valor_unit'])."</td>
+		<td>".($linhas['ativo'] == 1 ? '<span style=color:red;>Inativo</span>' : '<span style=color:green;>Ativo</span>')."</td>
 		<td>");	$botoes->crudButtons($linhas['id'], $cbkdel, $cbkedit, $link); echo("</td>
 		</tr>
 		");	
