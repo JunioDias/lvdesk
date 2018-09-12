@@ -135,5 +135,18 @@ class Acoes{
 		";
 	}
   }
+  
+  public function gradeEmail($array){
+		
+		#Montagem do layout			
+		echo "
+		<tr>
+		<td>$array[fromaddress]</td>
+		<td>$array[subject]</td>
+		<td>".date('d/m/Y H:i:s', strtotime($array['date']))."</td>				
+		<td>
+		</tr>
+		";			
+  }
 }
 ?>

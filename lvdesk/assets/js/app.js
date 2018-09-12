@@ -338,7 +338,7 @@ $(document).ready(function(){
 	.on('click', '.regular-link', function(){ //links comuns para navegação casual.
    		NProgress.start();
 		$(".content").load($(this).attr("link"));
-		NProgress.done();
+		//NProgress.done();
 	});
 	
 	$("body")
@@ -525,8 +525,12 @@ $(document).ready(function(){
 	.on("click", ".rtrn-conteudo-listagem", function (event){ 
 		if($(this).attr('flag') == 'exc'){
 			$(".modal-footer").append("<input type='hidden' name='id' value='"+$(this).attr("item")+"'>");
-			$(".modal-footer").append("<input type='hidden' name='caminho' value='"+$(this).attr("caminho")+"'>");
-			$(".modal-footer").append("<input type='hidden' name='flag' value='"+$(this).attr("flag")+"'>");
+			$(".modal-footer").append("<input type='hidden' name='caminho' value='"+$(this).attr("caminho")+"'>");			
+			if($(this).next("#plano_verifica").val() == 1){ // verifica se os planos estão vinculados a um contrato
+				$(".modal-footer").append("<input type='hidden' name='flag' value='verifica_exc_plano'>");
+			}else{
+				$(".modal-footer").append("<input type='hidden' name='flag' value='"+$(this).attr("flag")+"'>");
+			} 			
 		}else{
 			var objeto  = new FormData(document.querySelector("#"+$(this).attr("data-objeto")));
 			if($(this).attr("flag")){

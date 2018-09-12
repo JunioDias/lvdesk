@@ -380,18 +380,25 @@ if(!empty($_POST)){
 			$a->exc($tabela, $dados["id"]);
 			
 		break;
-		case "edt":		#Código de Edição
+		case "verifica_exc_plano":		#Verifica se o plano está vinculado a um contrato antes de ser excluído
 			$dados = $_POST;
-			/* $tabela = $dados["tbl"];
-			$path = "'Location: ".$dados['callback']."'";
-			$filtro = "id = '".$dados['id']."'";
-			unset($dados["flag"], $dados["tbl"]);
-			$a = new Model();
-			$a -> busca("*", $tabela, $filtro);
-			$resultado = $result->fetch_assoc();
-			echo json_encode($resultado);
-			#*/
-			print_r($dados); 
+			$query_teste = "SELECT id_contratos FROM planos_movimentos WHERE lixo = 0 AND id_planos = '".$dados['id']."'";
+			$a = new Model;
+			$retorno = $a->queryFree($query_teste);
+			if(isset($retorno)){
+				$foo = $retorno->fetch_assoc();
+				if($foo['id_contratos'] != ''){				
+					echo ("
+						<script type='text/javascript'>
+						$(document).ready(function () {
+							$('#alerta').modal('toggle');	
+						});
+						</script>
+						");
+				}else{
+					$a->exc('planos', $dados["id"]);					
+				}
+			}
 		break;
 		case "mensagens":
 			$dados = $_POST;
@@ -786,7 +793,8 @@ if(!empty($_POST)){
 		break;
 		
 		case "teste":
-		
+			unset($array['Date'], $array['Subject']);
+			
 		break;
 	}
   }	

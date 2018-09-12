@@ -48,7 +48,7 @@ if($result){
 		<td>".$linhas['limite']."</td>
 		<td>".$a->moneyFormatReal($linhas['valor_unit'])."</td>
 		<td>".($linhas['ativo'] == 1 ? '<span style=color:red;>Inativo</span>' : '<span style=color:green;>Ativo</span>')."</td>
-		<td>");	$botoes->crudButtons($linhas['id'], $cbkdel, $cbkedit, $link); echo("</td>
+		<td>");	$botoes->crudButtons($linhas['id'], $cbkdel, $cbkedit, $link); echo("<input type='hidden' id='plano_verifica' value='1' ></td>
 		</tr>
 		");	
 		$i++;
@@ -60,8 +60,9 @@ else{
 ?>	
 </tbody>
 </table>
+</div>
 <form id='form_action'>
-	<!--Início do modal de confirmação -->
+<!--------------------- Início do modal de confirmação --------------------->
 	<div id='confirma' class='modal fade' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true' style='display: none;'>
 	  <div class='modal-dialog'>
 	    <div class="modal-content">
@@ -74,7 +75,7 @@ else{
 		  </div>
 		  <div class="modal-footer">
 			<input id="primario" class='btn btn-success waves-effect' data-dismiss="modal" value='Não'/>
-			<input data-objeto='form_action' class='btn btn-danger botao rtrn-conteudo' value='Sim'/>
+			<input data-objeto='form_action' class='btn btn-danger botao rtrn-conteudo' data-dismiss="modal" value='Sim'/>
 		  </div>
 		</div>
 	  </div>
@@ -83,6 +84,26 @@ else{
 	<input type='hidden' name='tbl' value='<?=$tabela;?>' />
 	<input type='hidden' name='retorno' value='<?=$nomediv;?>' />
 </form>
+<!--------------------- Modal de alerta para Planos vinculados -------------------->
+<div id="alerta" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+<div class="modal-dialog">
+  <div class="modal-content">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		<h3 class="modal-title" id="myModalLabel">Atenção!</h3>
+	</div>
+	<div class="modal-body">
+		<h4>Vínculo detectado</h4>
+		<p>
+		Este plano já possui um vínculo contratual.<br>
+		Para fins de auditoria essa ação foi interrompida. Clique OK para sair.
+		</p>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-success waves-effect regular-link" link="views/planos.php" data-dismiss="modal">OK</button>
+	</div>
+  </div><!-- /.modal-content -->
+</div><!-- /.modal.dialog -->
 </div>
 <script>
 NProgress.done();

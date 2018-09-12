@@ -203,6 +203,110 @@ class Model{
 			return false;
 		}
 	}
+	
+	function addingEmail($tabela, $array, $body){		
+		unset($array['Date'], $array['Subject']);
+		#echo "<br><br><hr>"; print_r($array);echo "<br><br><hr>";
+		$param_emails = NULL;
+		if(isset($array['to'])){
+			$to = $array['to'];	
+			$to['tbl'] = "emails_toaddress";
+			$param_emails[] = $to;
+		}
+		if(isset($array['from'])){ 	 
+			$from = $array['from'];	
+			$from['tbl'] = "emails_fromaddress";
+			$param_emails[] = $from;
+		}
+		if(isset($array['reply'])){ 
+			$reply	= $array['reply_to'];	
+			$reply['tbl'] = "emails_reply_toaddress";
+			$param_emails[] = $from;
+		}
+		if(isset($array['sender'])) {
+			$sender = $array['sender'];	
+			$sender['tbl'] = "emails_senderaddress";
+			$param_emails[] = $sender;
+		}		
+		/* if(isset($array['ccaddress'])) {
+			$ccaddress = $array['ccaddress'];	
+			$ccaddress['tbl'] = "emails_ccaddress";
+			$param_emails[] = $ccaddress;
+		} */
+		if(isset($array['cc'])) {
+			$cc = $array['cc'];		
+			$cc['tbl'] = "emails_cc";
+			$param_emails[] = $cc;
+		}
+		if(isset($array['date'])) {
+			$array['date'] = date("Y-m-d H:i:s", strtotime($array['date']));			
+		}
+		if(isset($array['maildate'])) {
+			$array['maildate'] = date("Y-m-d H:i:s", strtotime($array['maildate']));			
+		}
+		unset(
+			$array['to'], 
+			$array['from'], 
+			$array['reply_to'], 
+			$array['sender'], 
+			$array['ccaddress'], 
+			$array['cc'], 
+			$array['references']
+		); 
+		$array['body'] = $body;				
+		$coluna = NULL;
+		$new_array 	= NULL;
+		foreach($array as $key=>$value){				
+			$coluna = strtolower($key);
+			$new_array[$coluna] = $value;				
+		}  	
+		$result = $this->add("emails", $new_array);
+		if ($result == true) {
+			$ult_id = $_SESSION['ult_id'];
+			$result = $this->array_email($param_emails, $ult_id);	
+			if ($result) {
+				return true;
+			}
+			else{
+				return false;
+			}
+		} 
+	}
+	
+	function array_email($array, $id){
+		#print_r($array);echo "<br><br>";		
+		foreach($array as $key=>$value){
+			if(is_array($value)){
+				foreach($value as $key2=>$value2){
+					if(is_array($value2)){
+						$count 	= 1;
+						$coluna = "id_emails, ";
+						$valor 	= $id.", ";
+						foreach($value2 as $key3=>$value3){
+							if($key3 == 'tbl'){
+								$tabela = $value3;
+							}else{		
+								$coluna .= $key3;
+								$valor  .= "'".$value3."'";
+								if($count < sizeof($value2)){
+									$coluna .= ", ";
+									$valor  .= ", ";
+								}
+								$count++;
+							}
+							#echo $key." | ".$key3." => ".$value3." <br>";
+						}
+					}else{
+						#echo "INSERT INTO $value2 ($coluna) VALUES($valor)";
+						$result = $this->queryFree("INSERT INTO $value2 ($coluna) VALUES($valor)");
+					}				
+				}
+			}else{
+				echo $key."  => ".$value." <br>";
+			}			
+		}		
+	}
+	
 	function addUser($tabela, $array){
 		#by Adan, 27 de novembro de 2015.
 		global $mysqli;
