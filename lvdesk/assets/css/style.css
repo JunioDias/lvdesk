@@ -163,6 +163,9 @@ a:focus {
 .x:hover{
 	color:#ffffff;
 }
+.tr-email:hover, .table-hover tr:hover{
+	background-color:#EEEEEE !important;
+}
 /* ==============
   Bootstrap-custom
 ===================*/
@@ -292,6 +295,9 @@ a:focus {
 }
 .text-dark {
   color: #FF8C00 !important;
+}
+.mdi-arrow-left-bold-circle-outline:hover{
+	color: #32CD32 !important;
 }
 .form-control {
   -moz-border-radius: 2px;

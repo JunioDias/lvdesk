@@ -25,8 +25,9 @@
   <tr class="filtro">
 	<th>Data <a><i class="mdi mdi-filter-variant icone-filtro"></i></a></th>
 	<th>Protocolo <a><i class="mdi mdi-filter-variant icone-filtro"></i></a></th>
-	<th>Nome do Cliente <a><i class="mdi mdi-filter-variant icone-filtro"></i></a></th>        
-	<th>Entidade <a><i class="mdi mdi-filter-variant icone-filtro"></i></a></th>
+	<th>Nome do Cliente <a><i class="mdi mdi-filter-variant icone-filtro"></i></a></th> 
+	<th>Entidade <a><i class="mdi mdi-filter-variant icone-filtro"></i></a></th>	
+	<th>Origem <a><i class="mdi mdi-filter-variant icone-filtro"></i></a></th>
 	<th>Telefone <a><i class="mdi mdi-filter-variant icone-filtro"></i></a></th>
 	<th>Ações</th>
   </tr>
@@ -36,6 +37,7 @@
 	<th><input type="text" class="form-control" id="txtColuna3"/></th>
 	<th><input type="text" class="form-control" id="txtColuna4"/></th>
 	<th><input type="text" class="form-control" id="txtColuna5"/></th>
+	<th><input type="text" class="form-control" id="txtColuna6"/></th>
 	<th></th>
   </tr> 
 </thead>

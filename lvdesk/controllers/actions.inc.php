@@ -70,6 +70,7 @@ class Acoes{
 	<td>$array[protocol]</td>
 	<td>$array[nome_cliente]</td>
 	<td>$array[nome_provedor]</td>
+	<td>$array[origem]</td>
 	<td>$array[telefone_cliente]</td>
 	<td>
 	";  
@@ -140,13 +141,43 @@ class Acoes{
 		
 		#Montagem do layout			
 		echo "
-		<tr>
-		<td>$array[fromaddress]</td>
-		<td>$array[subject]</td>
-		<td>".date('d/m/Y H:i:s', strtotime($array['date']))."</td>				
-		<td>
+		<tr>			
+			<td style='max-width:210px;'>
+				<a class='regular-link-msg' data-objeto='action_email_$array[id]'  ".($array['unseen']==0 ? 'style=color:#009933;' : 'style=color:#999999;').">".iconv_mime_decode($array['fromaddress'])."</a>
+			</td>
+			<td style='max-width:400px;'>
+				<a class='regular-link-msg' data-objeto='action_email_$array[id]' ".($array['unseen']==0 ? 'style=color:#009933;' : 'style=color:#999999;').">".iconv_mime_decode($array['subject'])."</a>
+			</td>
+			<td>
+				<a class='regular-link-msg' data-objeto='action_email_$array[id]' ".($array['unseen']==0 ? 'style=color:#009933;' : 'style=color:#999999;').">".date('d/m/Y H:i:s', strtotime($array['date']))."</a>
+				<form id='action_email_$array[id]'>
+					<input type='hidden' name='caminho' value='controllers/sys/crud.sys.php' />
+					<input type='hidden' name='flag' value='lerEmail' />
+					<input type='hidden' name='id' value='$array[id]' />
+					<input type='hidden' name='retorno' value='.content' />
+				</form>
+			</td>		
 		</tr>
 		";			
   }
+  
+  function detect_encoding($string){
+	////w3.org/International/questions/qa-forms-utf-8.html
+	if (preg_match('%^(?: [\x09\x0A\x0D\x20-\x7E] | [\xC2-\xDF][\x80-\xBF] | \xE0[\xA0-\xBF][\x80-\xBF] | [\xE1-\xEC\xEE\xEF][\x80-\xBF]{2} | \xED[\x80-\x9F][\x80-\xBF] | \xF0[\x90-\xBF][\x80-\xBF]{2} | [\xF1-\xF3][\x80-\xBF]{3} | \xF4[\x80-\x8F][\x80-\xBF]{2} )*$%xs', $string))
+		return 'UTF-8';
+
+	return mb_detect_encoding($string, array('UTF-8', 'ASCII', 'ISO-8859-1', 'JIS', 'EUC-JP', 'SJIS'));
+  }
+
+  function convert_encoding($string, $to_encoding, $from_encoding = '')	{
+	if ($from_encoding == '')
+		$from_encoding = $this->detect_encoding($string);
+
+	if ($from_encoding == $to_encoding)
+		return $string;
+
+	return mb_convert_encoding($string, $to_encoding, $from_encoding);
+  }
+
 }
 ?>

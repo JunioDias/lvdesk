@@ -792,9 +792,10 @@ if(!empty($_POST)){
 			}			
 		break;
 		
-		case "teste":
-			unset($array['Date'], $array['Subject']);
-			
+		case "lerEmail":
+			global $dados;			
+			$dados = $_POST;
+			include("../../views/mail-viewer-NOC.php");			
 		break;
 	}
   }	

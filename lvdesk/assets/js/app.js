@@ -346,9 +346,9 @@ $(document).ready(function(){
    		NProgress.start();
 		//$("#input_lida_"+$(this).attr("data-item")).val('1');				
 		var objeto = new FormData(document.querySelector("#"+$(this).attr("data-objeto")));				
-		for(var pair of objeto.values()) {
+		/* for(var pair of objeto.values()) {
 			console.log(pair);
-		}
+		}  */
 		$.ajax({
 			url: objeto.get("caminho"), 
 			data: objeto,

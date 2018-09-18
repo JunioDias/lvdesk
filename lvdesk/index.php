@@ -9,6 +9,10 @@ $act	= new Acoes;
 if(!empty($_SESSION["datalogin"])){
 	$dadoslogin = $_SESSION["datalogin"];
 
+#Atualização de e-mails
+$a->verificaNovosEmails();
+
+#Notificação de comunicação interna
 $query_notif = "SELECT c.*, u.nome AS nome_autor FROM comunicacao_interna_movimentos AS c INNER JOIN usuarios AS u ON id_autor = u.id WHERE c.lixo = 0 AND c.lida = 0 ORDER BY c.data ASC LIMIT 3 ";
 $bind   = $a->queryFree($query_notif);
 $bind2  = $a->queryFree($query_notif);

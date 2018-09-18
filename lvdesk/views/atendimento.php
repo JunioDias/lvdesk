@@ -54,8 +54,8 @@ if($id_provedor){//Existe um provedor
 	$telefone		= NULL;
 	$usuario		= NULL;
 	$senha_pppoe	= NULL;
-	// $nas			= NULL;
-	// $pppoe		= NULL;
+	$nas			= NULL;
+	$pppoe			= NULL;
 	$ip				= NULL;
 	$script			= NULL;
 	$status			= NULL;
@@ -165,21 +165,27 @@ if($id_provedor){//Existe um provedor
 						<div class="form-group">
 							<label for="origem">Origem do contato</label>
 							<div class="radio radio-primary">
-								<input type="radio" name="origem" id="whatsapp" value="whatsapp" >
+								<input type="radio" name="origem" id="whatsapp" value="WhatsApp" >
 								<label for="whatsapp">
 									WhatsApp
 								</label>
 							</div>
 							<div class="radio radio-primary">
-								<input type="radio" name="origem" id="recebida" value="recebida">
+								<input type="radio" name="origem" id="recebida" value="Recebida">
 								<label for="recebida">
 									Ligação Recebida
 								</label>
 							</div>
 							<div class="radio radio-primary">
-								<input type="radio" name="origem" id="efetuada" value="efetuada">
+								<input type="radio" name="origem" id="efetuada" value="Efetuada">
 								<label for="efetuada">
 									Ligação Efetuada
+								</label>
+							</div>
+							<div class="radio radio-primary">
+								<input type="radio" name="origem" id="email" value="E-mail">
+								<label for="email">
+									E-mail de Serviço
 								</label>
 							</div>
 						</div>							

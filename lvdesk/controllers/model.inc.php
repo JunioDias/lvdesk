@@ -2,7 +2,21 @@
 session_start();
 include("conexao.inc.php");
 class Model{
+	
+	public function conectaIMAP(){
+		$username 			= "noc@lvnetwork.com.br";
+		$password 			= "lvn37w0rk5";
+		$incoming_server 	= "srv214.prodns.com.br";
+		$port 				= "993";
 
+		$mail_box = imap_open("{" . $incoming_server . ":" . $port . "/imap/ssl/novalidate-cert}INBOX", $username, $password); 
+		if($mail_box){
+			return $mail_box;
+		}else{
+			return false;
+		}
+	}
+	
 	public function delDir($dir){
 		$dir_content = scandir($dir);
 		if($dir_content !== FALSE){
@@ -206,7 +220,6 @@ class Model{
 	
 	function addingEmail($tabela, $array, $body){		
 		unset($array['Date'], $array['Subject']);
-		#echo "<br><br><hr>"; print_r($array);echo "<br><br><hr>";
 		$param_emails = NULL;
 		if(isset($array['to'])){
 			$to = $array['to'];	
@@ -238,12 +251,10 @@ class Model{
 			$cc['tbl'] = "emails_cc";
 			$param_emails[] = $cc;
 		}
-		if(isset($array['date'])) {
-			$array['date'] = date("Y-m-d H:i:s", strtotime($array['date']));			
+		if(isset($array['udate'])) {
+			$array['date'] = date("Y-m-d H:i:s", $array['udate']);			
 		}
-		if(isset($array['maildate'])) {
-			$array['maildate'] = date("Y-m-d H:i:s", strtotime($array['maildate']));			
-		}
+		
 		unset(
 			$array['to'], 
 			$array['from'], 
@@ -253,7 +264,7 @@ class Model{
 			$array['cc'], 
 			$array['references']
 		); 
-		$array['body'] = $body;				
+		$array['body'] = $this->mime_encode($body);				
 		$coluna = NULL;
 		$new_array 	= NULL;
 		foreach($array as $key=>$value){				
@@ -263,18 +274,26 @@ class Model{
 		$result = $this->add("emails", $new_array);
 		if ($result == true) {
 			$ult_id = $_SESSION['ult_id'];
-			$result = $this->array_email($param_emails, $ult_id);	
-			if ($result) {
-				return true;
-			}
-			else{
-				return false;
-			}
-		} 
+			$result_param = $this->array_email($param_emails, $ult_id);	
+			return($ult_id);
+		}else{
+			return false;
+		}
 	}
 	
-	function array_email($array, $id){
-		#print_r($array);echo "<br><br>";		
+	function mime_encode($data)
+    {
+        $resp = imap_utf8(trim($data));
+        if(preg_match("/=\?/", $resp))
+            $resp = iconv_mime_decode($data, ICONV_MIME_DECODE_CONTINUE_ON_ERROR, "ISO-8859-15");
+
+        if(json_encode($resp) == 'null')
+            $resp = utf8_encode($resp);
+
+        return $resp;
+    }
+	
+	function array_email($array, $id){		
 		foreach($array as $key=>$value){
 			if(is_array($value)){
 				foreach($value as $key2=>$value2){
@@ -283,28 +302,132 @@ class Model{
 						$coluna = "id_emails, ";
 						$valor 	= $id.", ";
 						foreach($value2 as $key3=>$value3){
-							if($key3 == 'tbl'){
-								$tabela = $value3;
-							}else{		
-								$coluna .= $key3;
-								$valor  .= "'".$value3."'";
-								if($count < sizeof($value2)){
-									$coluna .= ", ";
-									$valor  .= ", ";
-								}
-								$count++;
+							if($key3 == 'mailbox'){
+								$mail_completo = "'".$value3."@";
+							}else if($key3 == 'host'){
+								$mail_completo .= $value3."'";
+							}							
+							$coluna .= $key3;
+							$valor  .= "'".$value3."'";
+							if($count < sizeof($value2)){
+								$coluna .= ", ";
+								$valor  .= ", ";
 							}
+							$count++;							
 							#echo $key." | ".$key3." => ".$value3." <br>";
 						}
 					}else{
-						#echo "INSERT INTO $value2 ($coluna) VALUES($valor)";
-						$result = $this->queryFree("INSERT INTO $value2 ($coluna) VALUES($valor)");
+						$result = $this->queryFree("INSERT INTO $value2 ($coluna, mailcompleto) VALUES($valor, $mail_completo)");
 					}				
 				}
-			}else{
-				echo $key."  => ".$value." <br>";
 			}			
 		}		
+	}
+	
+	function verificaNovosEmails(){
+		#Verifica se há e-mails para o CGR. Se sim, grava no 'pav_inscritos'
+		$mail_box = $this->conectaIMAP();
+		if(isset($mail_box)){	
+			$total_de_mensagens = imap_num_msg($mail_box); #echo $total_de_mensagens . "<br>";
+			$numero_mens_nao_lidas = imap_num_recent($mail_box); #echo $numero_mens_nao_lidas;
+			if($numero_mens_nao_lidas > 0){
+				if ($total_de_mensagens > 0) {	
+					for ($mensagem = 1; $mensagem <= $numero_mens_nao_lidas; $mensagem++) {
+						#Gravação dos e-mails no BD
+						$header = imap_header($mail_box, $mensagem);
+						$body = imap_fetchbody ($mail_box, $mensagem, 1.2);				
+						$array_header = json_decode(json_encode($header), true);
+						$flag = $this->addingEmail('emails', $array_header, $body);
+						$this->filterEmailtoCGR($flag);
+					}
+				}
+			}
+		}
+		imap_close($mail_box);
+	}
+	
+	function filterEmailtoCGR($flag){
+		if($flag != false){
+			$query_grupos_por_contato_agenda = "SELECT emails.*, clientes.id AS ClienteID FROM emails 
+					INNER JOIN clientes 
+					INNER JOIN agenda_contatos 
+					INNER JOIN emails_fromaddress 
+					ON agenda_contatos.contatos = emails_fromaddress.mailcompleto AND clientes.id = agenda_contatos.id_cliente 
+					WHERE emails.id = ".$flag." GROUP BY emails.id";
+			$foo = $this->queryFree($query_grupos_por_contato_agenda);
+			$teste = $foo->fetch_assoc();
+			if($teste['id'] != ''){ # Nenhuma relação encontrada. E-mail não possui contatos na agenda (?)
+				if($teste['ClienteID'] != ''){
+					$this->movingEmailToCGR($teste, $teste['ClienteID']);
+				}else{
+					$this->movingEmailToCGR($teste);
+				}
+			}
+		}
+	}
+	
+	function movingEmailToCGR($array, $cliente = NULL){
+		global $array_pav; 
+		foreach($array as $key=>$value){
+			if(is_array($value)){
+				//bypass
+			}else{
+				if($key == 'fromaddress'){
+					$array_pav['nome_provedor'] = $value;
+					$array_pav['historico'] = "<b>De:</b> ".$value."<br>";
+				}
+				if($key == 'senderaddress')
+					$array_pav['email'] = $value;
+				if($key == 'ccaddress')
+					$array_pav['historico'] .= "<b>Cópia para:</b> ".$value."<br>";
+				if($key == 'subject')
+					$array_pav['historico'] .= "<b>Assunto:</b> <em>".$value."</em>";
+				if($key == 'body')
+					$array_pav['historico'] .= "<br><hr><br><br>".$value;
+				if($key == 'date')
+					$array_pav['data_abertura'] = $value;
+				if(is_null($cliente)){
+					unset($array['ClienteID']);
+				}else{
+					if($key == 'ClienteID'){ #Setar um cliente não significa que ele possui um contrato.
+						$query = "SELECT nome, id_provedor, contratos.id AS id_contrato FROM clientes INNER JOIN contratos 
+								ON contratos.id_cliente = clientes.id
+								WHERE clientes.id = '$value'";
+						$foo = $this->queryFree($query);
+						$nome_cliente = $foo->fetch_assoc();
+						if($nome_cliente['nome'] != ''){ # Se verdadeiro, significa que o cliente possui um contrato de CGR		
+							$array_pav['nome_provedor'] = $nome_cliente['nome'];
+							$array_pav['id_pav'] = $nome_cliente['id_provedor'];
+							if(isset($nome_cliente['id_contratos'])){
+								$array_pav['id_contratos'] = $nome_cliente['id_contratos'];
+							}
+						}else{ # Neste caso o contrato não existe, o lead deve ser enviado para tratativa de Vendas
+							$query = "SELECT id FROM groups WHERE finalidade_especial  = 1";
+							$foo = $this->queryFree($query);
+							$grupo_responsavel = $foo->fetch_assoc();
+							if($grupo_responsavel['id'] != ''){
+								$array_gr = NULL;
+								$i = 1;
+								foreach($grupo_responsavel as $value){
+									if($i >= sizeof($grupo_responsavel)){
+										$array_gr .= $value;
+									}else{
+										$array_gr .= $value."#";
+									}
+									$i++;
+								}
+								$array_pav['grupo_responsavel'] = $array_gr;
+							}else{
+								echo "<h4>Atenção</h4>Nenhum grupo foi cadastro. Sem isso a importação de e-mails de clientes sem contratos ficará inconsistente.";
+							}
+						}
+					}
+				}
+				$array_pav['origem'] = "E-mail";
+				$array_pav['protocol'] = $this->protocolo();
+			}
+		}	
+		$this->add('pav_inscritos', $array_pav); 
 	}
 	
 	function addUser($tabela, $array){
