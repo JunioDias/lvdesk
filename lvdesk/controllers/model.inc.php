@@ -324,6 +324,59 @@ class Model{
 		}		
 	}
 	
+	function getBody($uid, $imap) {
+		$body = $this->get_part($imap, $uid, "TEXT/HTML");
+		// if HTML body is empty, try getting text body
+		if ($body == "") {
+			$body = $this->get_part($imap, $uid, "TEXT/PLAIN");
+		}
+		return $body;
+	}
+
+	function get_part($imap, $uid, $mimetype, $structure = false, $partNumber = false) {
+		if (!$structure) {
+		   $structure = imap_fetchstructure($imap, $uid);
+		}
+		if ($structure) {
+			if ($mimetype == $this->get_mime_type($structure)) {
+				if (!$partNumber) {
+					$partNumber = 1;
+				}
+				$text = imap_fetchbody($imap, $uid, $partNumber);
+				switch ($structure->encoding) {
+					case 3: return imap_base64($text);
+					case 4: return imap_qprint($text);
+					default: return $text;
+				}
+			}
+
+			// multipart
+			if ($structure->type == 1) {
+				foreach ($structure->parts as $index => $subStruct) {
+					$prefix = "";
+					if ($partNumber) {
+						$prefix = $partNumber . ".";
+					}
+					$data = $this->get_part($imap, $uid, $mimetype, $subStruct,	$prefix. ($index + 1));
+					if ($data) {
+						return $data;
+					}
+				}
+			}
+		}
+		return false;
+	}
+
+	function get_mime_type($structure) {
+		$primaryMimetype = array("TEXT", "MULTIPART", "MESSAGE", "APPLICATION",
+			"AUDIO", "IMAGE", "VIDEO", "OTHER");
+
+		if ($structure->subtype) {
+		   return $primaryMimetype[(int)$structure->type] . "/" . $structure->subtype;
+		}
+		return "TEXT/PLAIN";
+	}       
+	
 	function verificaNovosEmails(){
 		#Verifica se há e-mails para o CGR. Se sim, grava no 'pav_inscritos'
 		$mail_box = $this->conectaIMAP();
@@ -335,7 +388,8 @@ class Model{
 					for ($mensagem = 1; $mensagem <= $numero_mens_nao_lidas; $mensagem++) {
 						#Gravação dos e-mails no BD
 						$header = imap_header($mail_box, $mensagem);
-						$body = imap_fetchbody ($mail_box, $mensagem, 1.2);				
+						#$body = imap_fetchbody ($mail_box, $mensagem, '1.2');
+						$body = $this->getBody($mensagem, $mail_box);
 						$array_header = json_decode(json_encode($header), true);
 						$flag = $this->addingEmail('emails', $array_header, $body);
 						$this->filterEmailtoCGR($flag);
