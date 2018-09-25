@@ -108,33 +108,33 @@ $acesso = ($_SESSION['datalogin']);
 			</a>
 		</div>
 
-		<!-- <div class="col-sm-6 col-lg-3">
-			<a class="regular-link" link="views/permissoes.php">
+		<div class="col-sm-6 col-lg-3">
+			<a class="regular-link" link="views/grupos.php">
 			<div class="panel text-center panel-atendimento">
 				<div class="panel-heading">
-					<h4 class="panel-title text-muted font-light">Permissões</h4>
+					<h4 class="panel-title text-muted font-light">Grupos</h4>
 				</div>
 				<div class="panel-body p-t-10">
-					<h2 class="m-t-0 m-b-15"><i class="ion-unlocked text-danger m-r-10"></i></h2>
-					<p class="text-muted m-b-0 m-t-20">Ações que cada papel possui</p>
+					<h2 class="m-t-0 m-b-15"><i class="mdi mdi-account-multiple text-danger m-r-10"></i></h2>
+					<p class="text-muted m-b-0 m-t-20">Grupos para atendimento</p>
 				</div>
 			</div>
 			</a>
 		</div>
 
 		<div class="col-sm-6 col-lg-3">
-			<a class="regular-link" link="views/deliberar.php">
-			<div class="panel text-center">
+			<a class="regular-link" link="views/config-sys.php">
+			<div class="panel text-center panel-atendimento">
 				<div class="panel-heading">
-					<h4 class="panel-title text-muted font-light">Deliberar</h4>
+					<h4 class="panel-title text-muted font-light">Configurações</h4>
 				</div>
 				<div class="panel-body p-t-10">
-					<h2 class="m-t-0 m-b-15"><i class="ion-scissors text-danger m-r-10"></i></h2>
-					<p class="text-muted m-b-0 m-t-20">Conceder/Negar permissões</p>
+					<h2 class="m-t-0 m-b-15"><i class="fa fa-bars text-danger m-r-10"></i></h2>
+					<p class="text-muted m-b-0 m-t-20">Parâmetros gerais</p>
 				</div>
 			</div>
 			</a>
-		</div> -->
+		</div> 
 	  </div>
 	  
 	</div>

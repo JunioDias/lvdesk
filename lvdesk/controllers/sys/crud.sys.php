@@ -76,6 +76,7 @@ if(!empty($_POST)){
 				
 				$contatos = str_replace(array("\n", "\r", "&nbsp;", "/\r|\n/", "<br>", "<div>", "</div>"), "", $contatos);
 				$contatos = preg_replace( "/\r|\n/", "", $contatos);
+				$contatos = trim($contatos);
 				$array_contatos = explode(",", $contatos);
 			}
 			
@@ -116,9 +117,9 @@ if(!empty($_POST)){
 			}
 			
 			if(isset($dados['subTabela'])){ 
-				if($dados['subTabela']=="planos_movimentos"){//cadastro auxiliar dos contratos na tabela planos_movimentos
+				if($dados['subTabela']=="planos_movimentos"){# cadastro auxiliar dos contratos na tabela planos_movimentos
 					$newlog['tabela'] = $dados['subTabela'];
-					#instancia variável para foreach tratar os planos selecionados
+					# instancia variável para foreach tratar os planos selecionados
 					$trata_planos = $dados['id_planos_mov'];
 					$id_planos = NULL;
 					if($dados['chave_cerquilha']){
@@ -126,10 +127,10 @@ if(!empty($_POST)){
 						unset($cerq['chave_cerquilha']);
 						$id_planos = $a->processaCerquilhas($cerq);						
 					}
-					#previne que o fluxo entre pelo IF errado
+					# previne que o fluxo entre pelo IF errado
 					$dados['id_planos_mov'] = $id_planos['id_planos_mov']; 					
 				}else{			
-					if(isset($dados['id'])){ //caso seja uma inserção de logs para o CGR
+					if(isset($dados['id'])){ # caso seja uma inserção de logs para o CGR
 						$newlog['protocol'] 		= $dados['protocol'];
 						$newlog['descricao']		= $dados['historico'];
 						$newlog['files']			= NULL;
@@ -139,7 +140,7 @@ if(!empty($_POST)){
 						
 						$grab = $a->add($dados['subTabela'], $newlog);
 						
-					}else{ //caso seja a primeira inserção de log (nível 1)
+					}else{ # caso seja a primeira inserção de log (nível 1)
 						if(isset($dados["status"])){
 							if($dados["status"]	== '2'){
 								$newlog['solution'] 	= 1;
@@ -487,10 +488,10 @@ if(!empty($_POST)){
 			
 			if(isset($dados['contatos'])){//campo de clientes que permite inserção dos contatos de e-mail
 				$contatos = $dados['contatos'];
-				unset($dados['contatos']);
-				
+				unset($dados['contatos']);				
 				$contatos = str_replace(array("\n", "\r", "&nbsp;", "/\r|\n/", "<br>"), "", $contatos);
 				$contatos = preg_replace( "/\r|\n/", "", $contatos);
+				$contatos = trim($contatos);
 				$array_contatos = explode(",", $contatos);
 			}
 			

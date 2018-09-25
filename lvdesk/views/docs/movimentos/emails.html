@@ -1,0 +1,26 @@
+﻿<div class="page-header-title">
+  <h4 class="page-title">E-mails</h4>
+  <p>E-mails de serviço e gestão de movimentação</p>
+</div>
+<div class="content-sized">
+<h2>Introdução</h2>
+	<p>
+	O sistema instancia em cada ambiente aberto uma função para leitura da caixa de e-mail. Para fins de desempenho, ele lê os e-mails gravados no banco de dados e baixa apenas a diferença daquilo que está na caixa por aquilo que está no banco, não importando se a mensagem foi aberta (lida) ou não no webmail. Assim, todas as mensagens baixadas serão consideradas "não lidas".</p>
+	<br><br>
+	<center><img src="assets/images/docs/clip_image002.png" alt="grafico" width="567" height="333"></center><br><br>
+<h2>E-mails cadastrados na agenda</h2>
+<p>A tabela abaixo mostra quais as situações possíveis de verificação.</p>
+<table class="table table-hover doc">
+    <thead>
+		<tr>
+			<th><span class="ion-checkmark-round text-success"></span> E-mail Cadastrado</th>
+			<th><span class="ion-close text-danger"></span> E-mail Não Cadastrado</th>
+		</tr>
+	</thead>	
+	<tbody>
+		<tr>
+			<td>Quando um e-mail é adicionar na lista de contatos de clientes (Contratos - Regras - Clientes) o sistema pode verificar se uma mensagem pode ou não ser atribuída àquele contrato. Isso significa que todo e-mail que chega no webmail cujo remetente seja um contato válido será adicionado ao menu de serviços do CGR (2º nível de atendimento).</td>
+			<td>No caso de um e-mail que não passe pela filtragem da agenda de contatos do cliente (Contratos - Regras - Clientes), o sistema vai encaminhar a tratativa para o grupo correspondente. Nesse caso, o grupo precisa ser previamente cadastrado (Sistema - Parâmetros - Grupos) e então marcado como um grupo de Finalidade Especial do tipo Vendas.</td>
+		</tr>
+	</tbody>
+</table>

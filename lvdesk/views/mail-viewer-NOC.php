@@ -2,20 +2,27 @@
 if($dados){
 	$a 		= new Model;
 	$a->queryFree("UPDATE emails SET unseen = 1 WHERE id = '".$dados['id']."'");
-	$query	= "SELECT * FROM emails WHERE lixo = 0 AND id = '".$dados['id']."'";
+	$query	= "SELECT emails.*, mailcompleto FROM `emails` JOIN emails_cc ON emails.id = emails_cc.id_emails WHERE emails.id = '".$dados['id']."'";
 	$return	= $a->queryFree($query);
 	$array = $return->fetch_assoc();
+	if($array['mailcompleto'] == ''){
+		$a->queryFree("UPDATE emails SET unseen = 1 WHERE id = '".$dados['id']."'");
+		$query	= "SELECT emails.* FROM `emails` WHERE emails.id = '".$dados['id']."'";
+		$return	= $a->queryFree($query);
+		$array = $return->fetch_assoc();
+	}
 	echo "
-<div class='page-header-title' >
-  <h4 class='page-title'><a class='regular-link' link='views/mail-reader.php' title='Voltar para Caixa de Entrada'><i class='mdi mdi-arrow-left-bold-circle-outline'  style='color: white;'></i></a> ".iconv_mime_decode($array['subject'])."</h4>
-  <p>De: <em>".iconv_mime_decode($array['fromaddress'])."</em> em  ".date('d/m/Y H:i:s', strtotime($array['date']))."</p>
-  <p>CC: <em>".iconv_mime_decode($array['ccaddress'])."</em> </p>
-</div>
-<div class='content-sized'>";	
+	<div class='page-header-title' >
+	  <h4 class='page-title'><a class='regular-link' link='views/mail-reader.php' title='Voltar para Caixa de Entrada'><i class='mdi mdi-arrow-left-bold-circle-outline'  style='color: white;'></i></a> ".iconv_mime_decode($array['subject'])."</h4>
+	  <p>De: <em>".iconv_mime_decode($array['fromaddress'])."</em> em  ".date('d/m/Y H:i:s', strtotime($array['date']))."</p>";
+	if(isset($array['mailcompleto'])){ 
+		echo "<p>CC: <em>".iconv_mime_decode($array['mailcompleto'])."</em> </p>";
+	}
+	echo "</div><div class='content-sized'>";	
 }	
 ?>	
 	<div class="form-group">
-		<div class="panel panel-color panel-primary">
+	  	<div class="panel panel-color panel-primary">
 			<div class="panel-heading">
 				<h3 class="panel-title">Corpo da Mensagem</h3>
 			</div>

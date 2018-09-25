@@ -4,8 +4,10 @@ include("conexao.inc.php");
 class Model{
 	
 	public function conectaIMAP(){
-		$username 			= "noc@lvnetwork.com.br";
-		$password 			= "lvn37w0rk5";
+		/*$username 			= "noc@lvnetwork.com.br";
+		$password 			= "lvn37w0rk5";*/
+		$username			= "noreply@lvnetwork.com.br";
+		$password			= "Y*uQWq~Tg3J4";
 		$incoming_server 	= "srv214.prodns.com.br";
 		$port 				= "993";
 
@@ -218,64 +220,74 @@ class Model{
 		}
 	}
 	
-	function addingEmail($tabela, $array, $body){		
-		unset($array['Date'], $array['Subject']);
-		$param_emails = NULL;
-		if(isset($array['to'])){
-			$to = $array['to'];	
-			$to['tbl'] = "emails_toaddress";
-			$param_emails[] = $to;
-		}
-		if(isset($array['from'])){ 	 
-			$from = $array['from'];	
-			$from['tbl'] = "emails_fromaddress";
-			$param_emails[] = $from;
-		}
-		if(isset($array['reply'])){ 
-			$reply	= $array['reply_to'];	
-			$reply['tbl'] = "emails_reply_toaddress";
-			$param_emails[] = $from;
-		}
-		if(isset($array['sender'])) {
-			$sender = $array['sender'];	
-			$sender['tbl'] = "emails_senderaddress";
-			$param_emails[] = $sender;
-		}		
-		/* if(isset($array['ccaddress'])) {
-			$ccaddress = $array['ccaddress'];	
-			$ccaddress['tbl'] = "emails_ccaddress";
-			$param_emails[] = $ccaddress;
-		} */
-		if(isset($array['cc'])) {
-			$cc = $array['cc'];		
-			$cc['tbl'] = "emails_cc";
-			$param_emails[] = $cc;
-		}
-		if(isset($array['udate'])) {
-			$array['date'] = date("Y-m-d H:i:s", $array['udate']);			
-		}
-		
-		unset(
-			$array['to'], 
-			$array['from'], 
-			$array['reply_to'], 
-			$array['sender'], 
-			$array['ccaddress'], 
-			$array['cc'], 
-			$array['references']
-		); 
-		$array['body'] = $this->mime_encode($body);				
-		$coluna = NULL;
-		$new_array 	= NULL;
-		foreach($array as $key=>$value){				
-			$coluna = strtolower($key);
-			$new_array[$coluna] = $value;				
-		}  	
-		$result = $this->add("emails", $new_array);
-		if ($result == true) {
-			$ult_id = $_SESSION['ult_id'];
-			$result_param = $this->array_email($param_emails, $ult_id);	
-			return($ult_id);
+	function addingEmail($tabela, $array, $body){
+		$msg = $array['Msgno'];
+		$query = "SELECT msgno FROM emails WHERE msgno = $msg";
+		$foo = $this->queryFree($query);
+		$res = $foo->fetch_assoc();
+		if($res["msgno"] == ''){ # Evitando duplicidade, pois o e-mail do servidor ainda não existe no Banco de Dados. 		
+			unset($array['Date'], $array['Subject']);
+			$param_emails = NULL;
+			if(isset($array['to'])){
+				$to = $array['to'];	
+				$to['tbl'] = "emails_toaddress";
+				$param_emails[] = $to;
+			}
+			if(isset($array['from'])){ 	 
+				$from = $array['from'];	
+				$from['tbl'] = "emails_fromaddress";
+				$param_emails[] = $from;
+			}
+			if(isset($array['reply'])){ 
+				$reply	= $array['reply_to'];	
+				$reply['tbl'] = "emails_reply_toaddress";
+				$param_emails[] = $from;
+			}
+			if(isset($array['sender'])) {
+				$sender = $array['sender'];	
+				$sender['tbl'] = "emails_senderaddress";
+				$param_emails[] = $sender;
+			}		
+			if(isset($array['ccaddress'])) {
+				$ccaddress = $array['ccaddress'];	
+				if(isset($ccaddress['tbl'])){
+					$ccaddress['tbl'] = "emails_ccaddress"; 
+					$param_emails[] = $ccaddress;
+				}				
+			} 
+			if(isset($array['cc'])) {
+				$cc = $array['cc'];		
+				$cc['tbl'] = "emails_cc";
+				$param_emails[] = $cc;
+			}
+			if(isset($array['udate'])) {
+				$array['date'] = date("Y-m-d H:i:s", $array['udate']);			
+			}
+			
+			unset(
+				$array['to'], 
+				$array['from'], 
+				$array['reply_to'], 
+				$array['sender'], 
+				$array['ccaddress'], 
+				$array['cc'], 
+				$array['references']
+			); 
+			$array['body'] = $this->mime_encode($body);				
+			$coluna = NULL;
+			$new_array 	= NULL;
+			foreach($array as $key=>$value){				
+				$coluna = strtolower($key);
+				$new_array[$coluna] = $value;				
+			}  	
+			$result = $this->add("emails", $new_array);
+			if ($result == true) {
+				$ult_id = $_SESSION['ult_id'];
+				$result_param = $this->array_email($param_emails, $ult_id);	
+				return($ult_id); # ID da tabela "emails", ou seja, o registro-mãe desse trigger.
+			}else{
+				return false;
+			}
 		}else{
 			return false;
 		}
@@ -326,7 +338,7 @@ class Model{
 	
 	function getBody($uid, $imap) {
 		$body = $this->get_part($imap, $uid, "TEXT/HTML");
-		// if HTML body is empty, try getting text body
+		
 		if ($body == "") {
 			$body = $this->get_part($imap, $uid, "TEXT/PLAIN");
 		}
@@ -335,14 +347,14 @@ class Model{
 
 	function get_part($imap, $uid, $mimetype, $structure = false, $partNumber = false) {
 		if (!$structure) {
-		   $structure = imap_fetchstructure($imap, $uid);
+		   $structure = imap_fetchstructure($imap, $uid, FT_UID);
 		}
 		if ($structure) {
 			if ($mimetype == $this->get_mime_type($structure)) {
 				if (!$partNumber) {
 					$partNumber = 1;
 				}
-				$text = imap_fetchbody($imap, $uid, $partNumber);
+				$text = imap_fetchbody($imap, $uid, $partNumber, FT_UID);
 				switch ($structure->encoding) {
 					case 3: return imap_base64($text);
 					case 4: return imap_qprint($text);
@@ -378,44 +390,51 @@ class Model{
 	}       
 	
 	function verificaNovosEmails(){
-		#Verifica se há e-mails para o CGR. Se sim, grava no 'pav_inscritos'
 		$mail_box = $this->conectaIMAP();
-		if(isset($mail_box)){	
-			$total_de_mensagens = imap_num_msg($mail_box); #echo $total_de_mensagens . "<br>";
-			$numero_mens_nao_lidas = imap_num_recent($mail_box); #echo $numero_mens_nao_lidas;
-			if($numero_mens_nao_lidas > 0){
-				if ($total_de_mensagens > 0) {	
-					for ($mensagem = 1; $mensagem <= $numero_mens_nao_lidas; $mensagem++) {
-						#Gravação dos e-mails no BD
-						$header = imap_header($mail_box, $mensagem);
-						#$body = imap_fetchbody ($mail_box, $mensagem, '1.2');
-						$body = $this->getBody($mensagem, $mail_box);
-						$array_header = json_decode(json_encode($header), true);
-						$flag = $this->addingEmail('emails', $array_header, $body);
-						$this->filterEmailtoCGR($flag);
+		if(isset($mail_box)){
+			$numero_mens_novas = imap_num_recent($mail_box); 
+			$msgs = imap_sort($mail_box, SORTARRIVAL, 1, SE_UID);			
+			if($numero_mens_novas > 0){
+				foreach ($msgs as $msguid) {
+					$msgno = imap_msgno($mail_box, $msguid);
+					$header = imap_header($mail_box, $msgno);
+					$body = $this->getBody($msguid, $mail_box);				
+					$array_header = json_decode(json_encode($header), true);
+					# Grava na tabela emails para controle
+					$flag = $this->addingEmail('emails', $array_header, $body);
+					# Grava em pav_inscritos para serviço e retorna um "flag" contendo o ID do último registro inserido.
+					$this->filterEmailtoCGR($flag);
+					# Trigger para não identar TODAS as mensagens
+					$numero_mens_novas--;
+					if($numero_mens_novas == 0){
+						return;
 					}
-				}
+				} 
 			}
 		}
 		imap_close($mail_box);
 	}
 	
 	function filterEmailtoCGR($flag){
-		if($flag != false){
-			$query_grupos_por_contato_agenda = "SELECT emails.*, clientes.id AS ClienteID FROM emails 
-					INNER JOIN clientes 
-					INNER JOIN agenda_contatos 
-					INNER JOIN emails_fromaddress 
-					ON agenda_contatos.contatos = emails_fromaddress.mailcompleto AND clientes.id = agenda_contatos.id_cliente 
-					WHERE emails.id = ".$flag." GROUP BY emails.id";
+		if($flag != false){ # Possível desde que essa é uma checagem passível de resultado falso (nenhum e-mail encontrado)
+			$query_grupos_por_contato_agenda = "
+			SELECT emails.*, clientes.id AS Cliente.ID
+			FROM emails 
+				INNER JOIN emails_fromaddress ON emails.id = emails_fromaddress.id_emails
+				INNER JOIN agenda_contatos ON agenda_contatos.contatos = emails_fromaddress.mailcompleto
+				INNER JOIN clientes ON clientes.id = agenda_contatos.id_cliente
+			WHERE emails.id = ".$flag." 
+			GROUP BY emails.id";
 			$foo = $this->queryFree($query_grupos_por_contato_agenda);
 			$teste = $foo->fetch_assoc();
-			if($teste['id'] != ''){ # Nenhuma relação encontrada. E-mail não possui contatos na agenda (?)
+			if($teste['id'] != ''){ # Nenhuma relação encontrada. E-mail não possui contatos na agenda - atrbuir a grupos de venda.
 				if($teste['ClienteID'] != ''){
 					$this->movingEmailToCGR($teste, $teste['ClienteID']);
 				}else{
 					$this->movingEmailToCGR($teste);
 				}
+			}else{
+				echo "Nenhuma relação encontrada. E-mail não possui contatos na agenda - atrbuir a grupos de venda.";
 			}
 		}
 	}
@@ -426,6 +445,7 @@ class Model{
 			if(is_array($value)){
 				//bypass
 			}else{
+				
 				if($key == 'fromaddress'){
 					$array_pav['nome_provedor'] = $value;
 					$array_pav['historico'] = "<b>De:</b> ".$value."<br>";
@@ -479,13 +499,27 @@ class Model{
 				}
 				$array_pav['origem'] = "E-mail";
 				$array_pav['protocol'] = $this->protocolo();
+				# Array para pav_movimentos
+				$newlog['protocol'] 		= $array_pav['protocol'];
+				$newlog['descricao']		= $array_pav['historico'];
+				$newlog['files']			= NULL;
+				$newlog['id_atendente']		= '0';
+				$newlog['data']				= date('Y-m-d H:i:s');
 			}
 		}	
-		$this->add('pav_inscritos', $array_pav); 
+		# Gravação do serviço e das tratativas dentro do histórico
+		$gravou = $this->add('pav_inscritos', $array_pav); 
+		if($gravou){
+			$newlog['id_pav_inscritos'] = $_SESSION['ult_id'];
+			$tabela						= "pav_movimentos";			
+			$this->add($tabela, $newlog);
+		}else{
+			echo "Não houve retorno na gravação do serviço";
+		}
 	}
 	
 	function addUser($tabela, $array){
-		#by Adan, 27 de novembro de 2015.
+		# by Adan, 27 de novembro de 2015.
 		global $mysqli;
 		$count 	= 1;
 		$coluna = NULL;
