@@ -217,7 +217,7 @@ class Model{
 		}
 		else{
 			return false;
-		}
+		} 
 	}
 	
 	function addingEmail($tabela, $array, $body){
@@ -418,7 +418,7 @@ class Model{
 	function filterEmailtoCGR($flag){
 		if($flag != false){ # Possível desde que essa é uma checagem passível de resultado falso (nenhum e-mail encontrado)
 			$query_grupos_por_contato_agenda = "
-			SELECT emails.*, clientes.id AS Cliente.ID
+			SELECT emails.*, clientes.id AS ClienteID
 			FROM emails 
 				INNER JOIN emails_fromaddress ON emails.id = emails_fromaddress.id_emails
 				INNER JOIN agenda_contatos ON agenda_contatos.contatos = emails_fromaddress.mailcompleto
@@ -441,14 +441,14 @@ class Model{
 	
 	function movingEmailToCGR($array, $cliente = NULL){
 		global $array_pav; 
+		$array_pav["historico"] = NULL; 
 		foreach($array as $key=>$value){
 			if(is_array($value)){
 				//bypass
-			}else{
-				
+			}else{				
 				if($key == 'fromaddress'){
-					$array_pav['nome_provedor'] = $value;
-					$array_pav['historico'] = "<b>De:</b> ".$value."<br>";
+					$array_pav['nome_cliente'] = $value;
+					$array_pav['historico'] .= "<b>De:</b> ".$value."<br>";
 				}
 				if($key == 'senderaddress')
 					$array_pav['email'] = $value;
@@ -490,7 +490,7 @@ class Model{
 									}
 									$i++;
 								}
-								$array_pav['grupo_responsavel'] = $array_gr;
+								$array_pav['grupo_responsavel'] = $array_gr;								
 							}else{
 								echo "<h4>Atenção</h4>Nenhum grupo foi cadastro. Sem isso a importação de e-mails de clientes sem contratos ficará inconsistente.";
 							}

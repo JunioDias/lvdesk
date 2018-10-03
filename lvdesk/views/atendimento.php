@@ -28,8 +28,7 @@ if($id_provedor){//Existe um provedor
 	$result = $a->queryFree($query);
 	if($result){
 		$matriz = $result->fetch_assoc();
-	}
-	
+	}	
 	$nome_cliente	= $array['nome_razaosocial'];
 	$cpf_cnpj		= $array['cpf_cnpj'];
 	$provedor 	 	= $arr_cliente['nome'];
@@ -43,8 +42,7 @@ if($id_provedor){//Existe um provedor
 	$script			= $matriz['script'];
 	$status			= $array['servicos'][0]['status'];
 	$flag	 		= "add";
-	$retorno		= ".content-sized";
-	
+	$retorno		= ".content-sized";	
 }else{
 	$id_provedor	= NULL;
 	$nome_cliente	= NULL;

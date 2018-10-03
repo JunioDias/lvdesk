@@ -732,18 +732,36 @@ $(document).ready(function(){
 	$("body")
 	.on("click", '.x', function() {
 		$(this).parent("span").remove();
+		$(this).parents("span").remove();
 	});
 	
 	$("body")
-	.on("click", '.conecta-hubsoft', function() {
+	.on("click", ".vincular", function() {
+		var software_value = $("#addSoftware option:selected").val();
+		var software_name  = $("#addSoftware option:selected").text();
+		$("#vinculos").append('<span><form id="form-'+software_value+'"><div class="panel-group col-sm-10" id="accordion-test-'+software_value+'"><div class="panel panel-success panel-color"><div class="panel-heading"><h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion-test-'+software_value+'" href="#collapseOne-'+software_value+'" aria-expanded="false" class="collapsed">'+software_name+'</a></h4></div><div id="collapseOne-'+software_value+'" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;"><div class="panel-body"><div class="row"><div class="form-group col-sm-3"><label for="client_url">ID do Cliente</label><input type="text" class="form-control" name="client_id" /></div><div class="form-group col-sm-6"><label for="client_url">Host do Cliente</label><input type="text" class="form-control" name="client_url" /></div></div><div class="row"><div class="form-group col-sm-6"><label for="client_secret">Segredo</label><input type="text" class="form-control" name="client_secret"/></div><div class="form-group col-sm-3"><label for="client_user">Usuário do Cliente</label><input type="text" class="form-control" name="client_user" /></div><div class="form-group col-sm-3"><label for="client_pass">Password do Cliente</label><input type="text" class="form-control" name="client_pass" /></div></div></div></div></div></div><div class="form-group col-sm-2"><input class="btn btn-danger col-sm-12 x" value="Excluir" data-objeto="form-'+software_value+'" type="button" title="Remove o provedor"/></div></form></span>');
+	});
+	
+	$("body")
+	.on("click", '.run-provedores-magnify', function() {
 		NProgress.start();
+		var objeto = new FormData(document.querySelector("#"+$(this).attr("data-objeto")));
+		var obj = {};		
+		$("#vinculos span form").find("input").each(function(index){
+            var name = $(this).attr("name");
+			if($(this).val() != "Excluir"){
+				obj[name] = $(this).val();				
+			}else{
+				objeto.append("provedores[]", JSON.stringify(obj));
+			}
+        });
+		
 		$.ajax({
-			url: "controllers/sys/crud.sys.php",
-			data: {
-				flag: "teste",
-			},
+			url: objeto.get("caminho"),
+			data: objeto,
 			type: 'post',
-			processData: true,  
+			processData: false,  
+  			contentType: false, 
 			success: function(x){
 				$(".content-sized").html(x);	
 			}
@@ -757,7 +775,8 @@ var Menufunction = [];
 
 //Máscaras
 $('.dinheiro').mask('#.##0,00', {reverse: true});
-$('.telefone').mask('(00) 0 0000-0000');
+$('.telefone').mask('(00) 00000-0000');
+$('.telefonefixo').mask('(00) 0000-0000');
 $('.estado').mask('AA');
 $('.cpf').mask('000-000.000-00');
 $('.cnpj').mask('00.000.000/0000-00');

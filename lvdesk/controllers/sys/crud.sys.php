@@ -73,10 +73,9 @@ if(!empty($_POST)){
 			if(isset($dados['contatos'])){//campo de clientes que permite inserção dos contatos de e-mail
 				$contatos = $dados['contatos'];
 				unset($dados['contatos']);
-				
-				$contatos = str_replace(array("\n", "\r", "&nbsp;", "/\r|\n/", "<br>", "<div>", "</div>"), "", $contatos);
-				$contatos = preg_replace( "/\r|\n/", "", $contatos);
-				$contatos = trim($contatos);
+				/* $contatos = trim($contatos);
+				$contatos = str_replace(array("\s", "\n", "\r", "&nbsp;", "/\r|\n/", "<br>", "<div>", "</div>"), "", $contatos);
+				$contatos = preg_replace( "/\r|\n/", "", $contatos); */				
 				$array_contatos = explode(",", $contatos);
 			}
 			
@@ -178,7 +177,8 @@ if(!empty($_POST)){
 					if(isset($array_contatos)){//agenda de contatos válidos para clientes que usam e-mail
 						$ult_id = $_SESSION['ult_id'];
 						foreach($array_contatos as $value){
-							$newcontato['contatos'] 	= $value;
+							$value = str_replace(array("\n", "\r", "&nbsp;", "/\r|\n/", "<br>", "<div>", "</div>", "<span>", "</span>"), "", $value);
+							$newcontato['contatos'] 	= trim($value);
 							$newcontato['id_cliente'] 	= $ult_id;
 							$a->add("agenda_contatos", $newcontato);
 						}
@@ -489,9 +489,9 @@ if(!empty($_POST)){
 			if(isset($dados['contatos'])){//campo de clientes que permite inserção dos contatos de e-mail
 				$contatos = $dados['contatos'];
 				unset($dados['contatos']);				
-				$contatos = str_replace(array("\n", "\r", "&nbsp;", "/\r|\n/", "<br>"), "", $contatos);
-				$contatos = preg_replace( "/\r|\n/", "", $contatos);
-				$contatos = trim($contatos);
+				/* $contatos = trim($contatos);
+				$contatos = str_replace(array("\s", "\n", "\r", "&nbsp;", "/\r|\n/", "<br>"), "", $contatos);
+				$contatos = preg_replace( "/\r|\n/", "", $contatos); */								
 				$array_contatos = explode(",", $contatos);
 			}
 			
@@ -507,7 +507,8 @@ if(!empty($_POST)){
 						$a->queryFree($query_delete);
 						$atualiza_contatos['id_cliente'] = $dados['id'];
 						foreach($array_contatos as $value){
-							$atualiza_contatos['contatos'] = $value;
+							$value = str_replace(array("\n", "\r", "&nbsp;", "/\r|\n/", "<br>", "<div>", "</div>", "<span>", "</span>"), "", $value);
+							$atualiza_contatos['contatos'] = trim($value);
 							$a->add("agenda_contatos", $atualiza_contatos);
 						}
 					}
@@ -797,6 +798,19 @@ if(!empty($_POST)){
 			global $dados;			
 			$dados = $_POST;
 			include("../../views/mail-viewer-NOC.php");			
+		break;
+		
+		case "processaProvedores":
+			$dados = $_POST;
+			foreach($dados as $key=>$value){
+				if(is_array($value)){
+					foreach($value as $foo=>$valor){
+						echo $foo." : ".$valor."<br>";
+					}
+				}else{
+					echo $key." => ".$value."<br>";
+				}
+			}
 		break;
 	}
   }	
