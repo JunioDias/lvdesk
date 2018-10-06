@@ -79,10 +79,10 @@ $log = new Logs;
 					<select class="form-control" name="atendente_responsavel" >						
 						<option data-nome=''>Selecione um responsável...</option>
 				<?php
-				$query_provedor	= "SELECT nome, id FROM usuarios  WHERE lixo = 0 ORDER BY nome ASC";	
+				$query_provedor	= "SELECT usuarios.nome AS nome, usuarios.id AS id, atendentes.id_usuarios AS id_user FROM `usuarios` JOIN atendentes ON usuarios.usuario = atendentes.usuario WHERE usuarios.lixo = 0 ORDER BY nome ASC";				
 				$result = $a->queryFree($query_provedor);
 				while($linhas = $result->fetch_assoc()){
-					echo "<option value='".$linhas['id']."' data-nome='".$linhas['nome']."' ".($linhas['id']== $atendente_responsavel  ? 'selected' : '').">".$linhas['nome']."</option>";
+					echo "<option value='".$linhas['id']."' data-nome='".$linhas['nome']."' ".($linhas['id_user']== $atendente_responsavel  ? 'selected' : '').">".$linhas['nome']."</option>";
 				}
 				?>
 					</select>	
@@ -92,7 +92,7 @@ $log = new Logs;
 				<div class="form-group col-sm-6">
 					<label for="autor">Autor</label>
 					<?php
-					$queryAtend	= "SELECT id, nome FROM atendentes WHERE id = $autor";
+					$queryAtend	= "SELECT id, nome FROM atendentes WHERE id_usuarios = $autor";
 					if(isset($id)){
 						$result = $a->queryFree($queryAtend);
 						$linha = $result->fetch_assoc();
@@ -208,7 +208,7 @@ $log = new Logs;
 															<section class="section_historico">
 				<?php
 				$query_movimentos = "
-				SELECT pav.id, pav.protocol, pav.data, pav.descricao, pav.solution, atend.nome FROM pav_movimentos AS pav INNER JOIN atendentes AS atend ON atend.id = pav.id_atendente INNER JOIN pav_inscritos ON pav_inscritos.id = pav.id_pav_inscritos WHERE pav.id_pav_inscritos = $id AND pav.lixo = 0 ORDER BY pav.data DESC LIMIT 8";
+				SELECT pav.id, pav.protocol, pav.data, pav.descricao, pav.solution, atend.nome FROM pav_movimentos AS pav INNER JOIN atendentes AS atend ON atend.id_usuarios = pav.id_atendente INNER JOIN pav_inscritos ON pav_inscritos.id = pav.id_pav_inscritos WHERE pav.id_pav_inscritos = $id AND pav.lixo = 0 ORDER BY pav.data DESC LIMIT 8";
 				$resultado = $a->queryFree($query_movimentos);
 				if($resultado){
 					while($linhas = $resultado->fetch_assoc()){

@@ -80,13 +80,13 @@ if(isset($_POST['id'])){
 			<div class="form-group col-sm-8">
 				<div class="form-group">
 					<label for="provedor">Software de Gestão</label>
-					<select class="form-control" name="id_provedor" id="addSoftware">							
+					<select class="form-control" id="addSoftware">							
 						<?php	
 						$query = "SELECT * FROM pav WHERE lixo = 0";
 						$resultado = $a->queryFree($query);
 						if(isset($resultado)){
 							while($linhas = $resultado->fetch_assoc()){					
-								echo "<option value='".$linhas['id']."' ".($linhas['id'] == $provedor ? "selected" : '').">".$linhas['nome']."</option>";						
+								echo "<option data-tipo='".$linhas['tipo_bd']."' value='".$linhas['id']."' ".($linhas['id'] == $provedor ? "selected" : '').">".$linhas['nome']."</option>";						
 							}
 						}else{
 							echo "<option>Cadastre um software de provedor antes de usar</option>";

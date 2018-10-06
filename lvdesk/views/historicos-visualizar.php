@@ -76,16 +76,15 @@ $log = new Logs;
 				</div>
 				<div class="form-group col-sm-6">
 					<label for="atendente_responsavel">Atendente responsável</label>
-					<select class="form-control" name="atendente_responsavel" >			
-					<?php
-					$queryAtend	= "SELECT id, nome FROM atendentes WHERE tipo_atendente = '1' AND lixo = 0";
-					if(isset($id)){
-						$result = $a->queryFree($queryAtend);
-						while($linhas = $result->fetch_assoc()){
-							echo "<option value='".$linhas['id']."' ".($linhas['id']==$id ? 'selected' : '').">".$linhas['nome']."</option>";
-						}	
-					}				
-					?>
+					<select class="form-control" name="atendente_responsavel" >						
+						<option data-nome=''>Selecione um responsável...</option>
+				<?php
+				$query_provedor	= "SELECT usuarios.nome AS nome, usuarios.id AS id FROM `usuarios` join atendentes on usuarios.usuario = atendentes.usuario where usuarios.lixo = 0 ORDER BY nome ASC";				
+				$result = $a->queryFree($query_provedor);
+				while($linhas = $result->fetch_assoc()){
+					echo "<option value='".$linhas['id']."' data-nome='".$linhas['nome']."' ".($linhas['id']== $atendente_responsavel  ? 'selected' : '').">".$linhas['nome']."</option>";
+				}
+				?>
 					</select>	
 				</div>
 			</div>
@@ -201,7 +200,7 @@ $log = new Logs;
 															<section class="section_historico">
 				<?php
 				$query_movimentos = "
-				SELECT pav.id, pav.protocol, pav.data, pav.descricao, pav.solution, atend.nome FROM pav_movimentos AS pav INNER JOIN atendentes AS atend ON atend.id = pav.id_atendente INNER JOIN pav_inscritos ON pav_inscritos.id = pav.id_pav_inscritos WHERE pav.id_pav_inscritos = $id AND pav.lixo = 0 ORDER BY pav.data DESC LIMIT 8";
+				SELECT pav.id, pav.protocol, pav.data, pav.descricao, pav.solution, atend.nome FROM pav_movimentos AS pav INNER JOIN atendentes AS atend ON atend.id_usuarios = pav.id_atendente INNER JOIN pav_inscritos ON pav_inscritos.id = pav.id_pav_inscritos WHERE pav.id_pav_inscritos = $id AND pav.lixo = 0 ORDER BY pav.data DESC LIMIT 8";
 				$resultado = $a->queryFree($query_movimentos);
 				if($resultado){
 					while($linhas = $resultado->fetch_assoc()){

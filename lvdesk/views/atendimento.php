@@ -34,6 +34,8 @@ if($id_provedor){//Existe um provedor
 	$provedor 	 	= $arr_cliente['nome'];
 	$endereco 		= $array['servicos'][0]['endereco_cobranca']['completo'];
 	$telefone		= $array['telefone_primario'];
+	$telefone_sec	= $array['telefone_secundario'];
+	$telefone_ter	= $array['telefone_terciario'];
 	$usuario		= $array['servicos'][0]['login'];
 	$senha_pppoe	= $array['servicos'][0]['senha'];
 	$nas			= $array['servicos'][0]['equipamento_conexao']['ipv4'];
@@ -50,6 +52,8 @@ if($id_provedor){//Existe um provedor
 	$provedor 	 	= NULL;
 	$endereco 		= NULL;
 	$telefone		= NULL;
+	$telefone_sec	= NULL;
+	$telefone_ter	= NULL;
 	$usuario		= NULL;
 	$senha_pppoe	= NULL;
 	$nas			= NULL;
@@ -98,7 +102,25 @@ if($id_provedor){//Existe um provedor
 							<label for="endereco_cliente">Endereço completo</label>
 							<input type="text" class="form-control" name="endereco_cliente" value="<?= $endereco; ?>">
 						</div>				
-					</div>				
+					</div>
+					<div class="form-group col-sm-4">
+						<div class="form-group">
+							<label for="telefone_cliente">Telefone 1</label>
+							<input type="text" class="form-control telefone" name="telefone_cliente" value="<?= $telefone;?>">
+						</div>
+					</div>						
+					<div class="form-group col-sm-4">	
+						<div class="form-group">
+							<label for="telefone_cliente_sec">Telefone 2</label>
+							<input type="text" class="form-control telefone" name="telefone_cliente_sec" value="<?= $telefone_sec;?>">
+						</div>
+					</div>						
+					<div class="form-group col-sm-4">
+						<div class="form-group">
+							<label for="telefone_cliente_ter">Telefone 3</label>
+							<input type="text" class="form-control telefone" name="telefone_cliente_ter" value="<?= $telefone_ter;?>">
+						</div>
+					</div>
 				</div>
 				<div class="row">
 					<div class="form-group col-sm-4">
@@ -106,13 +128,7 @@ if($id_provedor){//Existe um provedor
 					<div class="form-group">
 						<label for="cpf_cnpj_cliente">CPF</label>
 						<input type="text" class="form-control" name="cpf_cnpj_cliente" value="<?= $cpf_cnpj; ?>">			
-					</div>							
-					
-					<div class="form-group">
-						<label for="telefone_cliente">Telefone</label>
-						<input type="text" class="form-control" name="telefone_cliente" value="<?= $telefone;?>">
-					</div>
-				
+					</div>		
 					<div class="form-group">
 						<label for="situacao">Situação</label>
 						<input type="text" class="form-control" name="situacao" value="<?= $status;?>">

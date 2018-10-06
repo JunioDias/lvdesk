@@ -45,7 +45,7 @@ if(isset($_SESSION['resultado_pesquisa'])){
 			</tr>
 			");	
 			$i++;
-		} 
+		}
 	}
 ?>	
 </tbody>

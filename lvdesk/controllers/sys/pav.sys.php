@@ -2,7 +2,9 @@
 include("../model.inc.php");
 if(!empty($_POST)){
 	$a = new Model;
+	global $dados;
 	$dados = $_POST;
+	#print_r($_SESSION);
 	switch($dados['flag']){
 		case "OAuth":
 			function requisicao($url, $method, $body = [], $token = null){
@@ -27,53 +29,56 @@ if(!empty($_POST)){
 
 				return $resp;
 			}
-
-			$clientId = "3";
-			$clientSecret = "ONe7Ns48Y30tBMzneWAwL6hWuh4ze09Jf7qcMsO9";
-			$username = "api@hubsoft.com.br";
-			$password = "api123api";
-			$url = "https://api.dev.hubsoft.com.br";
-			$urlOauth = $url . "/oauth/token";			
-
-			//Body da requisição do oauth
-			$requestBody = [
-				"client_id"=>$clientId,
-				"client_secret"=>$clientSecret,
-				"username"=>$username,
-				"password"=>$password,
-				"grant_type"=>"password"
-			];		
-
-			if(isset($dados['listagem'])){//Código #61
-				unset($dados['listagem']);
-				$_SESSION["datalogin"]["id_contrato"] = $dados['contrato'];	
-			}			
-			if(isset($_POST['nome']) || isset($_POST['cpf'])){
-				$nome 	= htmlentities(urlencode($_POST['nome']));
-				$cpf	= htmlentities(urlencode($_POST['cpf']));
-				$query = $a->termosPesquisa($nome, 'nome_razaosocial', $cpf, 'cpf_cnpj');
-				$authToken = $_SESSION['authorizationToken'];
-				
-				if(isset($query)){					
-					$urlCliente = $url . "/api/v1/integracao/cliente?".$query;			
-					//Faz requisição do cliente
-					$reqCliente = requisicao($urlCliente, 'GET', [], $authToken);
-					if(isset($dados['id_provedor'])){ //Código #55
-						$_SESSION['resultado_pesquisa'] = $reqCliente;
-						$_SESSION['resultado_pesquisa']['id'] = $dados['id_provedor'];
-					}else{
-						$_SESSION['resultado_pesquisa'] = $reqCliente;
+			if(isset($dados['id_dados'])){	
+				$query 			= "SELECT * FROM pav_dados WHERE id = ".$dados['id_dados']." AND lixo = 0";
+				$foo 			= $a->queryFree($query);
+				$set_dados 		= $foo->fetch_assoc();
+				$clientId 		= $set_dados['client_id'];
+				$clientSecret 	= $set_dados['client_secret'];
+				$username 		= $set_dados['client_user'];
+				$password 		= $set_dados['client_pass'];
+				$url 			= $set_dados['client_url']; # Caminho específico para requisição do cliente
+				$urlOauth 		= $url . "/oauth/token";	# Caminho específico da autenticação	
+				//Body da requisição do oauth
+				$requestBody = [
+					"client_id"=>$clientId,
+					"client_secret"=>$clientSecret,
+					"username"=>$username,
+					"password"=>$password,
+					"grant_type"=>"password"
+				];		
+			
+				if(isset($dados['listagem'])){//Código #61
+					unset($dados['listagem']);
+					$_SESSION["datalogin"]["id_contrato"] = $dados['contrato'];	
+				}			
+				if(isset($_POST['nome']) || isset($_POST['cpf'])){
+					$nome 	= htmlentities(urlencode($_POST['nome']));
+					$cpf	= htmlentities(urlencode($_POST['cpf']));
+					$query = $a->termosPesquisa($nome, 'nome_razaosocial', $cpf, 'cpf_cnpj');
+					$authToken = $_SESSION['authorizationToken'];
+					
+					if(isset($query)){					
+						$urlCliente = $url . "/api/v1/integracao/cliente?".$query;				
+						//Faz requisição do cliente
+						$reqCliente = requisicao($urlCliente, 'GET', [], $authToken);
+						if(isset($dados['id_provedor'])){ //Código #55
+							$_SESSION['resultado_pesquisa'] = $reqCliente;
+							$_SESSION['resultado_pesquisa']['id'] = $dados['id_provedor'];
+						}else{
+							$_SESSION['resultado_pesquisa'] = $reqCliente;
+						}
+						#print_r($_SESSION['resultado_pesquisa']);
+						include("../../views/resultado-pesquisa-provedor.php");
 					}
-					//print_r($_SESSION['resultado_pesquisa']);
-					include("../../views/resultado-pesquisa-provedor.php");
+				}else{
+					//Faz autorização do oauth
+					$reqOauth = requisicao($urlOauth, 'POST', $requestBody);
+					//Monta o token Authorization 					
+					$tokenType = $reqOauth['token_type'];
+					$accessToken = $reqOauth['access_token'];
+					$_SESSION['authorizationToken'] = $tokenType . " " . $accessToken;
 				}
-			}else{
-				//Faz autorização do oauth
-				$reqOauth = requisicao($urlOauth, 'POST', $requestBody);
-				//Monta o token Authorization 
-				$tokenType = $reqOauth['token_type'];
-				$accessToken = $reqOauth['access_token'];
-				$_SESSION['authorizationToken'] = $tokenType . " " . $accessToken;
 			}			
 		break;
 		case "PostgreSQL":

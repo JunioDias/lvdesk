@@ -27,6 +27,7 @@ if(isset($_POST['id'])){
 	$cidade			= $edicao['cidade'];
 	$uf				= $edicao['uf'];
 	$tipo_atendente	= $edicao['tipo_atendente'];	
+	$id_user		= $edicao['id_usuarios'];
 	$foto			= $edicao['foto'];
 	$flag	 		= "update";
 }else{
@@ -49,6 +50,7 @@ if(isset($_POST['id'])){
 	$cidade			= NULL;
 	$uf				= NULL;
 	$tipo_atendente	= NULL;
+	$id_user		= NULL;
 	$foto			= NULL;
 	$flag	 		= "add";
 	
@@ -64,18 +66,18 @@ if(isset($_POST['id'])){
 		<div class="form-group">
 			<label for="nome">Usuário</label>
 			<select class="form-control" name="nome" id="atendentes-select-user">
-			<option user=''>Selecione um usuário...</option>
+			<option data-user=''>Selecione um usuário...</option>
 			<?php
 			$query 	= "SELECT id, nome, usuario FROM usuarios WHERE lixo = 0";
 			if(is_null($id)){
 				$result = $e->queryFree($query);
 				while($linhas = $result->fetch_assoc()){
-					echo "<option value='".$linhas['nome']."' user='".$linhas['usuario']."'>".$linhas['nome']."</option>";
+					echo "<option data-id='".$linhas['id']."' value='".$linhas['nome']."' data-user='".$linhas['usuario']."'>".$linhas['nome']."</option>";
 				}		
 			}else{	
 				$result = $e->queryFree($query);
 				while($linhas = $result->fetch_assoc()){
-					echo "<option value='".$linhas['nome']."' user='".$linhas['usuario']."' ".($linhas['id']==$id ? 'selected' : '').">".$linhas['nome']."</option>";
+					echo "<option data-id='".$linhas['id']."' value='".$linhas['nome']."' data-user='".$linhas['usuario']."' ".($linhas['id']==$id ? 'selected' : '').">".$linhas['nome']."</option>";
 				}
 			}						
 			?>
@@ -84,6 +86,7 @@ if(isset($_POST['id'])){
 		<div class="form-group">
 			<label for="usuario">Nome de usuário (e-mail)</label>
 			<input type="text" class="form-control" name="usuario" />
+			<input type="hidden" name="id_usuarios" />
 		</div>
 		<div class="form-group">
 			<label for="data_nasc">Data de nascimento</label>

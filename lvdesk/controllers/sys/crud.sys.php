@@ -801,16 +801,32 @@ if(!empty($_POST)){
 		break;
 		
 		case "processaProvedores":
+			$a = new Model;
 			$dados = $_POST;
+			$tabela = $dados["tbl"];
+			unset($dados["retorno"], $dados["flag"], $dados["tbl"], $dados["caminho"] );
+			global $newArray; 
+			global $dados_provedores; 
+			
 			foreach($dados as $key=>$value){
-				if(is_array($value)){
+				if(is_array($value)){					
 					foreach($value as $foo=>$valor){
-						echo $foo." : ".$valor."<br>";
+						$arr = json_decode($valor);
+						foreach($arr as $indice=>$item){
+							$dados_provedores[$indice] = $item;
+						} 	
+						$a->add($tabela, $dados_provedores);	
+						if(isset($_SESSION["ult_id"])){
+							$a->upd($tabela, $newArray, $_SESSION["ult_id"]);
+						}else{
+							echo "SESSION não iniciada";
+						}
 					}
 				}else{
-					echo $key." => ".$value."<br>";
-				}
-			}
+					$newArray[$key] = $value;
+				}	
+			}		
+			
 		break;
 	}
   }	

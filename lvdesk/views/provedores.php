@@ -28,11 +28,11 @@ $query = "SELECT pav_dados.*, c.nome AS cliente_nome, pav.nome  AS pav_nome FROM
 JOIN clientes AS c ON id_clientes = c.id 
 JOIN pav ON id_pav = pav.id
 WHERE pav_dados.lixo = 0";
-$query_priv = "SELECT * FROM pav_dados WHERE lixo = 0";
+
 $nomediv		= ".content-sized";				#nome da div onde o callback vai ocorrer
 $tabela  		= "pav_dados";					#tabela principal, alvo da rotina
-$cbkedit		= "views/permissoes-crud.php";	#callback do botão Editar
-$cbkdel 		= "views/permissoes.php";  		#callback do botão Excluir
+$cbkedit		= "views/provedores-crud.php";	#callback do botão Editar
+$cbkdel 		= "views/provedores.php";  		#callback do botão Excluir
 $link			= "controllers/sys/crud.sys.php";
 $i = 1;
 $botoes = new Acoes();
@@ -70,7 +70,7 @@ if($foo['id'] != ''){
 			<h4 class="modal-title" id="myModalLabel">Tem certeza?</h4>
 		  </div>
 		  <div class="modal-body">	
-			<p>O registro selecionado será modificado.</p>
+			<p>O registro selecionado será excluído.</p>
 		  </div>
 		  <div class="modal-footer">
 			<input class='btn btn-danger waves-effect remove-inputs' data-dismiss="modal" value='Não'/>
@@ -81,9 +81,7 @@ if($foo['id'] != ''){
 	</div>
 	<section class="input_hidden">
 		<input type='hidden' name='tbl' value='<?=$tabela;?>' />
-		<input type='hidden' name='retorno' value='<?=$nomediv;?>' />
-		<input type='hidden' name='caminho' value='<?=$link;?>' /> 
-		<input type='hidden' name='flag' value='update' />		
+		<input type='hidden' name='retorno' value='<?=$nomediv;?>' />	
 	</section>
 </form>
 </div>
