@@ -29,7 +29,7 @@ $row = $busca_autor->fetch_assoc();
 						<div class="form-group col-sm-6">
 							<label for="data_abertura">Data de abertura</label>
 							<input type="text" class="form-control" value="<?= date("d/m/Y");?>"/>
-							<input type="hidden" name="data_abertura" value="<?= date("Y-m-d");?>" />
+							<input type="hidden" name="data_abertura" value="<?= date("Y-m-d H:i:s");?>" />
 						</div>
 						<div class="form-group col-sm-6">
 							<label for="autor">Autor</label>
@@ -115,13 +115,13 @@ $row = $busca_autor->fetch_assoc();
 						</div>
 						
 						<div class="form-group">
-							<label for="endereco_cliente">Endereço completo</label>
-							<input type="text" class="form-control" name="endereco_cliente" >
+							<label for="endereco_cliente_cad">Endereço completo</label>
+							<input type="text" class="form-control" name="endereco_cliente_cad" >
 						</div>
 							
 						<div class="form-group">
 							<label for="telefone_cliente">Telefone</label>
-							<input type="text" class="form-control" name="telefone_cliente" >
+							<input type="text" class="form-control telefone" name="telefone_cliente" >
 						</div>
 						<div class="form-group">
 							<label for="situacao">Situação</label>
@@ -137,6 +137,10 @@ $row = $busca_autor->fetch_assoc();
 						<div class="form-group">
 							<label for="pppoe">PPPoE</label>
 							<input type="text" class="form-control" name="pppoe" >
+						</div>
+						<div class="form-group">
+							<label for="usuario">Usuário</label>
+							<input type="text" class="form-control" name="usuario" >
 						</div>
 						<div class="form-group">
 							<label for="senha_pppoe">Senha</label>
@@ -213,7 +217,9 @@ $row = $busca_autor->fetch_assoc();
 						<option value='3'>Despachar a cliente</option>
 					</select>	
 				</div>
-				<div id="callback-atribuiGrupo"></div>
+				<div id="callback-atribuiGrupo">
+					
+				</div>
 			</div>
 			<div class="modal-footer">					  				
 				<div class="form-group col-sm-12">

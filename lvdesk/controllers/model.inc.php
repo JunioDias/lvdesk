@@ -4,7 +4,7 @@ include("conexao.inc.php");
 class Model{
 	
 	public function conectaIMAP(){
-		/*$username 			= "noc@lvnetwork.com.br";
+		/*$username 		= "noc@lvnetwork.com.br";
 		$password 			= "lvn37w0rk5";*/
 		$username			= "noreply@lvnetwork.com.br";
 		$password			= "Y*uQWq~Tg3J4";

@@ -3,7 +3,7 @@ include("../controllers/model.inc.php");
 $retorno	= ".content-sized";
 $a = new Model();
 if(isset($_POST['id'])){
-	$qry = "SELECT c.*, cli.nome FROM contratos AS c INNER JOIN clientes AS cli ON id_cliente = cli.id WHERE c.lixo = 0 ";	
+	$qry = "SELECT c.*, cli.nome FROM contratos AS c INNER JOIN clientes AS cli ON id_cliente = cli.id WHERE c.id = ".$_POST['id'];	
 	$a->queryFree($qry);	
 	$edicao 	= $_POST;
 	$edicao 	= $result->fetch_assoc();

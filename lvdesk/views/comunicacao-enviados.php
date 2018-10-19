@@ -35,9 +35,7 @@
 	$link		= "controllers/sys/crud.sys.php";
 	$flag		= "visualizar";
 	
-	$query 	= "SELECT c.*, u.nome AS nome_user FROM comunicacao_interna_movimentos AS c
-	INNER JOIN usuarios AS u ON c.id_destinatario = u.id 
-	WHERE c.lixo = 0 AND c.id_autor = '".$dadoslogin['id']."' ORDER BY data DESC";
+	$query 	= "SELECT c.*, u.nome AS nome_user FROM comunicacao_interna_movimentos AS c INNER JOIN usuarios AS u ON c.id_destinatario = u.id WHERE c.lixo = 0 AND c.id_autor = '".$dadoslogin['id']."' GROUP BY c.protocol ORDER BY c.data DESC";
 	$result = $a->queryFree($query);
 	if(!$result){
 		echo"<tr><td>Nenhum registro foi encontrado.</td></tr>";
@@ -58,17 +56,6 @@
 	?>
 	</tbody>
 	</table>
-	<!--<div class="clear"></div>
-	 <ul class="pagination pagination-sm">
-		<li> <a href="#"> <i class="fa fa-angle-left"></i> </a> </li>
-		<li> <a href="#">1</a> </li>
-		<li class="active"> <a href="#">2</a> </li>
-		<li> <a href="#">3</a> </li>
-		<li class="disabled"> <a href="#">4</a> </li>
-		<li> <a href="#">5</a> </li>
-		<li> <a href="#">6</a> </li>
-		<li> <a href="#"> <i class="fa fa-angle-right"></i> </a> </li>
-	</ul>-->
 </div>
 <form id='form_action'>
 	<!--Início do modal de confirmação -->
@@ -93,6 +80,7 @@
 	<input type='hidden' name='allow' value='on'/>
 	<input type='hidden' name='tbl' value='<?=$tabela;?>' />
 	<input type='hidden' name='retorno' value='.content-sized' />
+	<input type='hidden' name='var' value='autor' />
 </form>
 <script>
 NProgress.done();

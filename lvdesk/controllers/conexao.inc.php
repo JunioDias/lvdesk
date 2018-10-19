@@ -6,7 +6,7 @@ header('Content-Type: text/html; charset=utf-8');
 	$host	= "sql137.main-hosting.eu";
 	
 	#$host	 = 'localhost'; 
-
+date_default_timezone_set('America/Sao_Paulo');
 $mysqli = new MySQLi($host,$user,$senha,$bd);
 if($mysqli->connect_errno) {
     echo "Falha na conexão do MySQL: " . $mysqli->connect_error;

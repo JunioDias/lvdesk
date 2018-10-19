@@ -1,15 +1,21 @@
 <?php
 include("../controllers/model.inc.php");
 include("../controllers/logs.inc.php"); 
-if(isset($_POST['id'])){//Campo id em comunicacao_interna definido em comunicacao.php ou actions.inc.php
-	$dados = $_POST;	
+include("../controllers/actions.inc.php"); 
+if(isset($_POST['id'])){ # Campo id em comunicacao_interna definido em comunicacao-enviados.php, comunicacao-recebidos.php ou actions.inc.php
+	$dados = $_POST;
 	$id = $dados['id'];
 	$query_lidas = "UPDATE comunicacao_interna_movimentos SET lida = 1 WHERE id = $id";	
-	$query = "
-	SELECT c.*, u.nome AS nome_user FROM pav_inscritos AS c
+	$query = "SELECT pav_inscritos.* FROM `comunicacao_interna_movimentos` INNER JOIN pav_inscritos ON pav_inscritos.protocol = comunicacao_interna_movimentos.protocol WHERE ".$dados['var']." = '$id' AND comunicacao_interna_movimentos.lixo = 0";
+	
+	/* --------------- Sentença antiga ---------------------------------------
+	"SELECT c.*, u.nome AS nome_user FROM comunicacao_interna_movimentos AS c
 	INNER JOIN usuarios AS u ON c.autor = u.id 
-	WHERE c.lixo = 0 AND c.id = '$id'";
+	WHERE c.lixo = 0 AND c.id = '$id'"; 
+	------------------------------------------------------------------------*/
+	
 	$a = new Model;
+	$act = new Acoes;
 	$a->queryFree($query_lidas);
 	$result = $a->queryFree($query);
 	if(isset($result)){
@@ -18,11 +24,10 @@ if(isset($_POST['id'])){//Campo id em comunicacao_interna definido em comunicaca
 }
 
 $data_abertura	= $matriz['data_abertura'];
-$grupo		 	= $matriz['grupo_responsavel'];
 $nome_cliente	= $matriz['nome_cliente'];
 $cpf_cnpj		= $matriz['cpf_cnpj_cliente'];
 $autor	 	 	= $matriz['autor'];
-$endereco 		= $matriz['endereco_cliente'];
+$endereco 		= $matriz['endereco_cliente_cad'];
 $telefone		= $matriz['telefone_cliente'];
 $usuario		= $matriz['usuario'];
 $senha_pppoe	= $matriz['senha_pppoe'];
@@ -30,6 +35,7 @@ $nas			= $matriz['nas'];
 $pppoe			= $matriz['pppoe'];
 $ip				= $matriz['ip'];
 $protocol		= $matriz['protocol'];
+$grupo		 	= $act->grupo_responsavel($protocol);
 $status			= $matriz['status'];
 $historico		= $matriz['historico'];
 $nome_provedor  = $matriz['nome_provedor'];
@@ -37,9 +43,13 @@ $situacao		= $matriz['situacao'];
 $flag	 		= "teste";
 $retorno		= ".content-sized";
 
-if(!empty($_SESSION["datalogin"])){
-	$datalogin 					= $_SESSION["datalogin"];
-	$atendente_responsavel		= $datalogin['id'];
+if($matriz['atendente_responsavel'] == ''){
+	if(!empty($_SESSION["datalogin"])){
+		$datalogin 					= $_SESSION["datalogin"];
+		$atendente_responsavel		= $datalogin['id'];
+	}
+}else{
+	$atendente_responsavel			= $matriz['atendente_responsavel'];
 }
 $log = new Logs;
 ?>
@@ -65,33 +75,22 @@ $log = new Logs;
 				<div class="form-group col-sm-6">
 					<label for="status">Status</label>
 					<select class="form-control" name="status" >			
-					<?php					
-					if(isset($id)){
-						$queryStatus	= "SELECT status FROM pav_inscritos WHERE id = $id";
-						$result = $a->queryFree($queryStatus);
-						while($linhas = $result->fetch_assoc()){
-							echo "
-							<option value='0' ".($linhas['status']== 0  ? 'selected' : '').">Novo</option>
-							<option value='1' ".($linhas['status']== 1  ? 'selected' : '').">Em atendimento</option>
-							<option value='2' ".($linhas['status']== 2  ? 'selected' : '').">Solucionado</option>
-							";
-						}	
-					}				
-					?>
+						<option value='0' <?=($status== 0  ? 'selected' : ''); ?>>Novo</option>
+						<option value='1' <?=($status== 1  ? 'selected' : ''); ?>>Em atendimento</option>
+						<option value='2' <?=($status== 2  ? 'selected' : ''); ?>>Solucionado</option>						
 					</select>			
 				</div>
 				<div class="form-group col-sm-6">
 					<label for="atendente_responsavel">Atendente responsável</label>
-					<select class="form-control" name="atendente_responsavel" >			
-					<?php
-					$queryAtend	= "SELECT id, nome FROM atendentes WHERE tipo_atendente = '1' AND lixo = 0";
-					if(isset($id)){
-						$result = $a->queryFree($queryAtend);
-						while($linhas = $result->fetch_assoc()){
-							echo "<option value='".$linhas['id']."' ".($linhas['id']==$id ? 'selected' : '').">".$linhas['nome']."</option>";
-						}	
-					}				
-					?>
+					<select class="form-control" name="atendente_responsavel" >						
+						<option data-nome=''>Selecione um responsável...</option>
+						<?php
+						$query_provedor	= "SELECT usuarios.nome AS nome, usuarios.id AS id, atendentes.id_usuarios AS id_user FROM `usuarios` JOIN atendentes ON usuarios.usuario = atendentes.usuario WHERE usuarios.lixo = 0 ORDER BY nome ASC";				
+						$resulting = $a->queryFree($query_provedor);
+						while($linhas = $resulting->fetch_assoc()){
+							echo "<option value='".$linhas['id']."' data-nome='".$linhas['nome']."' ".($linhas['id_user']== $atendente_responsavel  ? 'selected' : '').">".$linhas['nome']."</option>";
+						}
+						?>
 					</select>	
 				</div>
 			</div>
@@ -99,8 +98,8 @@ $log = new Logs;
 				<div class="form-group col-sm-6">
 					<label for="autor">Autor</label>
 					<?php
-					$queryAtend	= "SELECT id, nome FROM usuarios WHERE id = $autor";
-					if(isset($id)){
+					$queryAtend	= "SELECT id, nome FROM usuarios WHERE id = ".$autor;
+					if($id != ''){
 						$result = $a->queryFree($queryAtend);
 						$linha = $result->fetch_assoc();
 						echo '<input type="text" class="form-control" value="'.$linha['nome'].'" />';	
@@ -158,6 +157,10 @@ $log = new Logs;
 				<div class="form-group">
 					<label for="pppoe">PPPoE</label>
 					<input type="text" class="form-control" name="pppoe" value="<?= $pppoe ;?>">
+				</div>
+				<div class="form-group">
+					<label for="usuario">Usuário</label>
+					<input type="text" class="form-control" name="usuario" value="<?= $usuario;?>">
 				</div>
 				<div class="form-group">
 					<label for="senha_pppoe">Senha</label>

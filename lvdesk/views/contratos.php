@@ -28,10 +28,10 @@ include("../controllers/model.inc.php");
 	
 $query 			= "SELECT c.*, cli.nome AS nome FROM contratos AS c INNER JOIN clientes AS cli ON id_cliente = cli.id WHERE c.lixo = 0 ";
 
-$nomediv		= ".content-sized";				#nome da div onde o callback vai ocorrer
-$tabela  		= "contratos";					#tabela principal, alvo da rotina
-$cbkedit		= "views/contratos-crud.php";	#callback do botão Editar
-$cbkdel 		= "views/contratos.php";  		#callback do botão Excluir
+$nomediv		= ".content-sized";					#nome da div onde o callback vai ocorrer
+$tabela  		= "contratos";						#tabela principal, alvo da rotina
+$cbkedit		= "views/contratos-crud.php";		#callback do botão Editar
+$cbkdel 		= "views/contratos.php";  			#callback do botão Excluir
 $link			= "controllers/sys/crud.sys.php";
 
 $botoes = new Acoes();

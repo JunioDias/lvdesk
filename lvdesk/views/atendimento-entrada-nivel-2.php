@@ -6,17 +6,17 @@ if(isset($id)){//Campo id em pav_incritos definido em crud.sys
 	INNER JOIN atendentes AS atend ON atend.id = pav.atendente_responsavel 
 	WHERE pav.id = '$id'";
 	$a = new Model;
+	$act = new Acoes;
 	$result = $a->queryFree($query);
 	if(isset($result)){
 		$matriz = $result->fetch_assoc(); 
 	}
 }
 $data_abertura	= $matriz['data_abertura'];
-$grupo		 	= $matriz['grupo_responsavel'];
 $nome_cliente	= $matriz['nome_cliente'];
 $cpf_cnpj		= $matriz['cpf_cnpj_cliente'];
 $autor	 	 	= $matriz['autor'];
-$endereco 		= $matriz['endereco_cliente'];
+$endereco 		= $matriz['endereco_cliente_cad'];
 $telefone		= $matriz['telefone_cliente'];
 $usuario		= $matriz['usuario'];
 $senha_pppoe	= $matriz['senha_pppoe'];
@@ -24,6 +24,7 @@ $nas			= $matriz['nas'];
 $pppoe			= $matriz['pppoe'];
 $ip				= $matriz['ip'];
 $protocol		= $matriz['protocol'];
+$grupo		 	= $act->grupo_responsavel($protocol);
 $status			= $matriz['status'];
 $historico		= $matriz['historico'];
 $nome_provedor  = $matriz['nome_provedor'];
@@ -31,9 +32,13 @@ $situacao		= $matriz['situacao'];
 $flag	 		= "update";
 $retorno		= ".content-sized";
 
-if(!empty($_SESSION["datalogin"])){
-	$datalogin 					= $_SESSION["datalogin"];
-	$atendente_responsavel		= $datalogin['id'];
+if($matriz['atendente_responsavel'] == ''){
+	if(!empty($_SESSION["datalogin"])){
+		$datalogin 					= $_SESSION["datalogin"];
+		$atendente_responsavel		= $datalogin['id'];
+	}
+}else{
+	$atendente_responsavel			= $matriz['atendente_responsavel'];
 }
 $log = new Logs;
 ?>
@@ -52,7 +57,7 @@ $log = new Logs;
 				</div>
 				<div class="form-group col-sm-6">
 					<label for="grupo_responsavel">Grupo responsável</label>
-					<input type="text" class="form-control" name="grupo_responsavel" value="<?= $grupo ;?>">
+					<input type="text" class="form-control" name="grupo_responsavel" value="<?= $grupo;  ?>">
 				</div>
 			</div>
 			<div class="row">
@@ -151,6 +156,10 @@ $log = new Logs;
 				<div class="form-group">
 					<label for="pppoe">PPPoE</label>
 					<input type="text" class="form-control" name="pppoe" value="<?= $pppoe ;?>">
+				</div>
+				<div class="form-group">
+					<label for="usuario">Usuário</label>
+					<input type="text" class="form-control" name="usuario" value="<?= $usuario;?>">
 				</div>
 				<div class="form-group">
 					<label for="senha_pppoe">Senha</label>

@@ -179,5 +179,20 @@ class Acoes{
 	return mb_convert_encoding($string, $to_encoding, $from_encoding);
   }
 
+	public function grupo_responsavel($protocol){
+		$a = new Model;
+		$retorno = NULL;
+		$query = "SELECT usuarios.nome AS nome_atend FROM group_user INNER JOIN pav_inscritos ON pav_inscritos.id = group_user.pav_insc_id INNER JOIN usuarios ON group_user.user_id = usuarios.id WHERE pav_inscritos.protocol = '".$protocol."'";
+		$foo = $a->queryFree($query);
+		while($result = $foo->fetch_assoc()){
+			$retorno .= $result['nome_atend']."  ";
+		}
+		if($retorno != ""){
+			return $retorno;
+		}else{
+			$retorno = "Nenhum grupo atribuído";
+			return $retorno;
+		}	  
+	}
 }
 ?>

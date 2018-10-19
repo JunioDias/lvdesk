@@ -638,7 +638,9 @@ $(document).ready(function(){
 			for(var pair of contatos.entries()) {
 				objeto.append(pair[0], pair[1]); 
 			} 
-			
+			/* for(var pair of objeto.entries()) {
+				console.log(pair[0], pair[1]); 
+			} */
 			$.ajax({
 				url: objeto.get("caminho"), 
 				data: objeto,

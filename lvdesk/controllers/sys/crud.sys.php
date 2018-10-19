@@ -2,6 +2,7 @@
 include("../model.inc.php");
 include("../actions.inc.php");
 include("../logs.inc.php");
+include("../conexao.inc.php");
 if(!empty($_POST)){
 	switch($_POST['flag']){
 		case "existeUser":
@@ -101,22 +102,20 @@ if(!empty($_POST)){
 			if(isset($dados['id_contatos'])){
 				if(is_array($dados['id_contatos'])){
 					foreach($dados['id_contatos'] as $value_id_contato ){
-						if(isset($dados['grupo_responsavel'])){
-							foreach($dados['grupo_responsavel'] as $id_atendente_responsavel){
-								$query_comunica = "INSERT INTO comunicacao_interna_movimentos (protocol, descricao, id_autor, id_destinatario, nome_provedor, data, id_contratos, atendente_responsavel) VALUES('".$dados['protocol']."', '".$dados['historico']."', '".$dados['autor']."', '".$value_id_contato."', '".$dados['nome_provedor']."', '".$dados['data_abertura']."', '".$dados['id_contratos']."', '".$id_atendente_responsavel."')";
-								$a->queryFree($query_comunica);
-							}
-						}else{
-							$query_comunica = "INSERT INTO comunicacao_interna_movimentos (protocol, descricao, id_autor, id_destinatario, nome_provedor, data, id_contratos, atendente_responsavel) VALUES('".$dados['protocol']."', '".$dados['historico']."', '".$dados['autor']."', '".$value_id_contato."', '".$dados['nome_provedor']."', '".$dados['data_abertura']."', '".$dados['id_contratos']."', '".$dados['atendente_responsavel']."')";
-							$a->queryFree($query_comunica);
-						}
+						# Cada contato recebe uma cópia da mensagem (relação N - N)
+						global $mysqli;
+						$query_comunica = "INSERT INTO comunicacao_interna_movimentos (protocol, descricao, id_autor, id_destinatario, nome_provedor, data, id_contratos, atendente_responsavel) VALUES('".$dados['protocol']."', '".$dados['historico']."', '".$dados['autor']."', '".$value_id_contato."', '".$dados['nome_provedor']."', '".$dados['data_abertura']."', '".$dados['id_contratos']."', '".$dados['atendente_responsavel']."')";
+						$mysqli->query($query_comunica);		
+						$id_comunica = $mysqli->insert_id;
+						$a->queryFree("INSERT INTO comunicacao_interna_contatos (id_comunicacao_interna, id_usuarios) VALUES('".$id_comunica."', '".$value_id_contato."')");							
 					}
 				}
+				$protocolo_pav = $dados["protocol"];
 				unset($dados['id_contatos']);
 			}
 			
 			if(isset($dados['subTabela'])){ 
-				if($dados['subTabela']=="planos_movimentos"){# cadastro auxiliar dos contratos na tabela planos_movimentos
+				if($dados['subTabela']=="planos_movimentos"){ # cadastro auxiliar dos contratos na tabela planos_movimentos
 					$newlog['tabela'] = $dados['subTabela'];
 					# instancia variável para foreach tratar os planos selecionados
 					$trata_planos = $dados['id_planos_mov'];
@@ -139,7 +138,7 @@ if(!empty($_POST)){
 						
 						$grab = $a->add($dados['subTabela'], $newlog);
 						
-					}else{ # caso seja a primeira inserção de log (nível 1)
+					}else{ # caso seja a primeira inserção de log (nível 1) ou atribuição
 						if(isset($dados["status"])){
 							if($dados["status"]	== '2'){
 								$newlog['solution'] 	= 1;
@@ -231,9 +230,37 @@ if(!empty($_POST)){
 					$array = $a->processaCerquilhas($dados);
 					$a->add($tabela, $array);
 				}else{
-					echo "Código #18237 - Existe um array não tratado na sessão.";
+					if($dados['grupo_responsavel']){ # Para atribuições diretas no CGR						
+						global $mysqli;
+						# Encontrar o número de protocolo inserido na rotida de comunicação acima
+						$query_comunica = "SELECT id FROM comunicacao_interna_movimentos WHERE id = ".$protocolo_pav;
+						$retorna_id_comunica = $a->queryFree($query_comunica);
+						$id_comunica = $retorna_id_comunica->fetch_assoc();
+						# Econtrado o # fazer inserção do pav & preparação para Comunicação Interna Atribuída
+						$dados_grupo_responsavel = $dados['grupo_responsavel'];	
+						unset($dados['grupo_responsavel']);
+						$dados['id_comunicacao_interna'] = $id_comunica['id'];
+						$dados['origem'] = 'Comunicação';
+						$a->add("pav_inscritos", $dados);	
+						$ult_id_pav = $mysqli->insert_id;
+						if(isset($newlog['tabela'])){ # Insert das tabelas auxiliares de movimentação (log)						
+							if($newlog['tabela']=="pav_movimentos"){
+								$newlog['id_pav_inscritos'] = $ult_id_pav;
+								$newlog['id_atendente'] = $dados['autor'];
+								$tabela = $newlog['tabela'];
+								unset($newlog['tabela']);
+								$a->add($tabela, $newlog);
+							}
+						}
+						# Fazer a inserção dos responsáveis de acordo com o grupo dentro das tabelas de contatos e grupo
+						foreach($dados_grupo_responsavel as $id_usuario_responsavel){
+							$a->queryFree("INSERT INTO group_user (pav_insc_id, user_id) VALUES('".$ult_id_pav."', '".$id_usuario_responsavel."')");
+						}
+					}else{
+						echo "Código #18237 - Existe um array não tratado na sessão.";
+					}
 				}
-			}				
+			}
 		break;
 		
 		case "addLog":		
@@ -827,6 +854,9 @@ if(!empty($_POST)){
 				}	
 			}		
 			
+		break;
+		case "teste":
+			$dados = $_POST; print_r($dados);
 		break;
 	}
   }	

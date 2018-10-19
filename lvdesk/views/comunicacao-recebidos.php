@@ -49,7 +49,7 @@
 			<td>".date("d/m/Y", strtotime($linhas['data']))."</td>
 			<td>".$linhas['nome_user']."</td>
 			<td>".substr($linhas['descricao'], 0, 30)."[...]</td>
-			<td>");	$botoes->crudButtons($linhas['id'], $cbkdel, $cbkedit, $link); echo("</td>
+			<td>");	$botoes->crudButtons($linhas['id_destinatario'], $cbkdel, $cbkedit, $link); echo("</td>
 			</tr>
 			");	
 			$i++;
@@ -93,6 +93,7 @@
 	<input type='hidden' name='allow' value='on'/>
 	<input type='hidden' name='tbl' value='<?=$tabela;?>' />
 	<input type='hidden' name='retorno' value='.content-sized' />
+	<input type='hidden' name='var' value='id_destinatario' />
 </form>
 <script>
 NProgress.done();

@@ -11,7 +11,7 @@ if(isset($_POST['id'])){
 	$name					= $edicao['name'];
 	$tipo	 				= $edicao['tipo'];
 	$finalidade_especial 	= $edicao['finalidade_especial'];		
-	$flag	 		= "update";
+	$flag	 		= "teste";
 }else{
 	
 	$id		   				= NULL;
@@ -66,6 +66,16 @@ if(isset($_POST['id'])){
 					</select>
 				</div>
 			</div>
+			<div class="row">						
+				<div class="form-group col-md-12" id="dynamicDiv1" >
+					<label for="grupo_responsavel">Usuários Designados</label>
+					<input type="text" autocomplete="off" class="form-control col-sm-12" id="buscaDestinatario" placeholder="Digite o nome dos usuários co-responsáveis" > 
+					<div class="list-container">
+						<div class="list-group"></div>
+						<div class="list-search"></div>
+					</div>
+				</div>
+			</div>
 		</div>	
 	</div>
 
@@ -79,6 +89,10 @@ if(isset($_POST['id'])){
 	<div class="form-group">
 		<input class="btn btn-success rtrn-conteudo" value="Salvar" type="button" data-objeto="form-dados-perfil">
 	</div>
+</form>
+<form id="group_user">
+	<input type="hidden" name="group_id" value="<?=$id; ?>" >
+	
 </form>
 <script type="text/javascript">
 NProgress.done();
