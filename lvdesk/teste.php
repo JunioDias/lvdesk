@@ -1,9 +1,4 @@
-if(isset($dados['grupo_responsavel'])){
-	foreach($dados['grupo_responsavel'] as $id_atendente_responsavel){
-		$query_comunica = "INSERT INTO comunicacao_interna_movimentos (protocol, descricao, id_autor, id_destinatario, nome_provedor, data, id_contratos, atendente_responsavel) VALUES('".$dados['protocol']."', '".$dados['historico']."', '".$dados['autor']."', '".$value_id_contato."', '".$dados['nome_provedor']."', '".$dados['data_abertura']."', '".$dados['id_contratos']."', '".$id_atendente_responsavel."')";
-		$a->queryFree($query_comunica);
-	}
-}else{
+Array ( [nome_provedor] => Next Internet [nome_cliente] => ANDRE MARCOS DE OLIVEIRA [endereco_cliente_ins] => Não cadastrado [endereco_cliente_cob] => Não cadastrado [endereco_cliente_cad] => Não cadastrado [endereco_cliente_fis] => Não cadastrado [telefone_cliente] => (37) 98844-2212 [telefone_cliente_sec] => [telefone_cliente_ter] => [cpf_cnpj_cliente] => 03609653698 [situacao] => Não disponível [usuario] => [senha_pppoe] => [nas] => [pppoe] => [ip] => [origem] => WhatsApp [_wysihtml5_mode] => 1 [historico] => [id_pav] => 2 [flag] => teste [tbl] => pav_inscritos [caminho] => controllers/sys/crud.sys.php [retorno] => .content-sized [hora_add] => on [subTabela] => pav_movimentos [atendente_responsavel] => 1 [id_contratos] => 1 [id_grupo] => 1 [id_contatos] => Array ( [0] => 1 [1] => 4 ) ) 
 
 
 array(4) { 

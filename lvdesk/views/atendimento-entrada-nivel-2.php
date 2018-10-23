@@ -135,7 +135,7 @@ $log = new Logs;
 				
 				<div class="form-group">
 					<label for="endereco_cliente">Endereço completo</label>
-					<input type="text" class="form-control" name="endereco_cliente" value="<?= $endereco; ?>">
+					<input type="text" class="form-control" name="endereco_cliente_cad" value="<?= $endereco; ?>">
 				</div>
 					
 				<div class="form-group">

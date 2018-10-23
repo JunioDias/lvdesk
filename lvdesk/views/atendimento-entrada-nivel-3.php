@@ -193,7 +193,7 @@ $row = $busca_autor->fetch_assoc();
 			<input type="hidden" name="tbl" value="pav_inscritos" />
 			<input type="hidden" name="subTabela" value="pav_movimentos" />
 			<input type="hidden" name="retorno" value=".content-sized" />
-			<input type="hidden" name="caminho" value="controllers/sys/crud.sys.php" />
+			<input type="hidden" name="caminho" value="controllers/sys/crud.sys.php" />			
 		</section>
 		<!------------------- Validadores --------------------->
 	</form>

@@ -132,6 +132,7 @@ class Acoes{
 		<input id='input_flag_".$array['id']."' type='hidden' name='retorno' value='.content-sized'>
 		<input id='input_id_".$array['id']."' type='hidden' name='id' value='".$array['id']."'>
 		<input id='input_link_".$array['id']."' type='hidden' name='caminho' value='views/comunicacao-crud.php' >
+		<input type='hidden' name='var' value='autor' />
 		</form>
 		";
 	}

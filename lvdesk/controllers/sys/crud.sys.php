@@ -166,7 +166,8 @@ if(!empty($_POST)){
 			$dados["file"], 
 			$dados["caminho"], 
 			$dados["retorno"],
-			$dados["id_grupo"]
+			$dados["id_grupo"],
+			$dados["var"]
 			);
 			
 			if(in_array(true, array_map('is_array', $dados), true) == ''){
@@ -182,7 +183,7 @@ if(!empty($_POST)){
 							$a->add("agenda_contatos", $newcontato);
 						}
 					}
-					if(isset($newlog['tabela'])){//tabelas auxiliares de movimentação
+					if(isset($newlog['tabela'])){# tabelas auxiliares de movimentação
 						
 						if($newlog['tabela']=="pav_movimentos"){
 							$newlog['id_pav_inscritos'] = $_SESSION['ult_id'];
@@ -216,10 +217,17 @@ if(!empty($_POST)){
 						$retorno = $foo->fetch_assoc();
 						return $retorno;
 					}else{
+						$query_protocolo = "SELECT protocol FROM pav_movimentos WHERE id = '".$_SESSION['ult_id']."'";
+						$foo = $a->queryFree($query_protocolo);
+						$protocolo = $foo->fetch_assoc();
 						echo '
 						<div class="alert alert-success">
 						<h4>Muito bom!</h4>
-						A operação foi realizada com sucesso. <a href="." class="alert-link">Clique aqui</a> para atualizar os status do sistema.
+							<p>A operação foi realizada com sucesso. 
+							<a href="." class="alert-link">Clique aqui</a> para atualizar os status do sistema. <br>
+							';
+						echo (isset($protocolo["protocol"]) ? "Número de Protocolo: <b>".$protocolo['protocol']."</b>" : "");
+						echo'</p>
 						</div>';
 					}
 				}
@@ -236,7 +244,7 @@ if(!empty($_POST)){
 						$query_comunica = "SELECT id FROM comunicacao_interna_movimentos WHERE id = ".$protocolo_pav;
 						$retorna_id_comunica = $a->queryFree($query_comunica);
 						$id_comunica = $retorna_id_comunica->fetch_assoc();
-						# Econtrado o # fazer inserção do pav & preparação para Comunicação Interna Atribuída
+						# Econtrado o n°, fazer inserção do pav & preparação para Comunicação Interna Atribuída
 						$dados_grupo_responsavel = $dados['grupo_responsavel'];	
 						unset($dados['grupo_responsavel']);
 						$dados['id_comunicacao_interna'] = $id_comunica['id'];

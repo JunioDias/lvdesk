@@ -465,9 +465,9 @@ $retorno		= ".content-sized";
 			<div class="modal-footer">					  				
 				<div class="form-group col-sm-12">
 					<button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Fechar</button>
-					<button type="button" class="btn btn-success waves-effect rtrn-conteudo" id="atribui_envio" data-dismiss="modal" data-objeto="form-dados">Enviar</button>
+					<button type="button" class="btn btn-success waves-effect" id="atribui_envio" data-dismiss="modal" data-objeto="form-dados">Enviar</button>
 				</div>					
-				<input type="hidden" name="flag" value="selecionaGrupoAtribuicao" />
+				<input type="hidden" name="flag" id="flag" value="selecionaGrupoAtribuicao" />
 			</div>
 		  </div><!-- /.modal-content -->
 		</div><!-- /.modal.dialog -->

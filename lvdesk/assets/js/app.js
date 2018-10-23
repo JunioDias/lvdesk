@@ -632,7 +632,7 @@ $(document).ready(function(){
 	$("body")
 	.on("click", "#atribui_envio", function (event){ 
 		if($(this).attr("data-commit")){
-			$("#flag").remove(); //evita conflitos no envio do post
+			$("#flag").remove(); // evita que o feedback do post retorno a lista de contatos novamente			
 			var contatos = new FormData(document.querySelector("#form-atribui"));
 			var objeto   = new FormData(document.querySelector("#"+$(this).attr("data-objeto")));	
 			for(var pair of contatos.entries()) {
@@ -640,7 +640,7 @@ $(document).ready(function(){
 			} 
 			/* for(var pair of objeto.entries()) {
 				console.log(pair[0], pair[1]); 
-			} */
+			}   */
 			$.ajax({
 				url: objeto.get("caminho"), 
 				data: objeto,
@@ -655,12 +655,12 @@ $(document).ready(function(){
 						$("body").html(retornoDados);
 					}		
 					NProgress.done();
-				}
+				}  
 			}); 
 		}
-	}); 
+	});  
 	
-	//Ação para processamento das conexões com proveodores externos
+	//Ação para processamento das conexões com provedores externos
 	
 	$("body")
 	.on("click", ".rtrn-conteudo-conexao", function (event){ 
