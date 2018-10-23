@@ -632,7 +632,7 @@ $(document).ready(function(){
 	$("body")
 	.on("click", "#atribui_envio", function (event){ 
 		if($(this).attr("data-commit")){
-			$("#flag").remove(); // evita que o feedback do post retorno a lista de contatos novamente			
+			$("#flag").remove();$("#flag-dismiss").remove(); // impede feedback do incorreto da lista de contatos novamente			
 			var contatos = new FormData(document.querySelector("#form-atribui"));
 			var objeto   = new FormData(document.querySelector("#"+$(this).attr("data-objeto")));	
 			for(var pair of contatos.entries()) {

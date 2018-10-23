@@ -13,7 +13,8 @@ if(!empty($_SESSION["datalogin"])){
 $a->verificaNovosEmails();
 
 #Notificação de comunicação interna
-$query_notif = "SELECT c.*, u.nome AS nome_autor FROM comunicacao_interna_movimentos AS c INNER JOIN usuarios AS u ON id_autor = u.id WHERE c.lixo = 0 AND c.id_destinatario = ".$dadoslogin['id']." AND c.lida = 0 GROUP BY c.id_destinatario ASC LIMIT 3 ";
+$query_notif = "SELECT c.*, u.nome AS nome_autor FROM comunicacao_interna_movimentos AS c INNER JOIN usuarios AS u ON id_autor = u.id WHERE c.lixo = 0 AND c.id_destinatario = ".$dadoslogin['id']." AND c.lida = 0 GROUP BY c.id_destinatario ASC LIMIT 3";
+#echo $query_notif;die();
 $bind   = $a->queryFree($query_notif);
 $bind2  = $a->queryFree($query_notif);
 $notify = $bind2->fetch_assoc();

@@ -1,12 +1,10 @@
 <?php
-if(isset($id)){//Campo id em pav_incritos definido em crud.sys
+if(isset($id)){# Campo id (idenficação do pav_inscritos) em pav_incritos definido em crud.sys.php
 	$query = "
-	SELECT pav.*, atend.nome 
-	FROM pav_inscritos AS pav 
-	INNER JOIN atendentes AS atend ON atend.id = pav.atendente_responsavel 
-	WHERE pav.id = '$id'";
-	$a = new Model;
-	$act = new Acoes;
+	SELECT pav.*, usuarios.nome FROM pav_inscritos AS pav INNER JOIN usuarios ON usuarios.id = pav.atendente_responsavel INNER JOIN atendentes AS atend ON atend.id = usuarios.id WHERE pav.id = '$id'";
+	#echo $query;
+	$a      = new Model;
+	$act    = new Acoes;
 	$result = $a->queryFree($query);
 	if(isset($result)){
 		$matriz = $result->fetch_assoc(); 

@@ -116,8 +116,7 @@ class Acoes{
 	}
   }
   
-  public function notifyComm($bind){
-	
+  public function notifyComm($bind){	
 	while($array = $bind->fetch_assoc()){
 		echo "
 		<form id='form_link_".$array['id']."'>
@@ -132,7 +131,7 @@ class Acoes{
 		<input id='input_flag_".$array['id']."' type='hidden' name='retorno' value='.content-sized'>
 		<input id='input_id_".$array['id']."' type='hidden' name='id' value='".$array['id']."'>
 		<input id='input_link_".$array['id']."' type='hidden' name='caminho' value='views/comunicacao-crud.php' >
-		<input type='hidden' name='var' value='autor' />
+		<input type='hidden' name='var' value='comunicacao_interna_movimentos.id' />
 		</form>
 		";
 	}

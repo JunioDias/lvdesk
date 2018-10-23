@@ -6,8 +6,7 @@ if(isset($_POST['id'])){ # Campo id em comunicacao_interna definido em comunicac
 	$dados = $_POST;
 	$id = $dados['id'];
 	$query_lidas = "UPDATE comunicacao_interna_movimentos SET lida = 1 WHERE id = $id";	
-	$query = "SELECT pav_inscritos.* FROM `comunicacao_interna_movimentos` INNER JOIN pav_inscritos ON pav_inscritos.protocol = comunicacao_interna_movimentos.protocol WHERE ".$dados['var']." = '$id' AND comunicacao_interna_movimentos.lixo = 0";
-	
+	$query = "SELECT pav_inscritos.* FROM comunicacao_interna_movimentos INNER JOIN pav_inscritos ON pav_inscritos.protocol = comunicacao_interna_movimentos.protocol WHERE ".$dados['var']." = '$id' AND comunicacao_interna_movimentos.lixo = 0";
 	/* --------------- Sentença antiga ---------------------------------------
 	"SELECT c.*, u.nome AS nome_user FROM comunicacao_interna_movimentos AS c
 	INNER JOIN usuarios AS u ON c.autor = u.id 
@@ -309,7 +308,7 @@ $log = new Logs;
 					<button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Fechar</button>
 					<button type="button" class="btn btn-success waves-effect" id="atribui_envio" data-dismiss="modal" data-objeto="form-dados">Enviar</button>
 				</div>					
-				<input type="hidden" name="flag" id="flag-dimiss" value="selecionaGrupoAtribuicao" />
+				<input type="hidden" name="flag" id="flag-dismiss" value="selecionaGrupoAtribuicao" />
 			</div>
 		  </div><!-- /.modal-content -->
 		</div><!-- /.modal.dialog -->
