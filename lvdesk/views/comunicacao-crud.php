@@ -39,7 +39,7 @@ $status			= $matriz['status'];
 $historico		= $matriz['historico'];
 $nome_provedor  = $matriz['nome_provedor'];
 $situacao		= $matriz['situacao'];
-$flag	 		= "teste";
+$flag	 		= "add";
 $retorno		= ".content-sized";
 
 if($matriz['atendente_responsavel'] == ''){

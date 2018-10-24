@@ -29,14 +29,13 @@ $nome_provedor  = $matriz['nome_provedor'];
 $situacao		= $matriz['situacao'];
 $flag	 		= "update";
 $retorno		= ".content-sized";
-
-if($matriz['atendente_responsavel'] == ''){
-	if(!empty($_SESSION["datalogin"])){
-		$datalogin 					= $_SESSION["datalogin"];
-		$atendente_responsavel		= $datalogin['id'];
-	}
+if(!empty($_SESSION["datalogin"]))
+	$datalogin 					= $_SESSION["datalogin"];
+	
+if($matriz['atendente_responsavel'] == '' || $matriz['atendente_responsavel'] == '0'){
+	$atendente_responsavel		= $datalogin['id'];
 }else{
-	$atendente_responsavel			= $matriz['atendente_responsavel'];
+	$atendente_responsavel		= $matriz['atendente_responsavel'];
 }
 $log = new Logs;
 ?>
@@ -215,7 +214,7 @@ $log = new Logs;
 															<section class="section_historico">
 				<?php
 				$query_movimentos = "
-				SELECT pav.id, pav.protocol, pav.data, pav.descricao, pav.solution, atend.nome FROM pav_movimentos AS pav INNER JOIN atendentes AS atend ON atend.id_usuarios = pav.id_atendente INNER JOIN pav_inscritos ON pav_inscritos.id = pav.id_pav_inscritos WHERE pav.id_pav_inscritos = $id AND pav.lixo = 0 ORDER BY pav.data DESC LIMIT 8";
+				SELECT pav.id, pav.protocol, pav.data, pav.descricao, pav.solution, atend.nome FROM pav_movimentos AS pav INNER JOIN atendentes AS atend ON atend.id_usuarios = pav.id_atendente INNER JOIN pav_inscritos ON pav_inscritos.id = pav.id_pav_inscritos WHERE pav.id_pav_inscritos = $id AND pav.lixo = 0 ORDER BY pav.data DESC LIMIT 8"; 
 				$resultado = $a->queryFree($query_movimentos);
 				if($resultado){
 					while($linhas = $resultado->fetch_assoc()){
@@ -295,7 +294,7 @@ $log = new Logs;
 		<!------------------- Validadores --------------------->
 			<section class="input_hidden">
 				<?= (isset($id) ? "<input type='hidden' name='id' value='$id'/>" : "" ) ?>
-				<input type="hidden" name="id_atendente" value="<?= $atendente_responsavel; ?>" />
+				<input type="hidden" name="id_atendente" value="<?= $datalogin['id']; ?>" />
 				<input type="hidden" name="flag" value="addLog" />
 				<input type="hidden" name="caminho" value="controllers/sys/crud.sys.php" />
 				<input type="hidden" name="retorno" value=".section_historico" />

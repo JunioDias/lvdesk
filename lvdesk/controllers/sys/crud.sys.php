@@ -277,7 +277,7 @@ if(!empty($_POST)){
 			$dados['protocol'] 			= $array['protocol'];
 			$dados['descricao']			= $array['historico'];
 			$dados['files']				= NULL;
-			$dados['id_atendente']		= $array['id_atendente'];
+			$dados['id_atendente']		= $array['id_atendente']; # esse item corresponde ao usuário atual do sistema
 			$dados['id_pav_inscritos']	= $array['id'];
 			$dados['data']				= date('Y-m-d H:i:s');
 			isset($array['solution']) ? $dados['solution'] = $array['solution'] : $dados['solution'] = 0;
@@ -296,7 +296,9 @@ if(!empty($_POST)){
 			}else{	
 				if($captura == true){
 					$log = new Logs;						
-					$query_movimentos = "SELECT pav.id, pav.protocol, pav.data, pav.descricao, pav.solution, atend.nome FROM pav_movimentos AS pav INNER JOIN atendentes AS atend ON atend.id = pav.id_atendente INNER JOIN pav_inscritos ON pav_inscritos.id = pav.id_pav_inscritos WHERE pav.id_pav_inscritos = '".$array['id']."'  AND pav.lixo = 0 ORDER BY pav.data DESC ";
+					$query_movimentos = "SELECT pav.id, pav.protocol, pav.data, pav.descricao, pav.solution, atend.nome FROM pav_movimentos AS pav INNER JOIN atendentes AS atend ON atend.id_usuarios = pav.id_atendente INNER JOIN pav_inscritos ON pav_inscritos.id = pav.id_pav_inscritos WHERE pav.id_pav_inscritos = '".$array['id']."' AND pav.lixo = 0 ORDER BY pav.data DESC";
+					
+					#SELECT pav.id, pav.protocol, pav.data, pav.descricao, pav.solution, atend.nome FROM pav_movimentos AS pav INNER JOIN atendentes AS atend ON atend.id = pav.id_atendente INNER JOIN pav_inscritos ON pav_inscritos.id = pav.id_pav_inscritos WHERE pav.id_pav_inscritos = '".$array['id']."'  AND pav.lixo = 0 ORDER BY pav.data DESC ";
 					$result = $a->queryFree($query_movimentos);
 					if($result){
 						while($linhas = $result->fetch_assoc()){

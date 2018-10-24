@@ -1,40 +1,38 @@
 <?php
 if(isset($id)){//Campo id em pav_incritos definido em crud.sys
 	$query = "
-	SELECT pav.*, atend.nome 
+	SELECT pav.*, atend.nome AS atend_nome 
 	FROM pav_inscritos AS pav 
-	INNER JOIN atendentes AS atend ON atend.id = pav.atendente_responsavel 
+	INNER JOIN atendentes AS atend ON atend.id_usuarios = pav.atendente_responsavel 
 	WHERE pav.id = '$id'";
 	$a = new Model;
+	$act    = new Acoes;
 	$result = $a->queryFree($query);
 	if(isset($result)){
 		$matriz = $result->fetch_assoc(); 
 	}
 }
-$data_abertura	= $matriz['data_abertura'];
-$grupo		 	= $matriz['grupo_responsavel'];
-$nome_cliente	= $matriz['nome_cliente'];
-$cpf_cnpj		= $matriz['cpf_cnpj_cliente'];
-$autor	 	 	= $matriz['nome'];
-$endereco 		= $matriz['endereco_cliente_cad'];
-$telefone		= $matriz['telefone_cliente'];
-$usuario		= $matriz['usuario'];
-$senha_pppoe	= $matriz['senha_pppoe'];
-$nas			= $matriz['nas'];
-$pppoe			= $matriz['pppoe'];
-$ip				= $matriz['ip'];
-$protocol		= $matriz['protocol'];
-$status			= $matriz['status'];
-$historico		= $matriz['historico'];
-$nome_provedor  = $matriz['nome_provedor'];
-$situacao		= $matriz['situacao'];
+$data_abertura			= $matriz['data_abertura'];
+$nome_cliente			= $matriz['nome_cliente'];
+$cpf_cnpj				= $matriz['cpf_cnpj_cliente'];
+$autor	 	 			= $matriz['autor'];
+$endereco 				= $matriz['endereco_cliente_cad'];
+$telefone				= $matriz['telefone_cliente'];
+$usuario				= $matriz['usuario'];
+$senha_pppoe			= $matriz['senha_pppoe'];
+$nas					= $matriz['nas'];
+$pppoe					= $matriz['pppoe'];
+$ip						= $matriz['ip'];
+$protocol				= $matriz['protocol'];
+$grupo		 			= $act->grupo_responsavel($protocol);
+$status					= $matriz['status'];
+$historico				= $matriz['historico'];
+$nome_provedor  		= $matriz['nome_provedor'];
+$situacao				= $matriz['situacao'];
+$atendente_responsavel	= $matriz['atend_nome'];
 $flag	 		= "update";
 $retorno		= ".content-sized";
 
-if(!empty($_SESSION["datalogin"])){
-	$datalogin 					= $_SESSION["datalogin"];
-	$atendente_responsavel		= $datalogin['id'];
-}
 $log = new Logs;
 ?>
 
@@ -52,7 +50,7 @@ $log = new Logs;
 				</div>
 				<div class="form-group col-sm-6">
 					<label for="grupo_responsavel">Grupo responsável</label>
-					<input type="text" class="form-control" name="grupo_responsavel" value="<?= $grupo ;?>">
+					<input type="text" class="form-control" name="grupo_responsavel" value="<?= $grupo;  ?>">
 				</div>
 			</div>
 			<div class="row">
@@ -76,22 +74,20 @@ $log = new Logs;
 				</div>
 				<div class="form-group col-sm-6">
 					<label for="atendente_responsavel">Atendente responsável</label>
-					<select class="form-control" name="atendente_responsavel" >						
-						<option data-nome=''>Selecione um responsável...</option>
-				<?php
-				$query_provedor	= "SELECT usuarios.nome AS nome, usuarios.id AS id FROM `usuarios` join atendentes on usuarios.usuario = atendentes.usuario where usuarios.lixo = 0 ORDER BY nome ASC";				
-				$result = $a->queryFree($query_provedor);
-				while($linhas = $result->fetch_assoc()){
-					echo "<option value='".$linhas['id']."' data-nome='".$linhas['nome']."' ".($linhas['id']== $atendente_responsavel  ? 'selected' : '').">".$linhas['nome']."</option>";
-				}
-				?>
-					</select>	
+					<input type="text" class="form-control" value="<?= $atendente_responsavel;?>" />				
 				</div>
 			</div>
 			<div class="row">
 				<div class="form-group col-sm-6">
 					<label for="autor">Autor</label>
-					<input type="text" class="form-control" name="autor" value="<?= $autor ;?>">
+					<?php
+					$queryAtend	= "SELECT id, nome FROM atendentes WHERE id_usuarios = $autor";
+					if(isset($id)){
+						$result = $a->queryFree($queryAtend);
+						$linha = $result->fetch_assoc();
+						echo '<input type="text" class="form-control" value="'.$linha['nome'].'" />';	
+					}				
+					?>
 				</div>	
 				
 				<div class="form-group col-sm-6">

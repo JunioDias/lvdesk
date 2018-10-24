@@ -36,7 +36,8 @@ $notify = $bind2->fetch_assoc();
 		<link rel="stylesheet" type="text/css" href="assets/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.css">
 		<!--nprogress-->
 		<link rel='stylesheet' href='assets/plugins/nprogress/nprogress.css'/>
-		
+		<!--Select Bootstrap-->
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css" rel="stylesheet" />
         <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
         <link href="assets/css/icons.css" rel="stylesheet" type="text/css">
         <link href="assets/css/style.css" rel="stylesheet" type="text/css">
@@ -240,6 +241,7 @@ $notify = $bind2->fetch_assoc();
         <script src="assets/pages/dashborad.js"></script>
 		<script src="assets/js/validator.min.js"></script>
 		<script src='assets/plugins/nprogress/nprogress.js'></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
 		<script src="assets/js/app.js"></script>
 		
     </body>

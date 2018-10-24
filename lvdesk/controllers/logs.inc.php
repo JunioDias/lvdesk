@@ -12,7 +12,7 @@ class Logs {
 			<div class='cd-timeline-content'>
 				<h3>".$linhas['nome']."</h3>
 				<p>".$linhas['descricao']."</p>
-				<span class='cd-date'>".date('d/m/Y h:i', strtotime($linhas['data']))."
+				<span class='cd-date'>".date('d/m/Y H:i', strtotime($linhas['data']))."
 				<p style='font-size: 9px;'><i>Protocolo: ".$linhas['protocol']."</i></p>
 				</span>					
 			</div> 

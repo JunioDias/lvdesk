@@ -52,7 +52,7 @@ $flag		= "entrada";
 </tbody>
 </table>
 </div>
-
+<!------------------------------ Modal Provedores ---------------------------------->
 <div id="provedor" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
 <div class="modal-dialog">
   <div class="modal-content">
@@ -64,13 +64,13 @@ $flag		= "entrada";
 	<form id='form_search'>
 		<div class="form-group">
 		  <label for="nome_provedor">Entidade</label>
-		  <select class="form-control" name="id" id="select_provedor">
+		  <select class="form-control selectpicker" name="id" id="select_provedor" data-live-search="true">
 			<option>Selecione um provedor...</option>
 			<?php		
 			$resultB = $a->queryFree($query);
 			if(isset($resultB)){				
 				while($linhas = $resultB->fetch_assoc()){
-					echo "<option data-contrato='".$linhas['contrato_id']."' data-id-dados='".$linhas['id_dados']."' value='".$linhas['id']."' data-tipo='".$linhas['tipo_bd']."' >".$linhas['nome']." - ".$linhas['sistema']."</option>";
+					echo "<option data-contrato='".$linhas['contrato_id']."' data-id-dados='".$linhas['id_dados']."' value='".$linhas['id']."' data-tipo='".$linhas['tipo_bd']."' data-tokens='".$linhas['nome']." ".$linhas['sistema']."' >".$linhas['nome']." - ".$linhas['sistema']."</option>";
 				}		
 			}		  
 			?>
@@ -130,4 +130,7 @@ $flag		= "entrada";
 </div>
 <script>
 NProgress.done();
+$(function() {
+  $('.selectpicker').selectpicker();
+});
 </script>

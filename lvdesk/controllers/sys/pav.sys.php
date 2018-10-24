@@ -39,7 +39,7 @@ if(!empty($_POST)){
 				$password 		= $set_dados['client_pass'];
 				$url 			= $set_dados['client_url']; # Caminho específico para requisição do cliente
 				$urlOauth 		= $url . "/oauth/token";	# Caminho específico da autenticação	
-				//Body da requisição do oauth
+				# Body da requisição do oauth
 				$requestBody = [
 					"client_id"=>$clientId,
 					"client_secret"=>$clientSecret,
