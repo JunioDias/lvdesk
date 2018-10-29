@@ -97,12 +97,14 @@ $log = new Logs;
 				<div class="form-group col-sm-6">
 					<label for="autor">Autor</label>
 					<?php
-					$queryAtend	= "SELECT id, nome FROM usuarios WHERE id = ".$autor;
-					if($id != ''){
+					$queryAtend	= "SELECT id, nome FROM usuarios WHERE id = '".$autor."'";
+					if(isset($id)){
 						$result = $a->queryFree($queryAtend);
 						$linha = $result->fetch_assoc();
 						echo '<input type="text" class="form-control" value="'.$linha['nome'].'" />';	
-					}				
+					}else{
+						echo '<input type="text" class="form-control" value="Não encontrado" />';
+					}			
 					?>
 				</div>	
 				

@@ -88,7 +88,7 @@ $flag		= "entrada";
 	</div>
 	<div class="modal-footer">
 	  <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Fechar</button>
-	  <a class='btn btn-success rtrn-conteudo' data-objeto='form_search' data-toggle='modal' data-target='#pesquisaConexao'>Conectar</a>
+	  <a id="btn_conectar" class='btn btn-success rtrn-conteudo' data-objeto='form_search' data-toggle='modal' data-target='#pesquisaConexao'>Conectar</a>
 	</div>
   </div><!-- /.modal-content -->
 </div><!-- /.modal.dialog -->
@@ -104,7 +104,7 @@ $flag		= "entrada";
 		<form id='form_search_clientes'>
 			<div class="form-group">
 			  <label for="nome">Nome do cliente</label>
-			  <input type="text" class="form-control" name="nome" />
+			  <input type="text" class="form-control" name="nome" id="target"/>
 			</div>
 			<div class="form-group">
 			  <label for="cpf">CPF</label>
@@ -131,6 +131,11 @@ $flag		= "entrada";
 <script>
 NProgress.done();
 $(function() {
-  $('.selectpicker').selectpicker();
+	$('.selectpicker').selectpicker();
+});
+jQuery(function($) {
+	$('#pesquisaConexao').on('shown.bs.modal', function() {
+		$('#target').focus();
+	});
 });
 </script>

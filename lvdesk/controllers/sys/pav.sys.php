@@ -74,10 +74,18 @@ if(!empty($_POST)){
 				}else{
 					//Faz autorização do oauth
 					$reqOauth = requisicao($urlOauth, 'POST', $requestBody);
-					//Monta o token Authorization 					
-					$tokenType = $reqOauth['token_type'];
-					$accessToken = $reqOauth['access_token'];
-					$_SESSION['authorizationToken'] = $tokenType . " " . $accessToken;
+					//Monta o token Authorization 	
+					if(isset($reqOauth['token_type'])){
+						$tokenType = $reqOauth['token_type'];
+						$accessToken = $reqOauth['access_token'];
+						$_SESSION['authorizationToken'] = $tokenType . " " . $accessToken;
+					}else{
+						echo '
+						<div class="alert alert-danger">
+							<h4>Tivemos um problema...</h4>
+							<p>Verifique se o contrato do cliente ainda é válido junto ao provedor.</p>
+						</div>';
+					}
 				}
 			}			
 		break;

@@ -25,6 +25,17 @@ if(isset($array['servicos'][0]['endereco_fiscal']['completo'])){
 $telefone		= $array['telefone_primario'];
 $telefone_sec	= $array['telefone_secundario'];
 $telefone_ter	= $array['telefone_terciario'];
+
+if(isset($array['servicos'][0]['email_principal'])){
+	$email_principal		= $array['servicos'][0]['email_principal'];
+}else{
+	$email_principal 		= NULL;
+}
+if(isset($array['servicos'][0]['email_secundario'])){
+	$email_secundario		= $array['servicos'][0]['email_secundario'];
+}else{
+	$email_secundario 		= NULL;
+}
 if(isset($array['servicos'][0]['login'])){
 	$usuario		= $array['servicos'][0]['login'];
 }else{
@@ -35,6 +46,23 @@ if(isset($array['servicos'][0]['senha'])){
 }else{
 	$senha_pppoe 		= NULL;
 }
+
+if(isset($array['servicos'][0]['equipamento_roteamento']['nome'])){
+	$equipamento_roteamento_nome	= $array['servicos'][0]['equipamento_roteamento']['nome'];	
+}else{
+	$equipamento_roteamento_nome 		= NULL;
+}
+if(isset($array['servicos'][0]['equipamento_roteamento']['ipv4'])){
+	$equipamento_roteamento_ipv4	= $array['servicos'][0]['equipamento_roteamento']['ipv4'];
+}else{
+	$equipamento_roteamento_ipv4 = NULL;
+}
+if(isset($array['servicos'][0]['equipamento_roteamento']['ipv6'])){
+	$equipamento_roteamento_ipv6	= $array['servicos'][0]['equipamento_roteamento']['ipv6'];
+}else{
+	$equipamento_roteamento_ipv6 = NULL;
+}
+
 if(isset($array['servicos'][0]['equipamento_conexao']['ipv4'])){
 	$nas			= $array['servicos'][0]['equipamento_conexao']['ipv4'];
 }else{
@@ -170,6 +198,20 @@ $retorno		= ".content-sized";
 						</div>
 					</div>
 					<div class="row">
+						<div class="form-group col-sm-6">	
+							<div class="form-group">
+								<label for="email_principal">E-mail principal</label>
+								<input type="text" class="form-control" name="email_principal" value="<?= $email_principal;?>">
+							</div>
+						</div>						
+						<div class="form-group col-sm-6">
+							<div class="form-group">
+								<label for="email_secundario">E-mail secundário</label>
+								<input type="text" class="form-control" name="email_secundario" value="<?= $email_secundario;?>">
+							</div>
+						</div>
+					</div>
+					<div class="row">
 						<div class="form-group col-sm-4">
 						
 						<div class="form-group">
@@ -206,6 +248,19 @@ $retorno		= ".content-sized";
 							<input type="text" class="form-control" name="ip" value="<?= $ip;?>">
 						</div>			
 						
+						<div class="form-group">
+							<label for="equipamento_roteamento_nome">Roteador</label>
+							<input type="text" class="form-control" name='equipamento_roteamento_nome'  value="<?= $equipamento_roteamento_nome;?>">			
+						</div>
+						<div class="form-group">
+							<label for="equipamento_roteamento_ipv4">IPv4</label>
+							<input type="text" class="form-control" name='equipamento_roteamento_ipv4' value="<?= $equipamento_roteamento_ipv4;?>">
+						</div>				
+						
+						<div class="form-group">
+							<label for="equipamento_roteamento_ipv6">IPv6</label>
+							<input type="text" class="form-control" name="equipamento_roteamento_ipv6" value="<?= $equipamento_roteamento_ipv6;?>">
+						</div>	
 						</div>
 						
 						<div class="form-group col-sm-4">

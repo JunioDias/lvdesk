@@ -216,6 +216,12 @@ if(!empty($_POST)){
 						$foo = $a->queryFree("SELECT id, nome FROM pav");
 						$retorno = $foo->fetch_assoc();
 						return $retorno;
+						echo "
+							<div class='alert alert-danger'>
+							<h4>Falha na operação.</h4>
+							<p>Código #0013 - Erro na inserção do cadastro do PAV. Nenhum protocolo foi gerado.</p>
+							</div>
+							";
 					}else{
 						$query_protocolo = "SELECT protocol FROM pav_movimentos WHERE id = '".$_SESSION['ult_id']."'";
 						$foo = $a->queryFree($query_protocolo);
@@ -258,11 +264,33 @@ if(!empty($_POST)){
 								$tabela = $newlog['tabela'];
 								unset($newlog['tabela']);
 								$a->add($tabela, $newlog);
+								$ult_id_pav_mov = $mysqli->insert_id;
 							}
 						}
 						# Fazer a inserção dos responsáveis de acordo com o grupo dentro das tabelas de contatos e grupo
 						foreach($dados_grupo_responsavel as $id_usuario_responsavel){
 							$a->queryFree("INSERT INTO group_user (pav_insc_id, user_id) VALUES('".$ult_id_pav."', '".$id_usuario_responsavel."')");
+						}
+						if($ult_id_pav_mov != false){							
+							$query_protocolo = "SELECT protocol FROM pav_movimentos WHERE id = '".$ult_id_pav_mov."'";
+							$foo = $a->queryFree($query_protocolo);
+							$protocolo = $foo->fetch_assoc();
+							echo '
+							<div class="alert alert-success">
+							<h4>Muito bom!</h4>
+								<p>A operação foi realizada com sucesso. 
+								<a href="." class="alert-link">Clique aqui</a> para atualizar os status do sistema. <br>
+								';
+							echo (isset($protocolo["protocol"]) ? "Número de Protocolo: <b>".$protocolo['protocol']."</b>" : "");
+							echo'</p>
+							</div>';
+						}else{
+							echo "
+							<div class='alert alert-danger'>
+							<h4>Falha na operação.</h4>
+							<p>Código #0014 - Erro na inserção do movimento do PAV. Nenhum protocolo foi gerado.</p>
+							</div>
+							";
 						}
 					}else{
 						echo "Código #18237 - Existe um array não tratado na sessão.";
@@ -663,8 +691,10 @@ if(!empty($_POST)){
 		$log = new Logs;
 		$a = new Model;
 		$dados = $_POST;
-		$query_movimentos = "
-		SELECT pav.id, pav.protocol, pav.data, pav.descricao, pav.solution, atend.nome FROM pav_movimentos AS pav INNER JOIN atendentes AS atend ON atend.id = pav.id_atendente INNER JOIN pav_inscritos ON pav_inscritos.id = pav.id_pav_inscritos WHERE pav.id_pav_inscritos = '".$dados['id']."' AND pav.lixo = 0 ORDER BY pav.data DESC";
+		$query_movimentos = "SELECT pav.id, pav.protocol, pav.data, pav.descricao, pav.solution, atend.nome FROM pav_movimentos AS pav INNER JOIN atendentes AS atend ON atend.id_usuarios = pav.id_atendente INNER JOIN pav_inscritos ON pav_inscritos.id = pav.id_pav_inscritos WHERE pav.id_pav_inscritos = '".$dados['id']."' AND pav.lixo = 0 ORDER BY pav.data DESC";
+		
+		/* "SELECT pav.id, pav.protocol, pav.data, pav.descricao, pav.solution, atend.nome FROM pav_movimentos AS pav INNER JOIN atendentes AS atend ON atend.id = pav.id_atendente INNER JOIN pav_inscritos ON pav_inscritos.id = pav.id_pav_inscritos WHERE pav.id_pav_inscritos = '".$dados['id']."' AND pav.lixo = 0 ORDER BY pav.data DESC"; */
+		
 		$resultado = $a->queryFree($query_movimentos);
 		if($resultado){
 			while($linhas = $resultado->fetch_assoc()){
