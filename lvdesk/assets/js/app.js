@@ -690,6 +690,25 @@ $(document).ready(function(){
 	});
 	
 	$("body")
+	.on("click", ".rtrn-conteudo-grade", function (event){ 
+		
+		var objeto = new FormData(document.querySelector("#"+$(this).attr("data-item")));
+		
+		NProgress.start();
+		$.ajax({
+			url: objeto.get("caminho"), 
+			data: objeto,
+			type: 'post',
+			processData: false,  
+  			contentType: false,
+			success: function(retornoDados){
+				$(".content-sized").html(retornoDados);	
+				NProgress.done();
+			}
+		});
+	});
+	
+	$("body")
 	.on("keyup", "#tabela input", function(){		        
 		var index = $(this).parent().index();
 		var nth = "#tabela td:nth-child("+(index+1).toString()+")";

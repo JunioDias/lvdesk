@@ -27,6 +27,14 @@ class Acoes{
 	';
   }
   
+ public function selecionar($id, $uid, $link, $flag){
+	echo "
+	<input  class='btn btn-success btn_driver rtrn-conteudo-grade' value='Selecionar' type='button' data-item='$id'>
+	<input type='hidden' name='flag' value='$flag' >
+	<input type='hidden' name='caminho' value='$link' >
+	<input type='hidden' name='item' value='$uid'>";
+ }
+ 
   public function visualizar($id){
 	echo '
 	<input data-objeto="form_view" class="btn btn-success btn_driver rtrn-conteudo-listagem" value="Visualizar" type="button" idd="'.$id.'">	

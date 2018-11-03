@@ -1,8 +1,3 @@
-<div class="page-header-title">
-  <h4 class="page-title">Atendimento</h4>
-  <p>Movimentação dos chamados para atendimento</p>
-</div>
-<div class="content-sized"> 
 <?php
 $a 		= new Model;
 $log 	= new Logs;
@@ -30,7 +25,7 @@ if($id_provedor){//Existe um provedor
 	}
 	switch($id_provedor){
 	case "2":
-		include("layouts/atendimento-hubsoft.php");
+		include("layouts/atendimento-hub-hubsoft.php");
 	break;	
 	}
 }else{

@@ -1,94 +1,164 @@
 <?php
-$nome_cliente	= $array['nome_razaosocial'];
-$cpf_cnpj		= $array['cpf_cnpj'];
+# print_r($array_servicos);echo "<hr>";print_r($array);
 $provedor 	 	= $arr_cliente['nome'];
-if(isset($array['servicos'][0]['endereco_cobranca']['completo'])){
+
+if(isset($array)){
+	$nome_cliente		= $array[0]['nome_razaosocial'];
+}else if(isset($array['nome_razaosocial'])){
+	$nome_cliente	= $array['nome_razaosocial'];
+}else{
+	$nome_cliente	= NULL;
+}
+if(isset($array)){
+	$cpf_cnpj		= $array[0]['cpf_cnpj'];
+}else if(isset($array['cpf_cnpj'])){
+	$cpf_cnpj		= $array['cpf_cnpj'];
+}else{
+	$cpf_cnpj	= NULL;
+}	
+# --------------- Bloco de Endereço ----------------------- #
+if(isset($array)){
+	$endereco_cob		= $array_servicos['endereco_cobranca']['completo'];
+}else if(isset($array['servicos'][0]['endereco_cobranca']['completo'])){
 	$endereco_cob 		= $array['servicos'][0]['endereco_cobranca']['completo'];
 }else{
 	$endereco_cob 		= "Não cadastrado";
 }
-if(isset($array['servicos'][0]['endereco_instalacao']['completo'])){
+if(isset($array)){
+	$endereco_ins		= $array_servicos['endereco_instalacao']['completo'];
+}else if(isset($array['servicos'][0]['endereco_instalacao']['completo'])){
 	$endereco_ins 		= $array['servicos'][0]['endereco_instalacao']['completo'];
 }else{
 	$endereco_ins 		= "Não cadastrado";
 }
-if(isset($array['servicos'][0]['endereco_cadastral']['completo'])){
+if(isset($array)){
+	$endereco_cad		= $array_servicos['endereco_cadastral']['completo'];
+}else if(isset($array['servicos'][0]['endereco_cadastral']['completo'])){
 	$endereco_cad 		= $array['servicos'][0]['endereco_cadastral']['completo'];
 }else{
 	$endereco_cad 		= "Não cadastrado";
 }
-if(isset($array['servicos'][0]['endereco_fiscal']['completo'])){
+if(isset($array)){
+	$endereco_fis		= $array_servicos['endereco_fiscal']['completo'];
+}else if(isset($array['servicos'][0]['endereco_fiscal']['completo'])){
 	$endereco_fis 		= $array['servicos'][0]['endereco_fiscal']['completo'];
 }else{
 	$endereco_fis 		= "Não cadastrado";
 }
-$telefone		= $array['telefone_primario'];
-$telefone_sec	= $array['telefone_secundario'];
-$telefone_ter	= $array['telefone_terciario'];
 
-if(isset($array['servicos'][0]['email_principal'])){
+if(isset($array)){
+	$telefone		= $array[0]['telefone_primario'];
+}else if(isset($array['servicos'][0]['telefone_primario'])){
+	$telefone		= $array['telefone_primario'];
+}else{
+	$telefone 		= "Não cadastrado";
+}
+if(isset($array)){
+	$telefone_sec		= $array[0]['telefone_secundario'];
+}else if(isset($array['servicos'][0]['telefone_secundario'])){
+	$telefone_sec		= $array['telefone_secundario'];
+}else{
+	$telefone_sec 		= "Não cadastrado";
+}
+if(isset($array)){
+	$telefone_ter		= $array[0]['telefone_terciario'];
+}else if(isset($array['servicos'][0]['telefone_terciario'])){
+	$telefone_ter		= $array['telefone_terciario'];
+}else{
+	$telefone_ter 		= "Não cadastrado";
+}
+
+if(isset($array[0]['email_principal'])){
+	$email_principal		= $array[0]['email_principal'];
+}else if(isset($array['servicos'][0]['email_principal'])){
 	$email_principal		= $array['servicos'][0]['email_principal'];
 }else{
 	$email_principal 		= NULL;
 }
-if(isset($array['servicos'][0]['email_secundario'])){
+if(isset($array[0]['email_secundario'])){
+	$email_secundario		= $array[0]['email_secundario'];
+}else if(isset($array['servicos'][0]['email_secundario'])){
 	$email_secundario		= $array['servicos'][0]['email_secundario'];
 }else{
 	$email_secundario 		= NULL;
 }
-if(isset($array['servicos'][0]['login'])){
+# --------------- Dados do Serviço ----------------------- #
+if(isset($array_servicos)){
+	$nome_servico		= $array_servicos['nome'];
+}else if(isset($array['servicos'][0]['nome'])){
+	$nome_servico		= $array['servicos'][0]['nome'];
+}else{
+	$nome_servico 		= NULL;
+}
+
+if(isset($array_servicos)){
+	$usuario		= $array_servicos['login'];
+}else if(isset($array['servicos'][0]['login'])){
 	$usuario		= $array['servicos'][0]['login'];
 }else{
 	$usuario 		= NULL;
 }
-if(isset($array['servicos'][0]['senha'])){
+if(isset($array_servicos)){
+	$senha_pppoe		= $array_servicos['senha'];
+}else if(isset($array['servicos'][0]['senha'])){
 	$senha_pppoe	= $array['servicos'][0]['senha'];
 }else{
 	$senha_pppoe 		= NULL;
 }
+if(isset($array_servicos)){
+	$equipamento_conexao_nome		= $array_servicos['equipamento_conexao']['nome'];
+}else if(isset($array['servicos'][0]['equipamento_conexao']['nome'])){
+	$equipamento_conexao_nome	= $array['servicos'][0]['equipamento_conexao']['nome'];	
+}else{
+	$equipamento_conexao_nome 	= NULL;
+}
+if(isset($array_servicos)){
+	$equipamento_conexao_ipv4		= $array_servicos['equipamento_conexao']['ipv4'];
+}else if(isset($array['servicos'][0]['equipamento_conexao']['ipv4'])){
+	$equipamento_conexao_ipv4	= $array['servicos'][0]['equipamento_conexao']['ipv4'];
+}else{
+	$equipamento_conexao_ipv4 = NULL;
+}
+if(isset($array_servicos)){
+	$equipamento_conexao_ipv6		= $array_servicos['equipamento_conexao']['ipv6'];
+}else if(isset($array['servicos'][0]['equipamento_conexao']['ipv6'])){
+	$equipamento_conexao_ipv6	= $array['servicos'][0]['equipamento_conexao']['ipv6'];
+}else{
+	$equipamento_conexao_ipv6 = NULL;
+}
+if(isset($array_servicos)){
+	$nas		= $array_servicos['equipamento_roteamento']['ipv4'];
+}else if(isset($array['servicos'][0]['equipamento_roteamento']['ipv4'])){
+	$nas	= $array['servicos'][0]['equipamento_roteamento']['ipv4'];
+}else{
+	$nas 	= NULL;
+}
+if(isset($array_servicos)){
+	$pppoe		= $array_servicos['equipamento_roteamento']['nome'];
+}else if(isset($array['servicos'][0]['equipamento_roteamento']['nome'])){
+	$pppoe	= $array['servicos'][0]['equipamento_roteamento']['nome'];
+}else{
+	$pppoe 	= NULL;
+}
 
-if(isset($array['servicos'][0]['equipamento_roteamento']['nome'])){
-	$equipamento_roteamento_nome	= $array['servicos'][0]['equipamento_roteamento']['nome'];	
-}else{
-	$equipamento_roteamento_nome 		= NULL;
-}
-if(isset($array['servicos'][0]['equipamento_roteamento']['ipv4'])){
-	$equipamento_roteamento_ipv4	= $array['servicos'][0]['equipamento_roteamento']['ipv4'];
-}else{
-	$equipamento_roteamento_ipv4 = NULL;
-}
-if(isset($array['servicos'][0]['equipamento_roteamento']['ipv6'])){
-	$equipamento_roteamento_ipv6	= $array['servicos'][0]['equipamento_roteamento']['ipv6'];
-}else{
-	$equipamento_roteamento_ipv6 = NULL;
-}
-
-if(isset($array['servicos'][0]['equipamento_conexao']['ipv4'])){
-	$nas			= $array['servicos'][0]['equipamento_conexao']['ipv4'];
-}else{
-	$nas 		= NULL;
-}
-if(isset($array['servicos'][0]['equipamento_conexao']['nome'])){
-	$pppoe			= $array['servicos'][0]['equipamento_conexao']['nome'];
-}else{
-	$pppoe 		= NULL;
-}
-if(isset($array['servicos'][0]['ipv4'])){
-	$ip				= $array['servicos'][0]['ipv4'];
+if(isset($array_servicos)){
+	$ip		= $array_servicos['ipv4'];
+}else if(isset($array['servicos'][0]['ipv4'])){
+	$ip			= $array['servicos'][0]['ipv4'];
 }else{
 	$ip 		= NULL;
 }
-$script			= $matriz['script'];
-if(isset($array['servicos'][0]['status'])){
+if(isset($array_servicos)){
+	$status		= $array_servicos['status'];
+}else if(isset($array['servicos'][0]['status'])){
 	$status			= $array['servicos'][0]['status'];
 }else{
 	$status 		= "Não disponível";
 }
+$script			= $matriz['script'];
 $flag	 		= "add";
 $retorno		= ".content-sized";	
-
 ?>
-
 	<form id="form-dados">
 		<div class="form-group">
 			<div class="panel panel-color panel-warning">
@@ -113,6 +183,7 @@ $retorno		= ".content-sized";
 				<div class="panel-heading">
 					<h3 class="panel-title">Detalhes do Chamado</h3>
 				</div>
+			
 				<div class="panel-body">
 					<div class="row">
 						<div class="form-group col-sm-12">
@@ -212,6 +283,12 @@ $retorno		= ".content-sized";
 						</div>
 					</div>
 					<div class="row">
+						<div class="form-group col-sm-12">
+							<label for="nome_servico">Serviço contratado</label>
+							<input type="text" class="form-control" name="nome_servico" value="<?= $nome_servico; ?>">
+						</div>
+					</div>
+					<div class="row">
 						<div class="form-group col-sm-4">
 						
 						<div class="form-group">
@@ -249,17 +326,17 @@ $retorno		= ".content-sized";
 						</div>			
 						
 						<div class="form-group">
-							<label for="equipamento_roteamento_nome">Roteador</label>
-							<input type="text" class="form-control" name='equipamento_roteamento_nome'  value="<?= $equipamento_roteamento_nome;?>">			
+							<label for="equipamento_conexao_nome">Equipamento de Conexão</label>
+							<input type="text" class="form-control" name='equipamento_conexao_nome'  value="<?= $equipamento_conexao_nome;?>">			
 						</div>
 						<div class="form-group">
-							<label for="equipamento_roteamento_ipv4">IPv4</label>
-							<input type="text" class="form-control" name='equipamento_roteamento_ipv4' value="<?= $equipamento_roteamento_ipv4;?>">
+							<label for="equipamento_conexao_ipv4">IPv4</label>
+							<input type="text" class="form-control" name='equipamento_conexao_ipv4' value="<?= $equipamento_conexao_ipv4;?>">
 						</div>				
 						
 						<div class="form-group">
-							<label for="equipamento_roteamento_ipv6">IPv6</label>
-							<input type="text" class="form-control" name="equipamento_roteamento_ipv6" value="<?= $equipamento_roteamento_ipv6;?>">
+							<label for="equipamento_conexao_ipv6">IPv6</label>
+							<input type="text" class="form-control" name="equipamento_conexao_ipv6" value="<?= $equipamento_conexao_ipv6;?>">
 						</div>	
 						</div>
 						
@@ -269,7 +346,7 @@ $retorno		= ".content-sized";
 							</div>
 							<section class="section_historico_log">						
 								<?php
-								$log->ultimosAtendimentos($array['cpf_cnpj']);	
+								$log->ultimosAtendimentos($cpf_cnpj);	
 								?>	
 							</section>						
 						</div>
@@ -544,8 +621,9 @@ jQuery(document).ready(function(){
 NProgress.done();
 </script>
 <?php
+
 #Teste de CGR ativo
-$cgr_query = "SELECT COUNT(id) AS id FROM pav_inscritos WHERE cpf_cnpj_cliente = '".$array['cpf_cnpj']."' AND validado = 0 AND lixo = 0";
+$cgr_query = "SELECT COUNT(id) AS id FROM pav_inscritos WHERE cpf_cnpj_cliente = '".$cpf_cnpj."' AND validado = 0 AND lixo = 0";
 $teste = $a->queryFree($cgr_query);
 if(isset($teste)){
 	$cgr_teste = $teste->fetch_assoc();

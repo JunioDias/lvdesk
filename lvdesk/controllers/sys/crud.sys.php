@@ -668,12 +668,13 @@ if(!empty($_POST)){
 			$a = new Model();
 			if(isset($_SESSION['resultado_pesquisa']['id'])){
 				$id_provedor = $_SESSION['resultado_pesquisa']['id'];
+				$_SESSION['id_provedor'] = $id_provedor;
 				unset($_SESSION['resultado_pesquisa']['id']);
 			}else{
 				echo "ATENÇÃO: ID do resultado da pesquisa retornou vazio!<br> Consulte pav.sys.php -> Código #55";
 			}
-			#print_r($_SESSION['resultado_pesquisa']['clientes']);die();
-			$indice = $dados["idd"];			
+			$indice = $dados["idd"];
+			#print_r($_SESSION['resultado_pesquisa']['clientes'][$indice]);die();						
 			foreach($_SESSION['resultado_pesquisa']['clientes'][$indice] as $key=>$value)
 				$array[$key] = $value;
 				
@@ -733,12 +734,14 @@ if(!empty($_POST)){
 		$dados = $_POST;
 		$a = new Model;
 		$e = new Acoes;
-		
+		# 31/10/2018 - Estou liberando a triagem do autor devido a maior liberdade ao pessoal do CGR, segundo tratativa que o João orientou, as pesquisas não podem ter filtro por autor devido a dinamicidade que o atendimento necessita no dia-a-dia.
 		$query		= $a->selecionaQueryMySQL($dados['nome_cliente'], 'nome_cliente', $dados['cpf'], 'cpf_cnpj_cliente', $dados['nome_provedor'], 'nome_provedor', 'pav_inscritos');
 		if($query == 'SELECT * FROM pav_inscritos '){
-			$query 	   .= "WHERE validado = 1 AND autor = ".$dados['autor']." ORDER BY data_abertura ASC";
+			#$query    .= "WHERE validado = 1 AND autor = ".$dados['autor']." ORDER BY data_abertura ASC";
+			$query 	   .= "WHERE validado = 1 ORDER BY data_abertura ASC";
 		}else{
-			$query 	   .= " AND validado = 1 AND autor = ".$dados['autor']." ORDER BY data_abertura ASC";
+			#$query    .= " AND validado = 1 AND autor = ".$dados['autor']." ORDER BY data_abertura ASC";
+			$query 	   .= " AND validado = 1 ORDER BY data_abertura ASC";
 		}
 		$retorno = $a->queryFree($query);
 		$t = $a->queryFree($query);
@@ -895,8 +898,26 @@ if(!empty($_POST)){
 			}		
 			
 		break;
-		case "teste":
-			$dados = $_POST; print_r($dados);
+		case "selecionar":
+			global $id_provedor;
+			global $dados;
+			$dados = $_POST; 
+			$a = new Model();
+			if(isset($_SESSION['id_provedor'])){
+				$id_provedor = $_SESSION['id_provedor'];
+			}else{
+				echo "ATENÇÃO: ID do resultado da pesquisa retornou vazio!<br> Consulte pav.sys.php -> Código #55<br><hr>";
+				print_r($_SESSION['resultado_pesquisa']);
+			}
+			$indice = $dados["idd"];
+			#print_r($_SESSION['resultado_pesquisa']['clientes'][0]['servicos'][$indice]);die();						
+			foreach($_SESSION['resultado_pesquisa']['clientes'] as $key=>$value)
+				$array[$key] = $value;
+				
+			foreach	($_SESSION['resultado_pesquisa']['clientes'][0]['servicos'][$indice] as $key=>$value)
+				$array_servicos[$key] = $value;
+				
+			include("../../views/atendimento.php");
 		break;
 	}
   }	
