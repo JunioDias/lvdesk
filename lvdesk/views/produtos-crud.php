@@ -75,3 +75,6 @@ if(isset($_POST['id'])){
 	<input class="btn btn-success rtrn-conteudo" value="Salvar" type="button" data-objeto="form-dados-perfil">
 </div>
 </form>
+<script>
+NProgress.done();
+</script>

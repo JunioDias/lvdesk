@@ -3,84 +3,103 @@
 $provedor 	 	= $arr_cliente['nome'];
 
 if(isset($array)){
-	$nome_cliente		= $array[0]['nome_razaosocial'];
-}else if(isset($array['nome_razaosocial'])){
-	$nome_cliente	= $array['nome_razaosocial'];
+	if(isset($array['nome_razaosocial'])){
+		$nome_cliente	= $array['nome_razaosocial'];
+	}else{
+		$nome_cliente	= $array[0]['nome_razaosocial'];
+	}
 }else{
 	$nome_cliente	= NULL;
 }
 if(isset($array)){
-	$cpf_cnpj		= $array[0]['cpf_cnpj'];
-}else if(isset($array['cpf_cnpj'])){
-	$cpf_cnpj		= $array['cpf_cnpj'];
+	if(isset($array['cpf_cnpj'])){
+		$cpf_cnpj		= $array['cpf_cnpj'];
+	}else{
+		$cpf_cnpj		= $array[0]['cpf_cnpj'];
+	}
 }else{
 	$cpf_cnpj	= NULL;
 }	
 # --------------- Bloco de Endereço ----------------------- #
 if(isset($array)){
-	$endereco_cob		= $array_servicos['endereco_cobranca']['completo'];
-}else if(isset($array['servicos'][0]['endereco_cobranca']['completo'])){
-	$endereco_cob 		= $array['servicos'][0]['endereco_cobranca']['completo'];
+	if(isset($array_servicos['endereco_cobranca']['completo'])){
+		$endereco_cob	= $array_servicos['endereco_cobranca']['completo'];
+	}else{
+		$endereco_cob 	= $array['servicos'][0]['endereco_cobranca']['completo'];
+	}
 }else{
 	$endereco_cob 		= "Não cadastrado";
 }
 if(isset($array)){
-	$endereco_ins		= $array_servicos['endereco_instalacao']['completo'];
-}else if(isset($array['servicos'][0]['endereco_instalacao']['completo'])){
-	$endereco_ins 		= $array['servicos'][0]['endereco_instalacao']['completo'];
+	if(isset( $array_servicos['endereco_instalacao']['completo'])){
+		$endereco_ins 	=  $array_servicos['endereco_instalacao']['completo'];
+	}else{
+		$endereco_ins	= $array['servicos'][0]['endereco_instalacao']['completo'];
+	}
 }else{
 	$endereco_ins 		= "Não cadastrado";
 }
 if(isset($array)){
-	$endereco_cad		= $array_servicos['endereco_cadastral']['completo'];
-}else if(isset($array['servicos'][0]['endereco_cadastral']['completo'])){
-	$endereco_cad 		= $array['servicos'][0]['endereco_cadastral']['completo'];
+	if(isset($array_servicos['endereco_cadastral']['completo'])){
+		$endereco_cad 	= $array_servicos['endereco_cadastral']['completo'];
+	}else{
+		$endereco_cad	= $array['servicos'][0]['endereco_cadastral']['completo'];
+	}
 }else{
 	$endereco_cad 		= "Não cadastrado";
 }
 if(isset($array)){
-	$endereco_fis		= $array_servicos['endereco_fiscal']['completo'];
-}else if(isset($array['servicos'][0]['endereco_fiscal']['completo'])){
-	$endereco_fis 		= $array['servicos'][0]['endereco_fiscal']['completo'];
-}else{
+	if(isset($array_servicos['endereco_fiscal']['completo'])){
+		$endereco_fis 	= $array_servicos['endereco_fiscal']['completo'];
+	}else{
+		$endereco_fis	= $array['servicos'][0]['endereco_fiscal']['completo'];
+	}
+}else {
 	$endereco_fis 		= "Não cadastrado";
 }
 
 if(isset($array)){
-	$telefone		= $array[0]['telefone_primario'];
-}else if(isset($array['servicos'][0]['telefone_primario'])){
-	$telefone		= $array['telefone_primario'];
+	if(isset($array['telefone_primario'])){
+		$telefone		= $array['telefone_primario'];
+	}else{
+		$telefone		= $array[0]['telefone_primario'];
+	}
 }else{
 	$telefone 		= "Não cadastrado";
 }
 if(isset($array)){
-	$telefone_sec		= $array[0]['telefone_secundario'];
-}else if(isset($array['servicos'][0]['telefone_secundario'])){
-	$telefone_sec		= $array['telefone_secundario'];
+	 if(isset($array['telefone_secundario'])){
+		$telefone_sec	= $array['telefone_secundario'];
+	}else{
+		$telefone_sec	= $array[0]['telefone_secundario'];
+	}
 }else{
 	$telefone_sec 		= "Não cadastrado";
 }
 if(isset($array)){
-	$telefone_ter		= $array[0]['telefone_terciario'];
-}else if(isset($array['servicos'][0]['telefone_terciario'])){
-	$telefone_ter		= $array['telefone_terciario'];
+	if(isset($array['telefone_terciario'])){
+		$telefone_ter	= $array['telefone_terciario'];
+	}else{
+		$telefone_ter	= $array[0]['telefone_terciario'];
+	}
 }else{
 	$telefone_ter 		= "Não cadastrado";
 }
-
+# -------------- E-mail do Cliente ---------------------- #
 if(isset($array[0]['email_principal'])){
-	$email_principal		= $array[0]['email_principal'];
+	$email_principal	= $array[0]['email_principal'];
 }else if(isset($array['servicos'][0]['email_principal'])){
-	$email_principal		= $array['servicos'][0]['email_principal'];
+	$email_principal	= $array['servicos'][0]['email_principal'];
 }else{
-	$email_principal 		= NULL;
+	$email_principal 	= NULL;
 }
+
 if(isset($array[0]['email_secundario'])){
-	$email_secundario		= $array[0]['email_secundario'];
+	$email_secundario	= $array[0]['email_secundario'];
 }else if(isset($array['servicos'][0]['email_secundario'])){
-	$email_secundario		= $array['servicos'][0]['email_secundario'];
+	$email_secundario	= $array['servicos'][0]['email_secundario'];
 }else{
-	$email_secundario 		= NULL;
+	$email_secundario 	= NULL;
 }
 # --------------- Dados do Serviço ----------------------- #
 if(isset($array_servicos)){
@@ -103,38 +122,38 @@ if(isset($array_servicos)){
 }else if(isset($array['servicos'][0]['senha'])){
 	$senha_pppoe	= $array['servicos'][0]['senha'];
 }else{
-	$senha_pppoe 		= NULL;
+	$senha_pppoe 	= NULL;
 }
 if(isset($array_servicos)){
-	$equipamento_conexao_nome		= $array_servicos['equipamento_conexao']['nome'];
+	$equipamento_conexao_nome	= $array_servicos['equipamento_conexao']['nome'];
 }else if(isset($array['servicos'][0]['equipamento_conexao']['nome'])){
 	$equipamento_conexao_nome	= $array['servicos'][0]['equipamento_conexao']['nome'];	
 }else{
 	$equipamento_conexao_nome 	= NULL;
 }
 if(isset($array_servicos)){
-	$equipamento_conexao_ipv4		= $array_servicos['equipamento_conexao']['ipv4'];
+	$equipamento_conexao_ipv4	= $array_servicos['equipamento_conexao']['ipv4'];
 }else if(isset($array['servicos'][0]['equipamento_conexao']['ipv4'])){
 	$equipamento_conexao_ipv4	= $array['servicos'][0]['equipamento_conexao']['ipv4'];
 }else{
 	$equipamento_conexao_ipv4 = NULL;
 }
 if(isset($array_servicos)){
-	$equipamento_conexao_ipv6		= $array_servicos['equipamento_conexao']['ipv6'];
+	$equipamento_conexao_ipv6	= $array_servicos['equipamento_conexao']['ipv6'];
 }else if(isset($array['servicos'][0]['equipamento_conexao']['ipv6'])){
 	$equipamento_conexao_ipv6	= $array['servicos'][0]['equipamento_conexao']['ipv6'];
 }else{
 	$equipamento_conexao_ipv6 = NULL;
 }
 if(isset($array_servicos)){
-	$nas		= $array_servicos['equipamento_roteamento']['ipv4'];
+	$nas	= $array_servicos['equipamento_roteamento']['ipv4'];
 }else if(isset($array['servicos'][0]['equipamento_roteamento']['ipv4'])){
 	$nas	= $array['servicos'][0]['equipamento_roteamento']['ipv4'];
 }else{
 	$nas 	= NULL;
 }
 if(isset($array_servicos)){
-	$pppoe		= $array_servicos['equipamento_roteamento']['nome'];
+	$pppoe	= $array_servicos['equipamento_roteamento']['nome'];
 }else if(isset($array['servicos'][0]['equipamento_roteamento']['nome'])){
 	$pppoe	= $array['servicos'][0]['equipamento_roteamento']['nome'];
 }else{
@@ -144,16 +163,16 @@ if(isset($array_servicos)){
 if(isset($array_servicos)){
 	$ip		= $array_servicos['ipv4'];
 }else if(isset($array['servicos'][0]['ipv4'])){
-	$ip			= $array['servicos'][0]['ipv4'];
+	$ip		= $array['servicos'][0]['ipv4'];
 }else{
-	$ip 		= NULL;
+	$ip 	= NULL;
 }
 if(isset($array_servicos)){
 	$status		= $array_servicos['status'];
 }else if(isset($array['servicos'][0]['status'])){
-	$status			= $array['servicos'][0]['status'];
+	$status		= $array['servicos'][0]['status'];
 }else{
-	$status 		= "Não disponível";
+	$status 	= "Não disponível";
 }
 $script			= $matriz['script'];
 $flag	 		= "add";

@@ -220,6 +220,30 @@ class Model{
 		} 
 	}
 	
+	function add_retorno($tabela, $array){
+		global $mysqli;
+			$count 	= 1;
+			$coluna = NULL;
+			$valor 	= NULL;
+			foreach($array as $key=>$value){
+				$coluna .= $key;
+				$valor  .= "'".$value."'";
+				if($count < sizeof($array)){
+					$coluna .= ", ";
+					$valor  .= ", ";
+				}
+				$count++;
+			}
+			#echo "INSERT INTO $tabela ($coluna) VALUES($valor)<br>";
+			$mysqli->query("INSERT INTO $tabela ($coluna) VALUES($valor)");
+			if ($mysqli->affected_rows > 0) {
+				$ult_id = $mysqli->insert_id;
+				return $ult_id;
+			}
+			else{
+				return false;
+			} 
+	}
 	function addingEmail($tabela, $array, $body){
 		$msg = $array['Msgno'];
 		$query = "SELECT msgno FROM emails WHERE msgno = $msg";

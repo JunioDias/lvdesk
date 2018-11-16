@@ -111,3 +111,6 @@ if(isset($_POST['id'])){
 	</form>
 	
 </div>
+<script>
+NProgress.done();
+</script>

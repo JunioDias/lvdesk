@@ -88,6 +88,8 @@ if(isset($_POST['id'])){
 	</form>	
 </div>
 <script>
+NProgress.done();
+
 	jQuery(document).ready(function(){
 		$('#script').wysihtml5({
 		  locale: 'pt-BR'

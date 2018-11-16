@@ -504,10 +504,9 @@ $(document).ready(function(){
   			contentType: false,
 			success: function(retornoDados){
 				if(objeto.get("retorno")){
-					if(objeto.get("retorno")==".modal-body-add"){
-						for(var pair of retornoDados.entries()) {
-							$("#addSoftware").append("<option value='"+ pair[0]+"' >"+ pair[1]+"</option>"); 
-						} 
+					if(objeto.get("retorno")==".modal-body-add"){ // Rotina de Provedores em Contratos
+						$("#addSoftware").append("<option data-tipo='"+ objeto.get('tipo_bd') +"' value='"+retornoDados+"' >"+ objeto.get('nome') +"</option>");
+						NProgress.done();
 					}else{
 						$(".modal-backdrop").hide();
 						NProgress.done();

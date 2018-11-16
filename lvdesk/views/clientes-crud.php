@@ -303,6 +303,8 @@ if(isset($_POST['id'])){
 	</div><!-- /.modal.dialog -->
 </div><!-- /#modal-log -->
 <script>
+NProgress.done();
+
 	jQuery(document).ready(function(){
 		$('#script').wysihtml5({
 		  locale: 'pt-BR'

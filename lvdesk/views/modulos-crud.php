@@ -84,6 +84,8 @@ if(isset($_POST['id'])){
 	<input type="hidden" name="flag" value="<?= $flag;?>" />
     <input type="hidden" name="tbl" value="modulos" />
     <input type="hidden" name="caminho" value="controllers/sys/crud.sys.php" />
-	</form>
-	
+	</form>	
 </div>
+<script>
+NProgress.done();
+</script>

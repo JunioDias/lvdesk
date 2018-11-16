@@ -77,6 +77,11 @@ if(isset($_POST['id'])){
 							<option value='1' ".($linhas['status']== 1  ? 'selected' : '').">Não</option>
 							";
 						}	
+					}else{
+						echo "
+							<option value='0' >Sim</option>
+							<option value='1' >Não</option>
+							";
 					}				
 					?>
 				</select>
@@ -100,3 +105,6 @@ if(isset($id)){
 	<input class="btn btn-success rtrn-conteudo" value="Salvar" type="button" data-objeto="form-dados-perfil">
 </div>
 </form>
+<script>
+NProgress.done();
+</script>

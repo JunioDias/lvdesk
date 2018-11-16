@@ -317,6 +317,8 @@ $log = new Logs;
 	</form>
 </div><!-- /#modal-atribui -->
 <script>
+NProgress.done();
+
 	jQuery(document).ready(function(){
 		$('#historico').wysihtml5({
 		  locale: 'pt-BR'

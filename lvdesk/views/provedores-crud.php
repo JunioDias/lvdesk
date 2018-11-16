@@ -66,7 +66,7 @@ if(isset($_POST['id'])){
 						$resultado = $a->queryFree($query);
 						if(isset($resultado)){
 							while($linhas = $resultado->fetch_assoc()){					
-								echo "<option value='".$linhas['id']."' ".($linhas['id'] == $provedor ? "selected" : '').">".$linhas['nome']."</option>";						
+								echo "<option value='".$linhas['id']."' >".$linhas['nome']."</option>";						
 							}
 						}else{
 							echo "<option>Cadastre um software de provedor antes de usar</option>";
@@ -86,7 +86,7 @@ if(isset($_POST['id'])){
 						$resultado = $a->queryFree($query);
 						if(isset($resultado)){
 							while($linhas = $resultado->fetch_assoc()){					
-								echo "<option data-tipo='".$linhas['tipo_bd']."' value='".$linhas['id']."' ".($linhas['id'] == $provedor ? "selected" : '').">".$linhas['nome']."</option>";						
+								echo "<option data-tipo='".$linhas['tipo_bd']."' value='".$linhas['id']."' >".$linhas['nome']."</option>";						
 							}
 						}else{
 							echo "<option>Cadastre um software de provedor antes de usar</option>";
@@ -174,7 +174,7 @@ if(isset($_POST['id'])){
 						</div>
 						<div class="form-group col-sm-6">
 							<div class="form-group">
-								<label for="nome_bd">Nome do bando de dados</label>
+								<label for="nome_bd">Nome do banco de dados</label>
 								<input type="text" class="form-control" name="nome_bd" >
 							</div>
 						</div>
@@ -214,8 +214,8 @@ if(isset($_POST['id'])){
 				</div>
 				<section id="input_hidden">								
 					<input type="hidden" name="retorno" value=".modal-body-add" />
-					<input type="hidden" name="flag" value="add" />
-					<input type="hidden" name="tbl" value="pav_dados" />
+					<input type="hidden" name="flag" value="addpavaux" />
+					<input type="hidden" name="tbl" value="pav" />
 					<input type="hidden" name="caminho" value="controllers/sys/crud.sys.php" />
 				</section>
 			</div>
@@ -224,7 +224,7 @@ if(isset($_POST['id'])){
 		</div>
 		<div class="modal-footer">		
 			<button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Fechar</button>
-			<button type="button" class="btn btn-success waves-effect rtrn-conteudo" data-objeto="form-dados">Incluir</button>
+			<button type="button" class="btn btn-success waves-effect rtrn-conteudo" data-objeto="form-dados" data-dismiss="modal">Incluir</button>
 		</div>
 	  </div><!-- /.modal-content -->
 	</div><!-- /.modal.dialog -->

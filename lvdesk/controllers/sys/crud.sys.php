@@ -74,9 +74,6 @@ if(!empty($_POST)){
 			if(isset($dados['contatos'])){//campo de clientes que permite inserção dos contatos de e-mail
 				$contatos = $dados['contatos'];
 				unset($dados['contatos']);
-				/* $contatos = trim($contatos);
-				$contatos = str_replace(array("\s", "\n", "\r", "&nbsp;", "/\r|\n/", "<br>", "<div>", "</div>"), "", $contatos);
-				$contatos = preg_replace( "/\r|\n/", "", $contatos); */				
 				$array_contatos = explode(",", $contatos);
 			}
 			
@@ -272,16 +269,16 @@ if(!empty($_POST)){
 							$a->queryFree("INSERT INTO group_user (pav_insc_id, user_id) VALUES('".$ult_id_pav."', '".$id_usuario_responsavel."')");
 						}
 						if($ult_id_pav_mov != false){							
-							$query_protocolo = "SELECT protocol FROM pav_movimentos WHERE id = '".$ult_id_pav_mov."'";
+							/* $query_protocolo = "SELECT protocol FROM pav_movimentos WHERE id = '".$ult_id_pav_mov."'";
 							$foo = $a->queryFree($query_protocolo);
-							$protocolo = $foo->fetch_assoc();
+							$protocolo = $foo->fetch_assoc(); */
 							echo '
 							<div class="alert alert-success">
 							<h4>Muito bom!</h4>
 								<p>A operação foi realizada com sucesso. 
 								<a href="." class="alert-link">Clique aqui</a> para atualizar os status do sistema. <br>
 								';
-							echo (isset($protocolo["protocol"]) ? "Número de Protocolo: <b>".$protocolo['protocol']."</b>" : "");
+							#echo (isset($protocolo["protocol"]) ? "Número de Protocolo: <b>".$protocolo['protocol']."</b>" : "");
 							echo'</p>
 							</div>';
 						}else{
@@ -918,6 +915,15 @@ if(!empty($_POST)){
 				$array_servicos[$key] = $value;
 				
 			include("../../views/atendimento.php");
+		break;
+		
+		case "addpavaux":
+			$array = $dados = $_POST;
+			unset($array["_wysihtml5_mode"], $array['flag'], $array['tbl'], $array['caminho'], $array['retorno']);			
+			$a = new Model();			
+			$retorno = $a->add_retorno($dados['tbl'], $array);
+			#$retorno["retorno"] = $dados["retorno"];
+			echo $retorno;
 		break;
 	}
   }	

@@ -28,7 +28,7 @@
 include("../controllers/actions.inc.php"); 
 include("../controllers/model.inc.php");
 	
-$query 			= "SELECT * FROM planos WHERE lixo = 0";
+$query 			= "SELECT * FROM planos WHERE lixo = 0 ORDER BY id DESC";
 
 $nomediv		= ".content-sized";			#nome da div onde o callback vai ocorrer
 $tabela  		= "planos";					#tabela principal, alvo da rotina
@@ -37,6 +37,10 @@ $cbkdel 		= "views/planos.php";  		#callback do botão Excluir
 $link			= "controllers/sys/crud.sys.php";
 $i = 0;
 $botoes = new Acoes();
+$limite = 10;
+$offset = 0;
+$total_de_registros = $botoes->pagination($limite, $offset, "planos");
+
 $a = new Model();
 $result = $a->queryFree($query);
 if($result){
@@ -60,6 +64,19 @@ else{
 ?>	
 </tbody>
 </table>
+<?php
+	if($pagina !== 0){ // Sem isto irá exibir "Página Anterior" na primeira página.
+?>
+<ul class="pagination pagination-sm">
+	<li> <a href="#"> <i class="fa fa-angle-left"></i> </a> </li>
+	<li> <a href="<?php echo $pagina-1; }?>">1</a> </li>
+	<li class="active"> <a href="<?php echo $pagina+1; ?>">2</a> </li>
+	<li> <a href="#">3</a> </li>
+	<li class="disabled"> <a href="#">4</a> </li>
+	<li> <a href="#">5</a> </li>
+	<li> <a href="#">6</a> </li>
+	<li> <a href="#"> <i class="fa fa-angle-right"></i> </a> </li>
+</ul>
 </div>
 <form id='form_action'>
 <!--------------------- Início do modal de confirmação --------------------->

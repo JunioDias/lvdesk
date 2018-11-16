@@ -178,5 +178,7 @@ if(isset($_POST['id'])){
     <input type="hidden" name="tbl" value="atendentes" />
     <input type="hidden" name="caminho" value="controllers/sys/crud.sys.php" />
 	</form>
-	
 </div>
+<script>
+NProgress.done();
+</script>

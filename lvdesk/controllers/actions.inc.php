@@ -202,5 +202,12 @@ class Acoes{
 			return $retorno;
 		}	  
 	}
+	
+	public function pagination($limite, $offset, $tabela){
+		$a = new Model;
+		$foo = $a->queryFree("SELECT COUNT('id') AS 'id' FROM $tabela WHERE lixo = 0");
+		$total = $foo->fetch_assoc();
+		return $total['id'];
+	}
 }
 ?>
