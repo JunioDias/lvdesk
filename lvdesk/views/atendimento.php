@@ -16,17 +16,13 @@ if(!empty($_SESSION["datalogin"])){
 		die();
 	}
 }
-if($id_provedor){//Existe um provedor
-		
+if($id_provedor){# Existe um provedor
+	# Seleção do layout específico para atendimento de acordo com o campo "layout" do PAV
 	$query = "SELECT * FROM pav WHERE id = '".$id_provedor."' AND lixo = 0";
 	$result = $a->queryFree($query);
 	if($result){
 		$matriz = $result->fetch_assoc();
-	}
-	switch($id_provedor){
-	case "2":
-		include("layouts/atendimento-hub-hubsoft.php");
-	break;	
+		include("layouts/".$matriz['layout']);
 	}
 }else{
 	echo "O provedor cadastrado retornou um erro de registro.<br>

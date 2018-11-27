@@ -64,12 +64,9 @@ else{
 ?>	
 </tbody>
 </table>
-<?php
-	if($pagina !== 0){ // Sem isto irá exibir "Página Anterior" na primeira página.
-?>
 <ul class="pagination pagination-sm">
 	<li> <a href="#"> <i class="fa fa-angle-left"></i> </a> </li>
-	<li> <a href="<?php echo $pagina-1; }?>">1</a> </li>
+	<li> <a href="">1</a> </li>
 	<li class="active"> <a href="<?php echo $pagina+1; ?>">2</a> </li>
 	<li> <a href="#">3</a> </li>
 	<li class="disabled"> <a href="#">4</a> </li>
